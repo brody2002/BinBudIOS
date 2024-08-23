@@ -15,6 +15,7 @@
 		961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D52C78FE0C00BCD7E9 /* AppColors.swift */; };
 		961542D82C78FF9700BCD7E9 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D72C78FF9700BCD7E9 /* BottomButton.swift */; };
 		961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D92C7904F800BCD7E9 /* CameraView.swift */; };
+		965EF4992C793FC90018267F /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965EF4982C793FC90018267F /* CameraModel.swift */; };
 		96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */; };
 		96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */; };
 		96B539F02C792569002F4A73 /* CameraRetakeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */; };
@@ -31,6 +32,7 @@
 		961542D52C78FE0C00BCD7E9 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		961542D72C78FF9700BCD7E9 /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		961542D92C7904F800BCD7E9 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		965EF4982C793FC90018267F /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureButton.swift; sourceTree = "<group>"; };
 		96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSaveButton.swift; sourceTree = "<group>"; };
 		96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRetakeButton.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		961542C32C78F7AF00BCD7E9 /* BinBud */ = {
 			isa = PBXGroup;
 			children = (
+				965EF4972C793FA40018267F /* Models */,
 				961542D22C78FB8900BCD7E9 /* Views */,
 				961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */,
 				961542C62C78F7AF00BCD7E9 /* ContentView.swift */,
@@ -94,6 +97,14 @@
 				961542D72C78FF9700BCD7E9 /* BottomButton.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		965EF4972C793FA40018267F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				965EF4982C793FC90018267F /* CameraModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		96B539EA2C791544002F4A73 /* CameraUI */ = {
@@ -179,6 +190,7 @@
 			files = (
 				961542C72C78F7AF00BCD7E9 /* ContentView.swift in Sources */,
 				961542D82C78FF9700BCD7E9 /* BottomButton.swift in Sources */,
+				965EF4992C793FC90018267F /* CameraModel.swift in Sources */,
 				96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */,
 				96B539F02C792569002F4A73 /* CameraRetakeButton.swift in Sources */,
 				961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */,
@@ -323,7 +335,8 @@
 				DEVELOPMENT_TEAM = L979M8V7RW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app use the Camera to take Images of Trash";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSContactsUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -353,7 +366,8 @@
 				DEVELOPMENT_TEAM = L979M8V7RW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app use the Camera to take Images of Trash";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSContactsUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

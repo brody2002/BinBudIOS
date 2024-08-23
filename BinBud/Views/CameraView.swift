@@ -8,9 +8,13 @@
 import SwiftUI
 import AVFoundation
 
+
+
+
 struct CameraView: View {
     
     @StateObject var camera = CameraModel()
+    
     
     
     
@@ -54,7 +58,10 @@ struct CameraView: View {
                     }
                 }
             }
-        }
+        }.onAppear(perform: {
+            camera.check()
+        })
+                    
     }
 }
 
@@ -62,21 +69,4 @@ struct CameraView: View {
     CameraView()
 }
 
-// Only classes can be observable objects
-class CameraModel: ObservableObject{
-    @Published  var isTaken = false
-    @Published var session = AVCaptureSession()
-    
-    
-    func setUp(){
-        //Checking for camera permissions
-        switch  AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            setUp()
-            return
-        
-        default:
-            return
-        }
-    }
-}
+

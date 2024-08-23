@@ -21,9 +21,7 @@ struct ContentView: View {
                         destination: CameraView(),
                         label: {
                             BottomButton(str: "Go to Camera")
-                        })
-                    
-                    
+                        }) 
                 }
             }
             .foregroundColor(AppColors.accentColor)
