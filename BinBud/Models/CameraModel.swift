@@ -18,6 +18,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var output = AVCapturePhotoOutput()
     @Published var preview : AVCaptureVideoPreviewLayer!
     @Published var isSaved = false
+    @Published var picData = Data(count: 0)
     
     
     func check(){
@@ -88,13 +89,30 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     func takePic() {
         DispatchQueue.global(qos: .background).async {
             print("takePic() called ")
+            print("Delegate is set to: \(self)")
+            if self.session.isRunning {
+                print("Session is running")
+            } else {
+                print("Session is not running")
+                self.session.startRunning() // Start it if needed
+            }
             self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
-            self.session.stopRunning()
             
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.session.stopRunning()
+                        print("Session stopped after delay")
+                    }
             // Ensure that the state change happens on the main thread but outside of view updates
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            DispatchQueue.main.async{
                 withAnimation { self.isTaken.toggle() }
             }
+            
+            // Add this to ensure that the image is taken before the session stops running.
+//            DispatchQueue.main.async {
+//                Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) {
+//                    (timer) in self.session.stopRunning()
+//                }
+//            }
         }
     }
 
@@ -105,6 +123,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             // Ensure that the state change happens on the main thread but outside of view updates
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 withAnimation { self.isTaken.toggle() }
+                self.isSaved = false
             }
         }
     }
@@ -115,6 +134,22 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             return
         }
         print("pic taken!")
+        
+        guard let imageData = photo.fileDataRepresentation() else{return}
+        
+        self.picData = imageData
+        
+        
+    }
+    
+    
+    func savePic(){
+        let image = UIImage(data: self.picData)!
+        //saving image
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        self.isSaved = true
+        print("savedImage Successfully")
+        
     }
     func showSettingsAlert() {
             let alert = UIAlertController(
@@ -130,8 +165,18 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             }))
             
             // Get the topmost view controller to present the alert
-            if let topController = UIApplication.shared.windows.first?.rootViewController {
-                topController.present(alert, animated: true, completion: nil)
+            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+               let keyWindow = windowScene.keyWindow,
+               let topController = keyWindow.rootViewController {
+
+                // Traverse to the top-most presented view controller
+                var currentController = topController
+                while let presentedViewController = currentController.presentedViewController {
+                    currentController = presentedViewController
+                }
+
+                // Present the alert on the top-most view controller
+                currentController.present(alert, animated: true, completion: nil)
             }
         }
     

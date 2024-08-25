@@ -20,6 +20,7 @@
 		96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */; };
 		96B539F02C792569002F4A73 /* CameraRetakeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */; };
 		96B539F22C792604002F4A73 /* CameraUnsaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539F12C792604002F4A73 /* CameraUnsaveButton.swift */; };
+		96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSaveButton.swift; sourceTree = "<group>"; };
 		96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRetakeButton.swift; sourceTree = "<group>"; };
 		96B539F12C792604002F4A73 /* CameraUnsaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUnsaveButton.swift; sourceTree = "<group>"; };
+		96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */,
 				96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */,
 				96B539F12C792604002F4A73 /* CameraUnsaveButton.swift */,
+				96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */,
 			);
 			path = CameraUI;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				961542C72C78F7AF00BCD7E9 /* ContentView.swift in Sources */,
 				961542D82C78FF9700BCD7E9 /* BottomButton.swift in Sources */,
 				965EF4992C793FC90018267F /* CameraModel.swift in Sources */,
+				96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */,
 				96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */,
 				96B539F02C792569002F4A73 /* CameraRetakeButton.swift in Sources */,
 				961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */,
@@ -337,6 +341,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -368,6 +373,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

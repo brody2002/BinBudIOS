@@ -16,13 +16,24 @@ struct CameraView: View {
 
     var body: some View {
         ZStack {
+            
             CameraPreview(camera: camera)
                 .ignoresSafeArea()
-
+            
             VStack {
-                Button(action: {}, label: {
-                    CameraRetakeButton()
-                })
+                ZStack{
+                    Button(action: {}, label: {
+                        CameraRetakeButton()
+                    })
+                    HStack{
+                         
+                        Spacer()
+                        Button(action: {}, label: {
+                            CameraHelpButton()
+                        }).padding(.trailing, 30)
+                    }
+                }
+                
                 Spacer()
 
                 HStack {
@@ -32,7 +43,14 @@ struct CameraView: View {
                                 CameraUnsaveButton()
                             }).padding(.leading)
 
-                            Button(action: {}, label: {
+                            Button(action: {if !camera.isSaved{
+                                camera.savePic()
+                                //IMPORTANT: After pictured is saved here. Do something with your model here as well.
+                                
+                                
+                                
+                                
+                            }}, label: {
                                 CameraSaveButton()
                             }).padding(.leading)
                         }
