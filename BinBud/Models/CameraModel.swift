@@ -10,7 +10,7 @@ import SwiftUI
 import AVFoundation
 
 
-// Only classes can be observable objects
+//NOTE: Only classes can be observable objects
 class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var isTaken = false
     @Published var session = AVCaptureSession()
@@ -26,12 +26,12 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         //Checking for camera permissions
         switch  AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
-            print("authorized")
+            print("camera settings authorized")
             setUp()
             return
             //Setting up the session
         case .notDetermined :
-            print("notDetermined")
+            print("camera settings notDetermined")
             //Retrusting Permissions
             AVCaptureDevice.requestAccess(for: .video) { status in
                 if status {
@@ -128,6 +128,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         }
     }
     
+    //Function is called from the capturePhoto() function!
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error :Error?) {
         print("test the photoOutputfunction")
         if error != nil{
@@ -149,8 +150,9 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         self.isSaved = true
         print("savedImage Successfully")
-        
+    
     }
+    
     func showSettingsAlert() {
             let alert = UIAlertController(
                 title: "Camera Access Needed",

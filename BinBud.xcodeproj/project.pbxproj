@@ -18,9 +18,11 @@
 		965EF4992C793FC90018267F /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965EF4982C793FC90018267F /* CameraModel.swift */; };
 		96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */; };
 		96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */; };
-		96B539F02C792569002F4A73 /* CameraRetakeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */; };
+		96B539F02C792569002F4A73 /* CameraFlipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EF2C792569002F4A73 /* CameraFlipButton.swift */; };
 		96B539F22C792604002F4A73 /* CameraUnsaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539F12C792604002F4A73 /* CameraUnsaveButton.swift */; };
 		96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */; };
+		96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */; };
+		96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,9 +38,11 @@
 		965EF4982C793FC90018267F /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureButton.swift; sourceTree = "<group>"; };
 		96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSaveButton.swift; sourceTree = "<group>"; };
-		96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRetakeButton.swift; sourceTree = "<group>"; };
+		96B539EF2C792569002F4A73 /* CameraFlipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFlipButton.swift; sourceTree = "<group>"; };
 		96B539F12C792604002F4A73 /* CameraUnsaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUnsaveButton.swift; sourceTree = "<group>"; };
 		96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpButton.swift; sourceTree = "<group>"; };
+		96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpToolbar.swift; sourceTree = "<group>"; };
+		96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpBackButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,9 +118,11 @@
 			children = (
 				96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */,
 				96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */,
-				96B539EF2C792569002F4A73 /* CameraRetakeButton.swift */,
+				96B539EF2C792569002F4A73 /* CameraFlipButton.swift */,
 				96B539F12C792604002F4A73 /* CameraUnsaveButton.swift */,
 				96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */,
+				96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */,
+				96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */,
 			);
 			path = CameraUI;
 			sourceTree = "<group>";
@@ -196,12 +202,14 @@
 				965EF4992C793FC90018267F /* CameraModel.swift in Sources */,
 				96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */,
 				96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */,
-				96B539F02C792569002F4A73 /* CameraRetakeButton.swift in Sources */,
+				96B539F02C792569002F4A73 /* CameraFlipButton.swift in Sources */,
 				961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */,
 				961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */,
+				96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */,
 				96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */,
 				961542D42C78FD0100BCD7E9 /* Logo.swift in Sources */,
 				96B539F22C792604002F4A73 /* CameraUnsaveButton.swift in Sources */,
+				96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */,
 				961542C52C78F7AF00BCD7E9 /* BinBudApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

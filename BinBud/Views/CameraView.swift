@@ -1,82 +1,74 @@
-//
-//  CameraView.swift
-//  BinBud
-//
-//  Created by Brody on 8/23/24.
-//
-
 import SwiftUI
 import AVFoundation
 
-
-
-
 struct CameraView: View {
+    @State private var showMenu = false
     @StateObject var camera = CameraModel()
-
+    
     var body: some View {
         ZStack {
-            
             CameraPreview(camera: camera)
                 .ignoresSafeArea()
             
-            VStack {
-                ZStack{
-                    Button(action: {}, label: {
-                        CameraRetakeButton()
-                    })
-                    HStack{
-                         
-                        Spacer()
+            if !showMenu {
+                VStack {
+                    ZStack {
                         Button(action: {}, label: {
-                            CameraHelpButton()
-                        }).padding(.trailing, 30)
-                    }
-                }
-                
-                Spacer()
-
-                HStack {
-                    if camera.isTaken {
-                        VStack {
-                            Button(action: camera.retakePic, label: {
-                                CameraUnsaveButton()
-                            }).padding(.leading)
-
-                            Button(action: {if !camera.isSaved{
-                                camera.savePic()
-                                //IMPORTANT: After pictured is saved here. Do something with your model here as well.
-                                
-                                
-                                
-                                
-                            }}, label: {
-                                CameraSaveButton()
-                            }).padding(.leading)
-                        }
-
-                        Spacer()
-                    } else {
-                        Button(action: camera.takePic, label: {
-                            ZStack {
-                                CameraCaptureButton()
-                            }
+                            CameraFlipButton()
                         })
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                withAnimation{
+                                    self.showMenu = true
+                                    print("menu will be shown")
+                                }
+                            
+                            }, label: {
+                                CameraHelpButton()
+                            }).padding(.trailing, 30)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    HStack {
+                        if camera.isTaken {
+                            VStack {
+                                Button(action: camera.retakePic, label: {
+                                    CameraUnsaveButton()
+                                }).padding(.leading)
+                                
+                                Button(action: { if !camera.isSaved {
+                                    camera.savePic()
+                                    // IMPORTANT: After picture is saved here, do something with your model here as well.
+                                }}, label: {
+                                    CameraSaveButton()
+                                }).padding(.leading)
+                            }
+                            
+                            Spacer()
+                        } else {
+                            Button(action: camera.takePic, label: {
+                                ZStack {
+                                    CameraCaptureButton()
+                                }
+                            })
+                        }
                     }
                 }
             }
+            
+            if showMenu {
+                GeometryReader { geometry in
+                    CameraHelpToolbar(showMenu: $showMenu)
+                        .offset(y: geometry.size.height) // Start from the bottom
+                                               .transition(.move(edge: .bottom)) // Transition from the bottom edge
+                                               .animation(.easeInOut(duration: 0.5), value: showMenu) // Animate the transition
+                }
+            }
         }
-        .navigationBarBackButtonHidden(true)  
-        
-        
-        
-        // This hides the back button in the navigation bar
-        
-        // Note: When this is here it causes massive delays for some reason
-        // .onAppear(perform: {
-        //     print("checking for permissions")
-        //     camera.check()
-        // })
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -84,21 +76,16 @@ struct CameraView: View {
     CameraView()
 }
 
-
 struct CameraPreview : UIViewRepresentable {
     @ObservedObject var camera: CameraModel
     
-    func makeUIView(context: Context) -> UIView{
+    func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: UIScreen.main.bounds)
         camera.preview = AVCaptureVideoPreviewLayer(session: camera.session)
         camera.preview.frame = view.frame
         
-        // You own properties
         camera.preview.videoGravity = .resizeAspectFill
         view.layer.addSublayer(camera.preview)
-        //starting the camera session()
-        
-        // Start the camera session on a background thread
         
         DispatchQueue.global(qos: .userInitiated).async {
             camera.session.startRunning()
@@ -106,8 +93,9 @@ struct CameraPreview : UIViewRepresentable {
         
         return view
     }
-    func updateUIView(_ uiView: UIView, context: Context){
-        // Updating the ui
-        // I presume graphics
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // Updating the UI
     }
 }
+

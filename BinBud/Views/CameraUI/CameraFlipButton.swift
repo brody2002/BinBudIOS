@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CameraRetakeButton: View {
+struct CameraFlipButton: View {
     var body: some View {
         Image("RetakeIcon")
             .resizable()
@@ -17,5 +17,5 @@ struct CameraRetakeButton: View {
 }
 
 #Preview {
-    CameraRetakeButton()
+    CameraFlipButton()
 }

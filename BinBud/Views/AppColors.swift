@@ -13,6 +13,7 @@ struct AppColors {
     static let cameraButtonColor = Color(red: 0/255, green: 201/255, blue: 161/255)
     static let accentColor = Color(.white)
     static let unsave = Color(red: 168/255, green: 168/255, blue: 168/255)
+    static let settingsColor = Color(red: 40/255, green: 40/255, blue:40/255 )
     
 
 }
