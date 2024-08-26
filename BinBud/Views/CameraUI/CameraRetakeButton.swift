@@ -14,7 +14,7 @@
 
 import SwiftUI
 
-struct CameraUnsaveButton: View {
+struct CameraRetakeButton: View {
     
     
     var body: some View {
@@ -29,7 +29,7 @@ struct CameraUnsaveButton: View {
 }
 
 #Preview {
-    CameraUnsaveButton()
+    CameraRetakeButton()
 }
 
 

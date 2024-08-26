@@ -3,69 +3,88 @@ import AVFoundation
 
 struct CameraView: View {
     @State private var showMenu = false
+    @State private var showTopBar = false
     @StateObject var camera = CameraModel()
     
     var body: some View {
         ZStack {
             CameraPreview(camera: camera)
                 .ignoresSafeArea()
+                .onReceive(NotificationCenter.default.publisher(for: .AVCaptureSessionRuntimeError), perform: { notification in
+                    print("🤙 error!! \(notification.object)")
+                })
             
-            if !showMenu {
+           
+            
+            if !showMenu{
                 VStack {
+                    if showTopBar {}
                     ZStack {
-                        Button(action: {}, label: {
-                            CameraFlipButton()
-                        })
+                        CameraFlipButton()
                         HStack {
                             Spacer()
-                            Button(action: {
-                                withAnimation{
-                                    self.showMenu = true
-                                    print("menu will be shown")
+                            
+                            CameraHelpButton()
+                                .padding(.trailing, 30)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut(duration: 0.3)){
+                                        camera.tempStop()
+                                        self.showMenu.toggle()
+                                        print("toggle button")
+                                    }
                                 }
                             
-                            }, label: {
-                                CameraHelpButton()
-                            }).padding(.trailing, 30)
                         }
-                    }
+                    }.allowsHitTesting(showTopBar ? false : true)
+                        .opacity(showTopBar ? 0.0 : 1.0)
+
                     
                     Spacer()
                     
                     HStack {
                         if camera.isTaken {
+                            
                             VStack {
-                                Button(action: camera.retakePic, label: {
-                                    CameraUnsaveButton()
-                                }).padding(.leading)
-                                
-                                Button(action: { if !camera.isSaved {
-                                    camera.savePic()
-                                    // IMPORTANT: After picture is saved here, do something with your model here as well.
-                                }}, label: {
-                                    CameraSaveButton()
-                                }).padding(.leading)
+                                CameraRetakeButton()
+                                    .padding(.leading)
+                                    .onTapGesture {
+                                        self.showTopBar.toggle()
+                                        camera.retakePic()
+                                    }
+                                CameraSaveButton()
+                                    .padding(.leading)
+                                    .onTapGesture {
+                                        if !camera.isSaved {
+                                            camera.savePic()
+                                            print("saved image")
+                                            // IMPORTANT: After picture is saved here, do something with your model here as well.
+                                        }
+                                    }
                             }
                             
                             Spacer()
                         } else {
-                            Button(action: camera.takePic, label: {
-                                ZStack {
-                                    CameraCaptureButton()
+                            
+                            CameraCaptureButton()
+                                .onTapGesture {
+                                    self.showTopBar.toggle()
+                                    camera.takePic()
                                 }
-                            })
                         }
                     }
                 }
-            }
+            
+        }
+            
             
             if showMenu {
-                GeometryReader { geometry in
-                    CameraHelpToolbar(showMenu: $showMenu)
-                        .offset(y: geometry.size.height) // Start from the bottom
-                                               .transition(.move(edge: .bottom)) // Transition from the bottom edge
-                                               .animation(.easeInOut(duration: 0.5), value: showMenu) // Animate the transition
-                }
+                CameraHelpToolbar(showMenu: $showMenu)
+                    .cornerRadius(40)
+                    .transition(.move(edge: .bottom))
+                    .offset(y: showMenu ? 40 : UIScreen.main.bounds.height)
+                    
+                    
+
             }
         }
         .navigationBarBackButtonHidden(true)

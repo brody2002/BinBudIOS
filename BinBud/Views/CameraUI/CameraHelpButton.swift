@@ -11,7 +11,7 @@ struct CameraHelpButton: View {
     var body: some View {
         ZStack{
             Circle()
-                .foregroundColor(AppColors.mainColor)
+                .foregroundColor(AppColors.cameraButtonColor)
                 .frame(width: 50, height: 50)
             Text("?")
                 .foregroundColor(.black)

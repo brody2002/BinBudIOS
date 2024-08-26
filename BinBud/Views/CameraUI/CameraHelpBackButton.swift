@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CameraHelpBackButton: View {
+    
     @Binding var showMenu: Bool
     
     var body: some View {
@@ -21,9 +22,7 @@ struct CameraHelpBackButton: View {
                 .bold()
                 
         }
-        .onTapGesture {
-                    showMenu.toggle() // Toggle the showMenu state
-                }
+
         
     }
 }

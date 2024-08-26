@@ -10,6 +10,13 @@ import SwiftUI
 import AVFoundation
 
 
+//
+//@Observable gets rid of the published key word
+//class CameraViewModel {
+//    var isTaken: Bool
+//}
+
+
 //NOTE: Only classes can be observable objects
 class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var isTaken = false
@@ -20,6 +27,23 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var isSaved = false
     @Published var picData = Data(count: 0)
     
+    
+    func tempStop() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                self.session.stopRunning()
+            }
+    }
+    func tempRun() {
+        DispatchQueue.global(qos: .background).async {
+            self.session.startRunning()
+            if self.session.isRunning{
+                print("now is running")
+            }
+            else{
+                print("sad")
+            }
+        }
+    }
     
     func check(){
         
@@ -95,10 +119,16 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             } else {
                 print("Session is not running")
                 self.session.startRunning() // Start it if needed
+                
+                if self.session.isRunning{
+                    print("now is running")
+                }
             }
+            
+            
             self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
                         self.session.stopRunning()
                         print("Session stopped after delay")
                     }
@@ -106,13 +136,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             DispatchQueue.main.async{
                 withAnimation { self.isTaken.toggle() }
             }
-            
-            // Add this to ensure that the image is taken before the session stops running.
-//            DispatchQueue.main.async {
-//                Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) {
-//                    (timer) in self.session.stopRunning()
-//                }
-//            }
+
         }
     }
 
@@ -121,7 +145,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             self.session.startRunning()
             
             // Ensure that the state change happens on the main thread but outside of view updates
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.04) {
                 withAnimation { self.isTaken.toggle() }
                 self.isSaved = false
             }

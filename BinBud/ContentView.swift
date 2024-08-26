@@ -16,9 +16,12 @@ struct ContentView: View {
                     .resizable()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .edgesIgnoringSafeArea(.all)
+                                
                 VStack {
                     Spacer()
                     Logo()
+                        .padding(.bottom,180)
+                        .padding(.trailing, 40)
                     Spacer()
                     
                     NavigationLink(
