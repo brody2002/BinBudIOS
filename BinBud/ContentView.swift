@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var camera = CameraModel()
+    @State var camera = CameraModel()
     var body: some View {
         NavigationView{
             ZStack{

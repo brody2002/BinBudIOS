@@ -23,6 +23,9 @@
 		96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */; };
 		96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */; };
 		96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */; };
+		96E8E5C52C7E896A006E2028 /* CameraSettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */; };
+		96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */; };
+		96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C82C7E8B5E006E2028 /* SettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +46,9 @@
 		96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpButton.swift; sourceTree = "<group>"; };
 		96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpToolbar.swift; sourceTree = "<group>"; };
 		96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpBackButton.swift; sourceTree = "<group>"; };
+		96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSettingsButton.swift; sourceTree = "<group>"; };
+		96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInstructionView.swift; sourceTree = "<group>"; };
+		96E8E5C82C7E8B5E006E2028 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,7 @@
 				961542D32C78FD0100BCD7E9 /* Logo.swift */,
 				961542D52C78FE0C00BCD7E9 /* AppColors.swift */,
 				961542D72C78FF9700BCD7E9 /* BottomButton.swift */,
+				96E8E5C82C7E8B5E006E2028 /* SettingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -123,6 +130,8 @@
 				96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */,
 				96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */,
 				96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */,
+				96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */,
+				96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */,
 			);
 			path = CameraUI;
 			sourceTree = "<group>";
@@ -201,13 +210,16 @@
 				961542D82C78FF9700BCD7E9 /* BottomButton.swift in Sources */,
 				965EF4992C793FC90018267F /* CameraModel.swift in Sources */,
 				96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */,
+				96E8E5C52C7E896A006E2028 /* CameraSettingsButton.swift in Sources */,
 				96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */,
 				96B539F02C792569002F4A73 /* CameraFlipButton.swift in Sources */,
 				961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */,
 				961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */,
+				96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */,
 				96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */,
 				96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */,
 				961542D42C78FD0100BCD7E9 /* Logo.swift in Sources */,
+				96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */,
 				96B539F22C792604002F4A73 /* CameraRetakeButton.swift in Sources */,
 				96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */,
 				961542C52C78F7AF00BCD7E9 /* BinBudApp.swift in Sources */,

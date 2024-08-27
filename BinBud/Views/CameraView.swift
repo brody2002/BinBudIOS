@@ -4,22 +4,38 @@ import AVFoundation
 struct CameraView: View {
     @State private var showMenu = false
     @State private var showTopBar = false
-    @StateObject var camera = CameraModel()
+    @State private var showSettings = false
+    @State var camera = CameraModel()
+    
     
     var body: some View {
         ZStack {
+           
             CameraPreview(camera: camera)
                 .ignoresSafeArea()
                 .onReceive(NotificationCenter.default.publisher(for: .AVCaptureSessionRuntimeError), perform: { notification in
                     print("🤙 error!! \(notification.object)")
                 })
             
+            
            
             
-            if !showMenu{
+            if !showMenu || !showSettings {
                 VStack {
                     if showTopBar {}
                     ZStack {
+                        HStack{
+                            CameraSettingsButton()
+                                .padding(.leading,30)
+                                .onTapGesture {
+                                    withAnimation{
+                                        self.showSettings.toggle()
+                                        print("show settings true")
+                                    }
+                                    
+                                }
+                            Spacer()
+                        }
                         CameraFlipButton()
                         HStack {
                             Spacer()
@@ -28,9 +44,10 @@ struct CameraView: View {
                                 .padding(.trailing, 30)
                                 .onTapGesture {
                                     withAnimation(.easeInOut(duration: 0.3)){
-                                        camera.tempStop()
+//                                        camera.tempStop()
                                         self.showMenu.toggle()
                                         print("toggle button")
+                                        
                                     }
                                 }
                             
@@ -64,12 +81,17 @@ struct CameraView: View {
                             
                             Spacer()
                         } else {
+                            VStack{
+                                CameraInstructionView()
+                                    .padding(.bottom, 30)
+                                CameraCaptureButton()
+                                    .padding(.bottom, 60)
+                                    .onTapGesture {
+                                        self.showTopBar.toggle()
+                                        camera.takePic()
+                                    }
+                            }
                             
-                            CameraCaptureButton()
-                                .onTapGesture {
-                                    self.showTopBar.toggle()
-                                    camera.takePic()
-                                }
                         }
                     }
                 }
@@ -81,10 +103,16 @@ struct CameraView: View {
                 CameraHelpToolbar(showMenu: $showMenu)
                     .cornerRadius(40)
                     .transition(.move(edge: .bottom))
-                    .offset(y: showMenu ? 40 : UIScreen.main.bounds.height)
+                    .offset(y: showMenu ? 20 : UIScreen.main.bounds.height)
                     
                     
 
+            }
+            if showSettings {
+                SettingsView()
+                    .background(Color.white.opacity(0.9))
+                                        .transition(.move(edge: .leading)) // Transition from the left
+                                        .offset(x: showSettings ? 0 : -UIScreen.main.bounds.width)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -99,6 +127,7 @@ struct CameraPreview : UIViewRepresentable {
     @ObservedObject var camera: CameraModel
     
     func makeUIView(context: Context) -> UIView {
+        
         let view = UIView(frame: UIScreen.main.bounds)
         camera.preview = AVCaptureVideoPreviewLayer(session: camera.session)
         camera.preview.frame = view.frame
@@ -109,6 +138,7 @@ struct CameraPreview : UIViewRepresentable {
         DispatchQueue.global(qos: .userInitiated).async {
             camera.session.startRunning()
         }
+        
         
         return view
     }

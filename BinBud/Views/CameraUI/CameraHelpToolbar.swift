@@ -2,21 +2,26 @@ import SwiftUI
 
 struct CameraHelpToolbar: View {
     @Binding var showMenu: Bool
-    @State private var backgroundOpacity = 0.8 // Starting Opacity
-    @StateObject var camera = CameraModel()
+    @State var camera = CameraModel()
+    @State private var backgroundOpacity = 1.0 // Starting Opacity
     var body: some View {
         ZStack {
-            Color(AppColors.settingsColor)
+            Color(AppColors.settingsBackground)
                 .opacity(backgroundOpacity)
                 .ignoresSafeArea()
             
             VStack {
-                Spacer(minLength: 10)
+                Spacer(minLength: 20)
                 ZStack {
-                    Text("How to Use")
-                        .font(.title)
-                        .bold()
-                        .foregroundColor(AppColors.settingsColor)
+                        HStack{
+                            Text("How to Use")
+                                .font(.system(size: 36))
+                                .bold()
+                                .foregroundColor(AppColors.settingsColor)
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                        
+                    }.padding(.leading, 20)
                     HStack {
                         Spacer()
                         
@@ -24,32 +29,37 @@ struct CameraHelpToolbar: View {
                             .padding(.trailing, 30)
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: 0.3)) {
-                                    print("start running")
-                                    camera.tempRun()
                                     print("toggle back")
                                     self.showMenu.toggle()
+                                    
                                 }
                             }
                     }
                 }
-                VStack {
-                    Image(systemName: "photo")
-                        .font(.system(size: 160))
-                        .padding()
-                    Image(systemName: "photo")
-                        .font(.system(size: 160))
-                        .padding()
-                    Image(systemName: "photo")
-                        .font(.system(size: 160))
-                        .padding()
-                }
+                ScrollView {
+                                    VStack(spacing: 20) { // Added spacing between the rectangles
+                                        RoundedRectangle(cornerRadius: 30)
+                                            .foregroundColor(.white)
+                                            .frame(width: 340, height: 300)
+                                        
+                                        RoundedRectangle(cornerRadius: 30)
+                                            .foregroundColor(.white)
+                                            .frame(width: 340, height: 300)
+                                        
+                                        RoundedRectangle(cornerRadius: 30)
+                                            .foregroundColor(.white)
+                                            .frame(width: 340, height: 300)
+                                    }
+                                    .padding(.horizontal)
+                                    .padding(.bottom, 20)
+                                }
                 Spacer()
             }
         }
         .cornerRadius(50)
         .onAppear {
-            withAnimation(.easeInOut(duration: 0.1).delay(0.4)) {
-                backgroundOpacity = 0.66
+            withAnimation(.easeInOut(duration: 0.1)) {
+                backgroundOpacity = 0.95
                 // ending opacity
             }
         }
@@ -59,7 +69,7 @@ struct CameraHelpToolbar: View {
 #Preview {
     ZStack {
         CameraHelpToolbar(showMenu: .constant(true))
-            .offset(y: 40)
+            .offset(y: 20)
     }
 }
 

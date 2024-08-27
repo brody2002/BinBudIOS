@@ -10,40 +10,31 @@ import SwiftUI
 import AVFoundation
 
 
-//
-//@Observable gets rid of the published key word
-//class CameraViewModel {
-//    var isTaken: Bool
-//}
 
 
-//NOTE: Only classes can be observable objects
-class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
-    @Published var isTaken = false
-    @Published var session = AVCaptureSession()
-    @Published var alert = false
-    @Published var output = AVCapturePhotoOutput()
-    @Published var preview : AVCaptureVideoPreviewLayer!
-    @Published var isSaved = false
-    @Published var picData = Data(count: 0)
+@Observable class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
+    var isTaken = false
+    var session = AVCaptureSession()
+    var alert = false
+    var output = AVCapturePhotoOutput()
+    var preview : AVCaptureVideoPreviewLayer!
+    var isSaved = false
+    var picData = Data(count: 0)
     
     
-    func tempStop() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                self.session.stopRunning()
-            }
-    }
-    func tempRun() {
-        DispatchQueue.global(qos: .background).async {
-            self.session.startRunning()
-            if self.session.isRunning{
-                print("now is running")
-            }
-            else{
-                print("sad")
-            }
-        }
-    }
+//    func tempStop() {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+//                self.session.stopRunning()
+//            }
+//    }
+//    
+//    
+//    func tempRun() {
+//        DispatchQueue.global(qos: .background).async {
+//            self.session.startRunning()
+//            
+//        }
+//    }
     
     func check(){
         

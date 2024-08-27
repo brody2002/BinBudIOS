@@ -14,11 +14,11 @@ struct CameraHelpBackButton: View {
     var body: some View {
         ZStack{
             Circle()
-                .stroke(AppColors.settingsColor, lineWidth: 8)
-                .frame(width: 50,height: 50)
+                .stroke(AppColors.settingsColor, lineWidth: 4)
+                .frame(width: 36,height: 36)
             Text("X")
                 .foregroundColor(AppColors.settingsColor)
-                .font(.system(size: 30))
+                .font(.system(size: 26))
                 .bold()
                 
         }

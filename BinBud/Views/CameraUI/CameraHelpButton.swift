@@ -12,10 +12,10 @@ struct CameraHelpButton: View {
         ZStack{
             Circle()
                 .foregroundColor(AppColors.cameraButtonColor)
-                .frame(width: 50, height: 50)
+                .frame(width: 30, height: 30)
             Text("?")
                 .foregroundColor(.black)
-                .font(.system(size: 30))
+                .font(.system(size: 25))
                 .bold()
                 
         }

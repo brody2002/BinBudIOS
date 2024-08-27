@@ -14,7 +14,7 @@ struct CameraFlipButton: View {
         Image(systemName: "arrow.triangle.2.circlepath.camera.fill")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: pressFlipCamera ? 60: 50, height: pressFlipCamera ? 60: 50)
+            .frame(width: pressFlipCamera ? 32: 30, height: pressFlipCamera ? 32: 30)
             .foregroundColor(AppColors.cameraButtonColor)
             .onTapGesture {
                 self.pressFlipCamera.toggle()
