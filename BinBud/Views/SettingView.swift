@@ -3,6 +3,8 @@ import SwiftUI
 struct SettingsView: View {
     @Binding var showSettings: Bool
     @State private var isVisible = true
+    @State private var isDiscordHold = false
+    @State private var isAboutHold = false
     @State private var dragOffset = CGSize.zero
 
     var body: some View {
@@ -27,21 +29,50 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
                                 Image(systemName: "info.circle")
+                                    .foregroundColor(isAboutHold ? Color.black.opacity(0.3) : Color.black)
                                 Text("About us")
+                                    .foregroundColor(isAboutHold ? Color.black.opacity(0.3) : Color.black)
                             }
+                            .onTapGesture {
+                                print("about me page")
+                            }
+                            .onLongPressGesture(minimumDuration: 3, pressing: { isPressing in
+                                    withAnimation(.easeInOut(duration: 0.3)){
+                                        self.isAboutHold = isPressing
+                                    }
+                                }, perform: {
+                                    
+                                }
+                            )
                             
                             HStack {
                                 Image("discordIcon")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 17, height: 17)
-                                    .foregroundColor(AppColors.cameraButtonColor)
+                                    .foregroundColor(isDiscordHold ? AppColors.cameraButtonColor.opacity(0.3) : AppColors.cameraButtonColor)
+                                    
                             
                                 Text("Discord")
-                                    .foregroundColor(AppColors.cameraButtonColor)
+                                    .foregroundColor(isDiscordHold ? AppColors.cameraButtonColor.opacity(0.3) : AppColors.cameraButtonColor)
                                     .font(.system(size: 18, weight: .bold))
                             }
                             .padding(.leading, 2)
+                            .onTapGesture {
+                                if let url = URL(string: "https://discord.gg/tfmjWwwrsk") {
+                                                        UIApplication.shared.open(url)
+                                                    }
+                            }
+                            .onLongPressGesture(minimumDuration: 3, pressing: { isPressing in
+                                    withAnimation(.easeInOut(duration: 0.3)){
+                                        self.isDiscordHold = isPressing
+                                    }
+                                }, perform: {
+                                    
+                                }
+                            )
+                            
+                            
                         }
                         .padding(.leading, 20)
                         .padding(.top, 20)
