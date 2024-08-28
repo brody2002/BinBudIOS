@@ -5,9 +5,11 @@ struct SettingsView: View {
     @State private var isVisible = true
     @State private var isDiscordHold = false
     @State private var isAboutHold = false
+    @State private var isAboutPress = false
     @State private var dragOffset = CGSize.zero
 
     var body: some View {
+        
         ZStack {
             if isVisible {
                 GeometryReader { geometry in
@@ -34,8 +36,7 @@ struct SettingsView: View {
                                     .foregroundColor(isAboutHold ? Color.black.opacity(0.3) : Color.black)
                             }
                             .onTapGesture {
-                                print("about me page")
-                            }
+                                self.isAboutPress = true                        }
                             .onLongPressGesture(minimumDuration: 3, pressing: { isPressing in
                                     withAnimation(.easeInOut(duration: 0.3)){
                                         self.isAboutHold = isPressing
@@ -111,8 +112,14 @@ struct SettingsView: View {
                 }
                 .transition(.move(edge: .leading))
             }
+            if isAboutPress{
+                AboutMeView()
+                
+            }
         }
+        
     }
+    
 }
 
 #Preview {

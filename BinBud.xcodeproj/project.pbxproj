@@ -26,6 +26,7 @@
 		96E8E5C52C7E896A006E2028 /* CameraSettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */; };
 		96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */; };
 		96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C82C7E8B5E006E2028 /* SettingView.swift */; };
+		96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5CB2C7FCA50006E2028 /* AboutMeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSettingsButton.swift; sourceTree = "<group>"; };
 		96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInstructionView.swift; sourceTree = "<group>"; };
 		96E8E5C82C7E8B5E006E2028 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		96E8E5CB2C7FCA50006E2028 /* AboutMeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		96E8E5CA2C7FC907006E2028 /* SettingsUI */ = {
 			isa = PBXGroup;
 			children = (
+				96E8E5CB2C7FCA50006E2028 /* AboutMeView.swift */,
 			);
 			path = SettingsUI;
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 				96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */,
 				96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */,
 				96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */,
+				96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */,
 				961542D42C78FD0100BCD7E9 /* Logo.swift in Sources */,
 				96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */,
 				96B539F22C792604002F4A73 /* CameraRetakeButton.swift in Sources */,

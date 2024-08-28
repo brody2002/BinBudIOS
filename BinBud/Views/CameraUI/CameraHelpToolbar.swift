@@ -73,7 +73,7 @@ struct CameraHelpToolbar: View {
                         }
                     }
                     .onEnded { value in
-                        if value.translation.height > 10 {
+                        if value.translation.height > 300 {
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
@@ -96,7 +96,7 @@ struct CameraHelpToolbar: View {
 #Preview {
     ZStack {
         CameraHelpToolbar(showMenu: .constant(true))
-            .offset(y: 20)
+            .offset(y: 30)
     }
 }
 
