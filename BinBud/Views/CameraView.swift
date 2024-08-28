@@ -20,9 +20,10 @@ struct CameraView: View {
             
            
             
+            
             if !showMenu || !showSettings {
                 VStack {
-                    if showTopBar {}
+                   
                     ZStack {
                         HStack{
                             CameraSettingsButton()
@@ -36,7 +37,12 @@ struct CameraView: View {
                                 }
                             Spacer()
                         }
-                        CameraFlipButton()
+                        CameraFlipButton().onTapGesture {
+                            withAnimation{
+                                print("CameraFlipButton tapped")
+                                camera.switchCamera()
+                            }
+                        }
                         HStack {
                             Spacer()
                             
@@ -110,9 +116,9 @@ struct CameraView: View {
             }
             if showSettings {
                 SettingsView()
-                    .background(Color.white.opacity(0.9))
-                                        .transition(.move(edge: .leading)) // Transition from the left
-                                        .offset(x: showSettings ? 0 : -UIScreen.main.bounds.width)
+                    .transition(.move(edge: .leading)) // Transition from the left
+                    .offset(x: showSettings ? 0 : -UIScreen.main.bounds.width)
+                
             }
         }
         .navigationBarBackButtonHidden(true)

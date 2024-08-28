@@ -5,7 +5,9 @@ struct SettingsView: View {
     
     var body: some View {
         ZStack {
+            
             if isVisible {
+                
                 GeometryReader { geometry in
                     VStack(alignment: .leading) {
                         HStack {
@@ -62,6 +64,7 @@ struct SettingsView: View {
                     )
                 }
                 .transition(.move(edge: .leading))
+                
             }
         }
     }
@@ -69,7 +72,8 @@ struct SettingsView: View {
 
 #Preview {
     ZStack {
-        Color.blue.ignoresSafeArea()
+        Color(AppColors.settingsColor.opacity(0.5)).ignoresSafeArea()
+
         SettingsView()
     }
 }

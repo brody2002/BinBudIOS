@@ -22,19 +22,53 @@ import AVFoundation
     var picData = Data(count: 0)
     
     
-//    func tempStop() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-//                self.session.stopRunning()
-//            }
-//    }
-//    
-//    
-//    func tempRun() {
-//        DispatchQueue.global(qos: .background).async {
-//            self.session.startRunning()
-//            
-//        }
-//    }
+
+    func switchCamera() {
+        print("entered switchCamera()")
+        guard let currentInput = session.inputs.first as? AVCaptureDeviceInput else {
+            return
+        }
+        do {
+            self.session.beginConfiguration()
+            
+            // Remove the current input
+            self.session.removeInput(currentInput)
+            
+            // Determine the new camera position
+            let newCameraPosition: AVCaptureDevice.Position = currentInput.device.position == .back ? .front : .back
+            
+            print("Camera pos: \(newCameraPosition)")
+            
+            // Select the appropriate camera
+            let newDevice: AVCaptureDevice?
+            if newCameraPosition == .back {
+                
+                newDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back)
+            } else {
+                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+            }
+            
+            // Create input from the new device
+            let input = try AVCaptureDeviceInput(device: newDevice!)
+            
+            // Add the new input to the session
+            if self.session.canAddInput(input) {
+                self.session.addInput(input)
+            }
+            
+            // Ensure the output is still added
+            if self.session.canAddOutput(self.output) {
+                self.session.addOutput(self.output)
+            }
+            
+            self.session.commitConfiguration()
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+
     
     func check(){
         

@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct CameraFlipButton: View {
-    @State private var pressFlipCamera = false
+    
 
     var body: some View {
         Image(systemName: "arrow.triangle.2.circlepath.camera.fill")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: pressFlipCamera ? 32: 30, height: pressFlipCamera ? 32: 30)
+            .frame(width: 30, height: 30)
             .foregroundColor(AppColors.cameraButtonColor)
-            .onTapGesture {
-                self.pressFlipCamera.toggle()
-            }
+            
     }
 }
 
