@@ -115,7 +115,7 @@ struct CameraView: View {
 
             }
             if showSettings {
-                SettingsView()
+                SettingsView(showSettings: $showSettings)
                     .transition(.move(edge: .leading)) // Transition from the left
                     .offset(x: showSettings ? 0 : -UIScreen.main.bounds.width)
                 

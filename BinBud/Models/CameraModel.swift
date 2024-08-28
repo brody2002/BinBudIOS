@@ -31,15 +31,15 @@ import AVFoundation
         do {
             self.session.beginConfiguration()
             
-            // Remove the current input
+            
             self.session.removeInput(currentInput)
             
-            // Determine the new camera position
+            // Determine the new camera position being front or back
             let newCameraPosition: AVCaptureDevice.Position = currentInput.device.position == .back ? .front : .back
             
             print("Camera pos: \(newCameraPosition)")
             
-            // Select the appropriate camera
+            
             let newDevice: AVCaptureDevice?
             if newCameraPosition == .back {
                 
@@ -51,12 +51,12 @@ import AVFoundation
             // Create input from the new device
             let input = try AVCaptureDeviceInput(device: newDevice!)
             
-            // Add the new input to the session
+            // If for some reason there is no session...
             if self.session.canAddInput(input) {
                 self.session.addInput(input)
             }
             
-            // Ensure the output is still added
+            // Ensure the output is still there
             if self.session.canAddOutput(self.output) {
                 self.session.addOutput(self.output)
             }

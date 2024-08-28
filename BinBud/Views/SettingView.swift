@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var isVisible: Bool = true
-    
+    @Binding var showSettings: Bool
+    @State private var isVisible = true
     var body: some View {
         ZStack {
             
@@ -58,6 +58,9 @@ struct SettingsView: View {
                                 if value.translation.width < -50 {
                                     withAnimation {
                                         isVisible = false
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            self.showSettings = false
+                                                                        }
                                     }
                                 }
                             }
@@ -74,7 +77,7 @@ struct SettingsView: View {
     ZStack {
         Color(AppColors.settingsColor.opacity(0.5)).ignoresSafeArea()
 
-        SettingsView()
+        SettingsView(showSettings: .constant(true))
     }
 }
 
