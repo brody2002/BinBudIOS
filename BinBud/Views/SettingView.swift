@@ -3,11 +3,11 @@ import SwiftUI
 struct SettingsView: View {
     @Binding var showSettings: Bool
     @State private var isVisible = true
+    @State private var dragOffset = CGSize.zero
+
     var body: some View {
         ZStack {
-            
             if isVisible {
-                
                 GeometryReader { geometry in
                     VStack(alignment: .leading) {
                         HStack {
@@ -52,22 +52,33 @@ struct SettingsView: View {
                     .frame(maxHeight: .infinity)
                     .background(Color.white)
                     .edgesIgnoringSafeArea(.all)
+                    .offset(x: self.dragOffset.width) // Apply the drag offset here
                     .gesture(
                         DragGesture()
+                            .onChanged { value in
+                                if value.translation.width < 0 {
+//                                    print("checking location of drag continuously")
+                                    self.dragOffset = value.translation
+                                }
+                            }
                             .onEnded { value in
-                                if value.translation.width < -50 {
-                                    withAnimation {
+                                if value.translation.width < -50 { // Swipe left sufficiently
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        self.dragOffset = CGSize(width: -geometry.size.width, height: 0)
                                         isVisible = false
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                            self.showSettings = false
-                                                                        }
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        self.showSettings = false
+                                    }
+                                } else { // Snap back to original position
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        self.dragOffset = .zero
                                     }
                                 }
                             }
                     )
                 }
                 .transition(.move(edge: .leading))
-                
             }
         }
     }
@@ -76,7 +87,6 @@ struct SettingsView: View {
 #Preview {
     ZStack {
         Color(AppColors.settingsColor.opacity(0.5)).ignoresSafeArea()
-
         SettingsView(showSettings: .constant(true))
     }
 }
