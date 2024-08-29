@@ -34,8 +34,8 @@ struct AboutMeView: View {
                         .padding(.top, 40)
                         .font(.system(size: 20))
                     
-                    Text("brodyroberts202@gmail.com")
-                        .foregroundColor(AppColors.cameraButtonColor)
+                    Link("brodyroberts202@gmail.com", destination: URL(string: "mailto:brodyroberts202@gmail.com")!)
+                        .tint(AppColors.cameraButtonColor)
                         .padding(.top, 1)
                         .font(.system(size: 20))
                     
