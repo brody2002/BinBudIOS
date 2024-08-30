@@ -5,7 +5,8 @@ struct AboutMeView: View {
     @State private var isVisible = true
     @State private var backgroundOpacity = 1.0 // Starting Opacity
     @State private var dragOffset = CGSize.zero // Track the drag offset
-//    @Binding var isAboutPress : Bool
+    @Binding var isAboutPress: Bool
+
     var body: some View {
         if isVisible {
             ZStack {
@@ -44,13 +45,13 @@ struct AboutMeView: View {
                         .font(.system(size: 20))
                     
                     Spacer()
-                        .padding(.bottom,200)
+                        .padding(.bottom, 400)
                 }
                 // Ensure padding on the bottom to avoid clipping
             }
             .cornerRadius(14)
             .offset(y: self.dragOffset.height)
-            .offset(y:40)// Apply the drag offset to move the view
+            .offset(y: 40) // Apply the drag offset to move the view
             .onAppear {
                 withAnimation(.easeInOut(duration: 0.1)) {
                     backgroundOpacity = 0.99 // Ending opacity
@@ -69,10 +70,13 @@ struct AboutMeView: View {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                print("drag down")
+                                print("isAboutPress self \(self.isAboutPress)")
                                 self.isVisible = false // Hide the view after dragging it off the screen
+                                self.isAboutPress = false
                                 self.dragOffset = .zero
-                                //binding var
+                                
+                                print("isVisible: \(isVisible)")
+                                print("isAboutPress self \(self.isAboutPress)")
                             }
                         } else {
                             withAnimation(.easeInOut(duration: 0.3)) {
@@ -89,7 +93,7 @@ struct AboutMeView: View {
 #Preview {
     ZStack {
         Color.blue.ignoresSafeArea()
-        AboutMeView()
+        AboutMeView(isAboutPress: .constant(true))
     }
 }
 

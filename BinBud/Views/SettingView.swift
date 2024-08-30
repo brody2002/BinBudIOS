@@ -36,7 +36,7 @@ struct SettingsView: View {
                                     .foregroundColor(isAboutHold ? Color.black.opacity(0.3) : Color.black)
                             }
                             .onTapGesture {
-                                self.isAboutPress = true                        }
+                                self.isAboutPress.toggle()                       }
                             .onLongPressGesture(minimumDuration: 3, pressing: { isPressing in
                                     withAnimation(.easeInOut(duration: 0.3)){
                                         self.isAboutHold = isPressing
@@ -44,7 +44,7 @@ struct SettingsView: View {
                                 }, perform: {
                                     
                                 }
-                            )
+                            ).transition(.move(edge: .top))
                             
                             HStack {
                                 Image("discordIcon")
@@ -112,11 +112,12 @@ struct SettingsView: View {
                 }
                 .transition(.move(edge: .leading))
             }
-            if isAboutPress{
-                AboutMeView()
-                
-            }
+            if isAboutPress {
+                            AboutMeView(isAboutPress: $isAboutPress)
+                                .transition(.move(edge: .bottom)) // Animate from bottom to top
+                        }
         }
+            .animation(.easeInOut(duration: 0.3), value: isAboutPress)
         
     }
     

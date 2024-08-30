@@ -5,7 +5,11 @@ struct CameraView: View {
     @State private var showMenu = false
     @State private var showTopBar = false
     @State private var showSettings = false
+    @State private var showOutput = false
     @State var camera = CameraModel()
+    @State var modelOuput = ""
+    
+    
     
     
     var body: some View {
@@ -71,6 +75,7 @@ struct CameraView: View {
                                 CameraRetakeButton()
                                     .padding(.leading)
                                     .onTapGesture {
+                                        self.showOutput = false
                                         self.showTopBar.toggle()
                                         camera.retakePic()
                                     }
@@ -78,9 +83,19 @@ struct CameraView: View {
                                     .padding(.leading)
                                     .onTapGesture {
                                         if !camera.isSaved {
-                                            camera.savePic()
+                                            self.modelOuput = camera.savePic()
+                                            withAnimation {
+                                                self.showOutput = true
+                                            }
                                             print("saved image")
                                             // IMPORTANT: After picture is saved here, do something with your model here as well.
+                                            print("showing output")
+                                            
+                                            
+//
+                                            
+                                            
+                                            
                                         }
                                     }
                             }
@@ -114,6 +129,14 @@ struct CameraView: View {
                     
 
             }
+            if showOutput {
+                            ZStack {
+                                CameraModelOutputView(modelOutput: self.modelOuput)
+                                    .padding(.bottom, 120)
+                                    
+                            }.transition(.scale)
+                            
+                        }
             if showSettings {
                 SettingsView(showSettings: $showSettings)
                     .transition(.move(edge: .leading)) // Transition from the left

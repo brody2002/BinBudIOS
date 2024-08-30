@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 import AVFoundation
+import UIKit
+import CoreML
 
 
 
@@ -20,6 +22,8 @@ import AVFoundation
     var preview : AVCaptureVideoPreviewLayer!
     var isSaved = false
     var picData = Data(count: 0)
+    var BinBudOutput = BinBudModel()
+    
     
     
 
@@ -193,14 +197,65 @@ import AVFoundation
     }
     
     
-    func savePic(){
-        let image = UIImage(data: self.picData)!
-        //saving image
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+    func savePic() -> String {
+        let curImage = UIImage(data: self.picData)!
+        
+        
+        //Saves image but for right now... we dont want to
+        //We just want to send image to the model
+        
+        //UIImageWriteToSavedPhotosAlbum(curImage, nil, nil, nil)
         self.isSaved = true
-        print("savedImage Successfully")
+        print("savedImage Successfully. Going to model call() ")
+
+        
+        // Resizing Image for input of BinBud Model
+        let targetSize = CGSize(width: 224, height: 224) //
+        let resizedImage = self.resizeImage(image: curImage, targetSize: targetSize)
+        
+        let modelOutput = self.runModel(image : resizedImage)
+        return modelOutput
     
     }
+    
+    func runModel(image: UIImage) -> String{
+        // Initialize the model with a configuration
+        do {
+                let model = try newPackage(configuration: MLModelConfiguration())
+                
+                // Convert UIImage to CVPixelBuffer (CoreML requires input as CVPixelBuffer)
+                guard let pixelBuffer = image.toCVPixelBuffer() else {
+                    print("Failed to convert UIImage to CVPixelBuffer")
+                    return ""
+                }
+                
+                // Perform prediction
+                let prediction = try model.prediction(input_3: pixelBuffer)
+                print("Prediction: \(prediction.Identity) ANSWER")
+                let output = BinBudOutput.findMaxValueInMultiArray(outputArray: prediction.Identity)
+                print("output: \(String(describing: output))")
+                
+                return output
+            
+                
+            } catch {
+                print("Error initializing model or making prediction: \(error)")
+            }
+        return ""
+    }
+
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        // This will force the image to the target size without maintaining aspect ratio
+        let rect = CGRect(origin: .zero, size: targetSize)
+        
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+
     
     func showSettingsAlert() {
             let alert = UIAlertController(
@@ -231,5 +286,58 @@ import AVFoundation
             }
         }
     
+    
+    
+    
+}
+
+// Code found from https://www.createwithswift.com/uiimage-cvpixelbuffer-converting-an-uiimage-to-a-pixelbuffer/
+extension UIImage {
+        
+    func toCVPixelBuffer() -> CVPixelBuffer? {
+        
+        let attributes = [
+            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
+        ] as CFDictionary
+        
+        var pixelBuffer: CVPixelBuffer?
+        
+        let status = CVPixelBufferCreate(
+            kCFAllocatorDefault, Int(self.size.width),
+            Int(self.size.height),
+            kCVPixelFormatType_32ARGB,
+            attributes,
+            &pixelBuffer)
+        
+        guard (status == kCVReturnSuccess) else {
+            return nil
+        }
+        
+        CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        
+        let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        
+        let context = CGContext(
+            data: pixelData,
+            width: Int(self.size.width),
+            height: Int(self.size.height),
+            bitsPerComponent: 8,
+            bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!),
+            space: rgbColorSpace,
+            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
+        
+        context?.translateBy(x: 0, y: self.size.height)
+        context?.scaleBy(x: 1.0, y: -1.0)
+        
+        UIGraphicsPushContext(context!)
+        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        UIGraphicsPopContext()
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        
+        return pixelBuffer
+    }
 }
 
