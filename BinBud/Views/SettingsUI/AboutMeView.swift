@@ -25,8 +25,8 @@ struct AboutMeView: View {
                         .foregroundColor(.black)
                         .font(.system(size: 35))
                     
-                    Text("devpost.com/software/binbud")
-                        .foregroundColor(AppColors.cameraButtonColor)
+                    Link("https://devpost.com/software/binbud", destination: URL(string: "https://devpost.com/software/binbud")!)
+                        .tint(AppColors.cameraButtonColor)
                         .padding(.top, 40)
                         .font(.system(size: 20))
                     

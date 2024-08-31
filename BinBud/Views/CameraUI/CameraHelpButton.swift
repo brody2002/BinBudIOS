@@ -17,8 +17,13 @@ struct CameraHelpButton: View {
                 .foregroundColor(.black)
                 .font(.system(size: 25))
                 .bold()
+            
                 
-        }
+        }.background(
+            Rectangle()
+                .fill(Color.clear) // Invisible background
+                .frame(width: 80, height: 80) // Adjust size to expand the touch area
+        )
         
     }
 }

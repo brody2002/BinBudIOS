@@ -26,7 +26,7 @@ struct CameraSettingsButton: View {
             .background(
                 Rectangle()
                     .fill(Color.clear) // Invisible background
-                    .frame(width: 70, height: 70) // Adjust size to expand the touch area
+                    .frame(width: 80, height: 80) // Adjust size to expand the touch area
             )
             .contentShape(Rectangle()) // Makes the entire background tappable
         }

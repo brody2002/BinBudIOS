@@ -16,6 +16,11 @@ struct CameraFlipButton: View {
             .aspectRatio(contentMode: .fit)
             .frame(width: 30, height: 30)
             .foregroundColor(AppColors.cameraButtonColor)
+            .background(
+                Rectangle()
+                    .fill(Color.clear) // Invisible background
+                    .frame(width: 80, height: 80) // Adjust size to expand the touch area
+            )
             
     }
 }
