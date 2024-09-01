@@ -86,7 +86,7 @@ class BinBud:
             elif predicted_value == "cement":
                 solutionString = f"Your waste material is {predicted_value}. Therefore, it should be disposed of in construction waste."
             elif predicted_value == "clothes":
-                solutionString = f"Your waste material is {predicted_value}. Therefore, you should donate it or dispose of it in a textile recycling bin."
+                solutionString = f"Your waste material is {predicted_value}. Therefore, you should donate it or dispose of it in a textile bin."
             elif predicted_value == "glass":
                 solutionString = f"Your waste material is {predicted_value}. Therefore, you should recycle it."
             elif predicted_value == "leather":

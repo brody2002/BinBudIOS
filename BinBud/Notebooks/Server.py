@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import os
 
 
@@ -13,7 +13,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-import plotly.graph_objects as go
+# import plotly.graph_objects as go
 from PIL import Image
 import cv2
 
@@ -21,7 +21,7 @@ import cv2
 import tensorflow as tf
 from keras import layers
 from keras.layers import Input, Lambda, Dense, Flatten, Dropout, BatchNormalization
-from keras.models import Model, loadmodel
+from keras.models import Model, load_model
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
@@ -32,8 +32,8 @@ from keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from keras.models import Sequential
-from sklearn.modelselection import traintestsplit
-from sklearn.metrics import confusionmatrix, classificationreport
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report
 
 from BinBudMethods import BinBud
 
@@ -42,7 +42,7 @@ model = BinBud(model=vgg16)
 
 
 
-app = Flask(__name)
+app = Flask(__name__)
 
 @app.route('/hi')
 def printsomething():
@@ -63,11 +63,13 @@ def upload_image():
         folderpath = 'C:/Users/14158/OneDrive/Desktop/ServerImages'
         # Corrected the filepath by removing the extra quotes
         filepath = os.path.join(folderpath, filename)
-
+        
         file.save(filepath)
 
         modelOutput = model.predict_folder(folderpath)
 
+
+        
         output_dict = {
             "label_1": modelOutput[0],
             "confidence": modelOutput[1],
@@ -76,12 +78,11 @@ def upload_image():
 
         print(output_dict)
 
+        
 
 
 
+        return jsonify(output_dict), 200
 
-
-        return 'File successfully uploaded', 200
-
-if __name == '__main':
+if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5002)
