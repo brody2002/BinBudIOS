@@ -18,6 +18,7 @@
 		963EEEDA2C82467F00CD413E /* BinBudModelOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963EEED92C82467F00CD413E /* BinBudModelOutput.swift */; };
 		963EEEDC2C826B9900CD413E /* CameraModelOutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */; };
 		963EEEDE2C827E6B00CD413E /* newPackage.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 963EEEDD2C827E6B00CD413E /* newPackage.mlpackage */; };
+		963EEEE02C83B57500CD413E /* noProcessBinBud.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 963EEEDF2C83B57500CD413E /* noProcessBinBud.mlpackage */; };
 		965EF4992C793FC90018267F /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965EF4982C793FC90018267F /* CameraModel.swift */; };
 		96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */; };
 		96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */; };
@@ -46,6 +47,8 @@
 		963EEED92C82467F00CD413E /* BinBudModelOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinBudModelOutput.swift; sourceTree = "<group>"; };
 		963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModelOutputView.swift; sourceTree = "<group>"; };
 		963EEEDD2C827E6B00CD413E /* newPackage.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = newPackage.mlpackage; sourceTree = "<group>"; };
+		963EEEDF2C83B57500CD413E /* noProcessBinBud.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = noProcessBinBud.mlpackage; sourceTree = "<group>"; };
+		963EEEE12C83C5A000CD413E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		965EF4982C793FC90018267F /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureButton.swift; sourceTree = "<group>"; };
 		96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSaveButton.swift; sourceTree = "<group>"; };
@@ -91,6 +94,7 @@
 		961542C32C78F7AF00BCD7E9 /* BinBud */ = {
 			isa = PBXGroup;
 			children = (
+				963EEEE12C83C5A000CD413E /* Info.plist */,
 				96D9C96B2C8229F30036F6A9 /* CoreMLModel */,
 				965EF4972C793FA40018267F /* Models */,
 				961542D22C78FB8900BCD7E9 /* Views */,
@@ -153,6 +157,7 @@
 		96D9C96B2C8229F30036F6A9 /* CoreMLModel */ = {
 			isa = PBXGroup;
 			children = (
+				963EEEDF2C83B57500CD413E /* noProcessBinBud.mlpackage */,
 				963EEEDD2C827E6B00CD413E /* newPackage.mlpackage */,
 				96D9C96A2C8229F30036F6A9 /* preprocessBinBud.mlpackage */,
 			);
@@ -251,6 +256,7 @@
 				963EEEDE2C827E6B00CD413E /* newPackage.mlpackage in Sources */,
 				96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */,
 				96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */,
+				963EEEE02C83B57500CD413E /* noProcessBinBud.mlpackage in Sources */,
 				96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */,
 				963EEEDC2C826B9900CD413E /* CameraModelOutputView.swift in Sources */,
 				96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */,
@@ -395,8 +401,10 @@
 				DEVELOPMENT_TEAM = L979M8V7RW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BinBud/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "for flask server";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -428,8 +436,10 @@
 				DEVELOPMENT_TEAM = L979M8V7RW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BinBud/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "for flask server";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

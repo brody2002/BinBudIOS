@@ -3,13 +3,14 @@ import SwiftUI
 import AVFoundation
 
 struct CameraView: View {
-    @State private var showMenu = false
+    @State private var showHelpMenu = false
     @State private var showTopBar = false
     @State private var showSettings = false
     @State private var showOutput = false
     @State var camera = CameraModel()
-    @State var modelOuput = ""
-    
+    @State var outputData: [String: Any] = [:]
+    @State var image: UIImage? = nil
+
     var body: some View {
         ZStack {
             CameraPreview(camera: camera)
@@ -18,15 +19,16 @@ struct CameraView: View {
                     print("🤙 error!! \(notification.object)")
                 })
             
-            if !showMenu && !showSettings {
+            if !showHelpMenu && !showSettings {
                 VStack {
                     ZStack {
                         HStack {
                             CameraSettingsButton()
                                 .padding(.leading, 30)
                                 .onTapGesture {
-                                    withAnimation{
+                                    withAnimation {
                                         self.showSettings.toggle()
+                                        self.showTopBar = false
                                         print("show settings true")
                                     }
                                 }
@@ -44,21 +46,19 @@ struct CameraView: View {
                                 .padding(.trailing, 30)
                                 .onTapGesture {
                                     withAnimation(.easeInOut(duration: 0.3)) {
-                                        
-
-                                        self.showMenu.toggle()
+                                        self.showHelpMenu.toggle()
+                                        self.showTopBar = false
                                         print("toggle button")
                                     }
                                 }
                         }
                     }
-                    // NOT WORKING :(
-                    .allowsHitTesting(!showTopBar || !showMenu || !showSettings) // Disable interaction when top bar, menu, or settings is hidden
-                    .opacity(showTopBar || showMenu || showSettings ? 0 : 1) // Adjust opacity based on state
-                    .offset(y: showTopBar || showMenu || showSettings ? -UIScreen.main.bounds.height / 2 : 0) // Move off-screen when fading out
-                    .transition(.move(edge: .top).combined(with: .opacity)) // Apply transition
-                    .animation(.easeInOut(duration: 0.5), value: showTopBar || showMenu || showSettings) // Animate based on states
-
+                    //Entrance or Default
+                    .allowsHitTesting(!showTopBar || !showHelpMenu || !showSettings)
+                    
+                    .opacity(showTopBar || showHelpMenu || showSettings ? 0 : 1) // True -> visiable
+                    .offset(y: showTopBar || showHelpMenu || showSettings ? -UIScreen.main.bounds.height / 2 : 0)
+                    .transition(.move(edge: .top).combined(with: .opacity)) // Move and fade out together
 
                     Spacer()
                     
@@ -78,13 +78,20 @@ struct CameraView: View {
                                     .padding(.leading)
                                     .onTapGesture {
                                         if !camera.isSaved {
-                                            self.modelOuput = camera.savePic()
-                                            withAnimation {
-                                                self.showOutput = true
-                                                self.showTopBar = true
+                                            
+                                            // Call savePic and handle the returned dictionary
+                                            camera.savePic { returnedData in
+                                                self.outputData = returnedData
+                                                
+                                                withAnimation {
+                                                    print("Cameraview dict: \(self.outputData)")
+                                                    self.showOutput = true
+                                                    self.showTopBar = true
+                                                }
+                                                print("Saved image")
+                                                print("Showing output")
+                                                print("Output data: \(self.outputData)")
                                             }
-                                            print("saved image")
-                                            print("showing output")
                                         }
                                     }
                             }
@@ -112,28 +119,30 @@ struct CameraView: View {
                                                     }
                                     }
                             }
-                            .allowsHitTesting(!showTopBar) // Disables interaction when top bar is hidden
-                            .opacity(showTopBar ? 0 : 1) // Adjust opacity based on showTopBar state
-                            .offset(y: showTopBar ? UIScreen.main.bounds.height / 1.4 : 0) // Move off-screen when fading out
+                            .allowsHitTesting(!showTopBar || !showSettings || !showHelpMenu) // Disables interaction when top bar is hidden
+                            .opacity(showTopBar || showHelpMenu || showSettings ? 0 : 1) // Adjust opacity based on showTopBar state
+                            .offset(y: showTopBar || showHelpMenu || showSettings ? UIScreen.main.bounds.height / 1.4 : 0) // Move off-screen when fading out
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                         }
                     }
                 }
             }
             
-            if showMenu {
-                
-                CameraHelpToolbar(showMenu: $showMenu)
+            if showHelpMenu {
+                CameraHelpToolbar(showHelpMenu: $showHelpMenu)
                     .cornerRadius(40)
                     .transition(.move(edge: .bottom))
-                    .offset(y: showMenu ? 20 : UIScreen.main.bounds.height)
-                    
+                    .offset(y: showHelpMenu ? 20 : UIScreen.main.bounds.height)
             }
             
             if showOutput {
                 ZStack {
-                    CameraModelOutputView(modelOutput: self.modelOuput)
-                        .padding(.bottom, 120)
+                    if let label1 = self.outputData["label_1"] as? String {
+                        CameraModelOutputView(modelOutput: label1, modelInstructions: self.outputData["label_2"] as! String, modelConfidence: self.outputData["confidence"] as! Double)
+                                                .padding(.bottom, 120)
+                    } else {
+                        Text("No output available").padding(.bottom, 120)
+                    }
                 }
                 .transition(.scale)
             }

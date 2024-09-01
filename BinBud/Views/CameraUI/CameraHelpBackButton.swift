@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CameraHelpBackButton: View {
     
-    @Binding var showMenu: Bool
+    @Binding var showHelpMenu: Bool
     
     var body: some View {
         ZStack{
@@ -28,5 +28,5 @@ struct CameraHelpBackButton: View {
 }
 
 #Preview {
-    CameraHelpBackButton(showMenu: .constant(false))
+    CameraHelpBackButton(showHelpMenu: .constant(false))
 }

@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct CameraHelpToolbar: View {
-    @Binding var showMenu: Bool
+    @Binding var showHelpMenu: Bool
+    
     @State var camera = CameraModel()
     @State private var isVisible = true
     @State private var backgroundOpacity = 1.0 // Starting Opacity
@@ -29,11 +30,12 @@ struct CameraHelpToolbar: View {
                         HStack {
                             Spacer()
                             
-                            CameraHelpBackButton(showMenu: $showMenu)
+                            CameraHelpBackButton(showHelpMenu: $showHelpMenu)
                                 .padding(.trailing, 30)
                                 .onTapGesture {
                                     withAnimation(.easeInOut(duration: 0.3)) {
-                                        self.showMenu.toggle()
+                                        self.showHelpMenu.toggle()
+                                        
                                     }
                                 }
                         }
@@ -78,7 +80,7 @@ struct CameraHelpToolbar: View {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                self.showMenu.toggle()
+                                self.showHelpMenu.toggle()
                                 self.dragOffset = .zero
                             }
                         } else {
@@ -95,7 +97,7 @@ struct CameraHelpToolbar: View {
 
 #Preview {
     ZStack {
-        CameraHelpToolbar(showMenu: .constant(true))
+        CameraHelpToolbar(showHelpMenu: .constant(true))
             .offset(y: 30)
     }
 }

@@ -75,42 +75,42 @@ import CoreML
 
     
     func check(){
-        
-        //Checking for camera permissions
-        switch  AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            print("camera settings authorized")
-            setUp()
-            return
-            //Setting up the session
-        case .notDetermined :
-            print("camera settings notDetermined")
-            //Retrusting Permissions
-            AVCaptureDevice.requestAccess(for: .video) { status in
-                if status {
-                    print("status true")
-                    self.setUp() // Call your setup method if access is granted
-                    
-                } else {
-                    // Handle the case where access is denied
-                    print("else")
-                    
-                    
+            
+            //Checking for camera permissions
+            switch  AVCaptureDevice.authorizationStatus(for: .video) {
+            case .authorized:
+                print("camera settings authorized")
+                setUp()
+                return
+                //Setting up the session
+            case .notDetermined :
+                print("camera settings notDetermined")
+                //Retrusting Permissions
+                AVCaptureDevice.requestAccess(for: .video) { status in
+                    if status {
+                        print("status true")
+                        self.setUp() // Call your setup method if access is granted
+                        
+                    } else {
+                        // Handle the case where access is denied
+                        print("else")
+                        
+                        
+                    }
                 }
+            case .denied :
+                self.alert.toggle()
+                print("denied")
+                DispatchQueue.main.async {
+                    self.showSettingsAlert()
+                }
+                return
+            
+            default:
+                print("default")
+                return
             }
-        case .denied :
-            self.alert.toggle()
-            print("denied")
-            DispatchQueue.main.async {
-                self.showSettingsAlert()
-            }
-            return
-        
-        default:
-            print("default")
-            return
         }
-    }
     
     func setUp() {
         //Setting up the Camera
@@ -197,53 +197,27 @@ import CoreML
     }
     
     
-    func savePic() -> String {
+    func savePic(completion: @escaping ([String : Any]) -> Void) {
         let curImage = UIImage(data: self.picData)!
         
-        
-        //Saves image but for right now... we dont want to
-        //We just want to send image to the model
-        
-        //UIImageWriteToSavedPhotosAlbum(curImage, nil, nil, nil)
-        self.isSaved = true
-        print("savedImage Successfully. Going to model call() ")
-
-        
         // Resizing Image for input of BinBud Model
-        let targetSize = CGSize(width: 224, height: 224) //
+        let targetSize = CGSize(width: 224, height: 224)
         let resizedImage = self.resizeImage(image: curImage, targetSize: targetSize)
         
-        let modelOutput = self.runModel(image : resizedImage)
-        return modelOutput
-    
-    }
-    
-    func runModel(image: UIImage) -> String{
-        // Initialize the model with a configuration
-        do {
-                let model = try newPackage(configuration: MLModelConfiguration())
-                
-                // Convert UIImage to CVPixelBuffer (CoreML requires input as CVPixelBuffer)
-                guard let pixelBuffer = image.toCVPixelBuffer() else {
-                    print("Failed to convert UIImage to CVPixelBuffer")
-                    return ""
-                }
-                
-                // Perform prediction
-                let prediction = try model.prediction(input_3: pixelBuffer)
-                print("Prediction: \(prediction.Identity) ANSWER")
-                let output = BinBudOutput.findMaxValueInMultiArray(outputArray: prediction.Identity)
-                print("output: \(String(describing: output))")
-                
-                return output
-            
-                
-            } catch {
-                print("Error initializing model or making prediction: \(error)")
+        print("savedImage Successfully. Going to model call() ")
+        self.isSaved = true
+        
+        // Call runModel and handle the completion
+        runModel(image: resizedImage) { returnedData in
+            // Process the returned data
+            if let modelOutput = returnedData as? [String : Any] {
+                completion(modelOutput)  // Pass the result back via the completion handler
+            } else {
+                completion([:])  // Return an empty dictionary if the data is not as expected
             }
-        return ""
+        }
     }
-
+    
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
         // This will force the image to the target size without maintaining aspect ratio
         let rect = CGRect(origin: .zero, size: targetSize)
@@ -255,41 +229,142 @@ import CoreML
         
         return newImage!
     }
+    
+    func runModel(image: UIImage, _ completion: @escaping ([String: Any]) -> Void) {
+        do {
+            let model = try noProcessBinBud(configuration: MLModelConfiguration())
+            let serverURL = URL(string: "http://192.168.1.70:5002/upload")!
+            
+            // Call the sendImageToServer function with the image, URL, and completion handler
+            sendImageToServer(image: image, url: serverURL) { outputDict in
+                completion(outputDict) // <- Passes the result back via the completion handler
+            }
+            
+        } catch {
+            print("Error initializing model or making prediction: \(error)")
+            completion([:]) // Return an empty dictionary if an error occurs
+        }
+    }
 
+
+    func sendImageToServer(image: UIImage, url: URL, completion: @escaping ([String: Any]) -> Void) {
+        // Convert UIImage to JPEG data
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+            print("Failed to convert UIImage to data.")
+            completion([:])
+            return
+        }
+
+        // Generate boundary string using a unique per-app string
+        let boundary = UUID().uuidString
+
+        // Set the URLRequest to POST and to the specified URL
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        
+        // Set Content-Type Header to multipart/form-data and the boundary
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        // Create the form data with the boundary
+        var data = Data()
+        
+        // Add the image data to the raw HTTP request data
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"file\"; filename=\"BinBudImage.jpg\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+        data.append(imageData)
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+
+        // Send a POST request to the URL, with the data we created earlier
+        URLSession.shared.uploadTask(with: urlRequest, from: data) { responseData, response, error in
+            if let error = error {
+                print("Error sending image: \(error.localizedDescription)")
+                completion([:]) // Return an empty dictionary in case of error
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse {
+                print("HTTP Response: \(response.statusCode)")
+            }
+            
+            guard let responseData = responseData else {
+                print("No response data received.")
+                completion([:]) // Return an empty dictionary if no data is received
+                return
+            }
+            
+            do {
+                // **Parsing the JSON response**:
+                if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("Parsed JSON Response: \(json)")
+                    
+                    // **Extracting values from the parsed JSON response**:
+                    if let label1 = json["label_1"] as? String,
+                       let confidence = json["confidence"] as? Double,
+                       let label2 = json["label_2"] as? String {
+                        
+                        var result: [String: Any] = [:]
+                        result["label_1"] = label1
+                        result["confidence"] = confidence
+                        result["label_2"] = label2
+                        completion(result) // Return the result dictionary
+                        return
+                    } else {
+                        print("Unexpected response format.")
+                        completion([:])
+                        return
+                    }
+                } else {
+                    print("Failed to cast JSON response to dictionary.")
+                    completion([:])
+                }
+            } catch {
+                print("Failed to parse JSON response: \(error.localizedDescription)")
+                completion([:])
+            }
+        }.resume()
+    }
+    
     
     func showSettingsAlert() {
-            let alert = UIAlertController(
-                title: "Camera Access Needed",
-                message: "Please enable camera access in your settings to use the camera features.",
-                preferredStyle: .alert
-            )
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { _ in
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            }))
-            
-            // Get the topmost view controller to present the alert
-            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-               let keyWindow = windowScene.keyWindow,
-               let topController = keyWindow.rootViewController {
+                let alert = UIAlertController(
+                    title: "Camera Access Needed",
+                    message: "Please enable camera access in your settings to use the camera features.",
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { _ in
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
+                }))
+                
+                // Get the topmost view controller to present the alert
+                if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                   let keyWindow = windowScene.keyWindow,
+                   let topController = keyWindow.rootViewController {
 
-                // Traverse to the top-most presented view controller
-                var currentController = topController
-                while let presentedViewController = currentController.presentedViewController {
-                    currentController = presentedViewController
-                }
+                    // Traverse to the top-most presented view controller
+                    var currentController = topController
+                    while let presentedViewController = currentController.presentedViewController {
+                        currentController = presentedViewController
+                    }
 
-                // Present the alert on the top-most view controller
-                currentController.present(alert, animated: true, completion: nil)
-            }
+                    // Present the alert on the top-most view controller
+                    currentController.present(alert, animated: true, completion: nil)
+                }
         }
-    
-    
-    
-    
+
 }
+
+
+    
+
+    
+
+    
+    
+
 
 // Code found from https://www.createwithswift.com/uiimage-cvpixelbuffer-converting-an-uiimage-to-a-pixelbuffer/
 extension UIImage {
