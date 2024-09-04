@@ -232,8 +232,8 @@ import CoreML
     
     func runModel(image: UIImage, _ completion: @escaping ([String: Any]) -> Void) {
         do {
-            let model = try noProcessBinBud(configuration: MLModelConfiguration())
-            let serverURL = URL(string: "http://192.168.1.70:5002/upload")!
+            
+            let serverURL = URL(string: "http://192.168.1.223:5002/upload")!
             
             // Call the sendImageToServer function with the image, URL, and completion handler
             sendImageToServer(image: image, url: serverURL) { outputDict in

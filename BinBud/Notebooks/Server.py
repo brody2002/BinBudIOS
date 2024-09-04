@@ -37,7 +37,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 from BinBudMethods import BinBud
 
-vgg16 = load_model("C:/Users/14158/BrodyCode/HackDavis/FINAL_VGG16.keras")
+vgg16 = load_model('/Users/BroBro/Desktop/BrodyCode/IosApp/BinBudIOS/BinBud/Notebooks/BinBud-Version-2.keras')
 model = BinBud(model=vgg16)
 
 
@@ -60,7 +60,7 @@ def upload_image():
 
     if file:
         filename = file.filename
-        folderpath = 'C:/Users/14158/OneDrive/Desktop/ServerImages'
+        folderpath = '/Users/BroBro/Desktop/BrodyCode/IosApp/BinBudIOS/BinBud/Notebooks'
         # Corrected the filepath by removing the extra quotes
         filepath = os.path.join(folderpath, filename)
         

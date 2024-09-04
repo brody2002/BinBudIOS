@@ -15,41 +15,51 @@ struct AboutMeView: View {
                 
                 VStack {
                     Spacer()
-                    Image(systemName: "photo")
+                    Image("Icon")
                         .resizable()
                         .frame(width: 100, height: 100)
-                        .padding(.top, 40)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding(.top,40)
                     
                     Text("BinBud")
                         .multilineTextAlignment(.center)
                         .foregroundColor(.black)
                         .font(.system(size: 35))
                     
-                    Link("https://devpost.com/software/binbud", destination: URL(string: "https://devpost.com/software/binbud")!)
-                        .tint(AppColors.cameraButtonColor)
-                        .padding(.top, 40)
-                        .font(.system(size: 20))
+                    Link(destination: URL(string: "https://devpost.com/software/binbud")!) {
+                        Text("https://devpost.com/software/binbud")
+                            .tint(AppColors.cameraButtonColor)
+                            .padding(.top, 20)
+                            .font(.system(size: 16))
+                            .underline()  // Ensure underline is applied
+                    }
+
+                        
                     
                     Text("Contact us:")
                         .foregroundColor(.black)
                         .padding(.top, 40)
-                        .font(.system(size: 20))
+                        .font(.system(size: 16))
                     
-                    Link("brodyroberts202@gmail.com", destination: URL(string: "mailto:brodyroberts202@gmail.com")!)
+                    Link(destination: URL(string: "mailto:brodyroberts202@gmail.com")!){
+                        Text("brodyroberts202@gmail.com")
+                        .underline()
                         .tint(AppColors.cameraButtonColor)
                         .padding(.top, 1)
-                        .font(.system(size: 20))
+                        .font(.system(size: 16))
+                    }
+                        
                     
                     Text("San Francisco, Ca")
                         .padding(.top, 1)
-                        .font(.system(size: 20))
+                        .font(.system(size: 16))
                     
                     Spacer()
                         .padding(.bottom, 400)
                 }
                 // Ensure padding on the bottom to avoid clipping
             }
-            .cornerRadius(14)
+            .cornerRadius(10)
             .offset(y: self.dragOffset.height)
             .offset(y: 40) // Apply the drag offset to move the view
             .onAppear {
@@ -66,7 +76,7 @@ struct AboutMeView: View {
                     }
                     .onEnded { value in
                         if value.translation.height > 300 {
-                            withAnimation(.easeInOut(duration: 0.3)) {
+                            withAnimation(.easeInOut(duration: 0.1)) {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

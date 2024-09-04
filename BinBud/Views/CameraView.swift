@@ -1,15 +1,27 @@
-
 import SwiftUI
 import AVFoundation
 
 struct CameraView: View {
+    
+    // For Ternary Animations
+    
     @State private var showHelpMenu = false
-    @State private var showTopBar = false
+    @State private var hideCameraUI = false
     @State private var showSettings = false
     @State private var showOutput = false
+    
+    //For Camera API
+    
     @State var camera = CameraModel()
+    
+    // For Model Output
     @State var outputData: [String: Any] = [:]
     @State var image: UIImage? = nil
+    
+    // For Double Taps
+    @State private var doubleTapCount = 0
+    @State private var tapCount = 0
+    @State private var tapTimer: Timer?
 
     var body: some View {
         ZStack {
@@ -18,6 +30,13 @@ struct CameraView: View {
                 .onReceive(NotificationCenter.default.publisher(for: .AVCaptureSessionRuntimeError), perform: { notification in
                     print("🤙 error!! \(notification.object)")
                 })
+                .onTapGesture(count: 2) {
+                    print("double")
+                    withAnimation{
+                        camera.switchCamera()
+                    }
+                    
+                }
             
             if !showHelpMenu && !showSettings {
                 VStack {
@@ -28,15 +47,14 @@ struct CameraView: View {
                                 .onTapGesture {
                                     withAnimation {
                                         self.showSettings.toggle()
-                                        self.showTopBar = false
-                                        print("show settings true")
+                                        self.hideCameraUI = false
+                                        
                                     }
                                 }
                             Spacer()
                         }
                         CameraFlipButton().onTapGesture {
                             withAnimation {
-                                print("CameraFlipButton tapped")
                                 camera.switchCamera()
                             }
                         }
@@ -45,21 +63,20 @@ struct CameraView: View {
                             CameraHelpButton()
                                 .padding(.trailing, 30)
                                 .onTapGesture {
-                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                    withAnimation{
                                         self.showHelpMenu.toggle()
-                                        self.showTopBar = false
-                                        print("toggle button")
+                                        self.hideCameraUI = false
                                     }
                                 }
                         }
                     }
                     //Entrance or Default
-                    .allowsHitTesting(!showTopBar || !showHelpMenu || !showSettings)
+                    .allowsHitTesting(!hideCameraUI || !showHelpMenu || !showSettings)
+                    .offset(y: hideCameraUI || showHelpMenu || showSettings ? -UIScreen.main.bounds.height / 2 : 0)
+                    .opacity(hideCameraUI || showHelpMenu || showSettings ? 0 : 1) // True -> visiable
                     
-                    .opacity(showTopBar || showHelpMenu || showSettings ? 0 : 1) // True -> visiable
-                    .offset(y: showTopBar || showHelpMenu || showSettings ? -UIScreen.main.bounds.height / 2 : 0)
                     .transition(.move(edge: .top).combined(with: .opacity)) // Move and fade out together
-
+                    
                     Spacer()
                     
                     HStack {
@@ -70,7 +87,7 @@ struct CameraView: View {
                                     .onTapGesture {
                                         withAnimation {
                                             self.showOutput = false
-                                            self.showTopBar = false
+                                            self.hideCameraUI = false
                                             camera.retakePic()
                                         }
                                     }
@@ -86,18 +103,15 @@ struct CameraView: View {
                                                 withAnimation {
                                                     print("Cameraview dict: \(self.outputData)")
                                                     self.showOutput = true
-                                                    self.showTopBar = true
+                                                    self.hideCameraUI = true
                                                 }
-                                                print("Saved image")
-                                                print("Showing output")
-                                                print("Output data: \(self.outputData)")
                                             }
                                         }
                                     }
                             }
                             
-            
-            
+                            
+                            
                             
                             
                             
@@ -111,22 +125,23 @@ struct CameraView: View {
                                     .padding(.bottom, 60)
                                     .onTapGesture {
                                         withAnimation {
-                                            self.showTopBar.toggle()
+                                            self.hideCameraUI.toggle()
                                             
                                         }
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Adjust the delay duration as needed
                                             camera.takePic()
-                                                    }
+                                        }
                                     }
                             }
-                            .allowsHitTesting(!showTopBar || !showSettings || !showHelpMenu) // Disables interaction when top bar is hidden
-                            .opacity(showTopBar || showHelpMenu || showSettings ? 0 : 1) // Adjust opacity based on showTopBar state
-                            .offset(y: showTopBar || showHelpMenu || showSettings ? UIScreen.main.bounds.height / 1.4 : 0) // Move off-screen when fading out
+                            .allowsHitTesting(!hideCameraUI || !showSettings || !showHelpMenu) // Disables interaction when top bar is hidden
+                            .opacity(hideCameraUI || showHelpMenu || showSettings ? 0 : 1) // Adjust opacity based on hideCameraUI state
+                            .offset(y: hideCameraUI || showHelpMenu || showSettings ? UIScreen.main.bounds.height / 1.4 : 0) // Move off-screen when fading out
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                         }
                     }
                 }
             }
+            
             
             if showHelpMenu {
                 CameraHelpToolbar(showHelpMenu: $showHelpMenu)
@@ -139,14 +154,15 @@ struct CameraView: View {
                 ZStack {
                     if let label1 = self.outputData["label_1"] as? String {
                         CameraModelOutputView(modelOutput: label1, modelInstructions: self.outputData["label_2"] as! String, modelConfidence: self.outputData["confidence"] as! Double)
-                                                .padding(.bottom, 120)
+                                                
                     } else {
-                        Text("No output available").padding(.bottom, 120)
+                        CameraModelOutputView(modelOutput: "Unknown", modelInstructions: "Sorry! The servers are down!", modelConfidence: 0.0)
                     }
                 }
+                .padding(.bottom, 120)
                 .transition(.scale)
             }
-            
+                
             if showSettings {
                 SettingsView(showSettings: $showSettings)
                     .transition(.move(edge: .leading)) // Transition from the left
@@ -155,11 +171,34 @@ struct CameraView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
+    
+//    func handleTap() {
+//        tapCount += 1
+//        
+//        // Cancel any existing timer
+//        tapTimer?.invalidate()
+//
+//        if tapCount == 2 {
+//            print("double tap active")
+//            doubleTapCount += 1
+//            tapCount = 0 // Reset tap count after detecting double tap
+//            withAnimation {
+//                camera.switchCamera() // Switch the camera on double tap
+//            }
+//        } else {
+//            // Start a timer to reset tapCount after a short interval
+//            tapTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
+//                tapCount = 0
+//            }
+//        }
+//    }
 }
 
 #Preview {
     CameraView()
 }
+
+
 
 struct CameraPreview: UIViewRepresentable {
     @ObservedObject var camera: CameraModel
@@ -182,3 +221,4 @@ struct CameraPreview: UIViewRepresentable {
         // Updating the UI
     }
 }
+
