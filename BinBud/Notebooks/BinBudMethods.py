@@ -34,7 +34,8 @@ from keras.applications.vgg16 import preprocess_input
 class BinBud:
     def __init__(self, model) -> None:
         self.vgg16 = model
-        self.outputs = ["battery", "biological", "cardboard", "cement", " clothes", "electronics", "glass", "leather", "metal","paper", "plastic", "rubber", "trash", "wood"]
+        self.outputs = ["battery", "biological", "cardboard", "cement",
+        "clothes", "electronics", "glass", "leather", "metal","paper", "plastic", "rubber", "trash", "wood"]
 
     def load_and_preprocess_image(self, img_path):
         img = image.load_img(img_path, target_size=(224, 224))

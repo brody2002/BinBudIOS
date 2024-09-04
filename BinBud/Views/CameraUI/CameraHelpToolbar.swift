@@ -80,11 +80,14 @@ struct CameraHelpToolbar: View {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                self.showHelpMenu.toggle()
-                                self.dragOffset = .zero
+                                withAnimation{
+                                    self.showHelpMenu.toggle()
+                                    self.dragOffset = .zero
+                                }
+                                
                             }
                         } else {
-                            withAnimation(.easeInOut(duration: 0.3)) {
+                            withAnimation{
                                 self.dragOffset = .zero
                             }
                         }
