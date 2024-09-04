@@ -34,7 +34,8 @@ from keras.applications.vgg16 import preprocess_input
 class BinBud:
     def __init__(self, model) -> None:
         self.vgg16 = model
-        self.outputs = ["battery", "biological", "cardboard", "cement", " clothes", "electronics", "glass", "leather", "metal","paper", "plastic", "rubber", "trash", "wood"]
+        self.outputs = ["battery", "biological", "cardboard", "cement",
+        "clothes", "electronics", "glass", "leather", "metal","paper", "plastic", "rubber", "trash", "wood"]
 
     def load_and_preprocess_image(self, img_path):
         img = image.load_img(img_path, target_size=(224, 224))
@@ -86,7 +87,7 @@ class BinBud:
             elif predicted_value == "cement":
                 solutionString = f"Your waste material is {predicted_value}. Therefore, it should be disposed of in construction waste."
             elif predicted_value == "clothes":
-                solutionString = f"Your waste material is {predicted_value}. Therefore, you should donate it or dispose of it in a textile recycling bin."
+                solutionString = f"Your waste material is {predicted_value}. Therefore, you should donate it or dispose of it in a textile bin."
             elif predicted_value == "glass":
                 solutionString = f"Your waste material is {predicted_value}. Therefore, you should recycle it."
             elif predicted_value == "leather":

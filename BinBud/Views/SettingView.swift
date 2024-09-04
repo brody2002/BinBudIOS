@@ -15,7 +15,7 @@ struct SettingsView: View {
                 GeometryReader { geometry in
                     VStack(alignment: .leading) {
                         HStack {
-                            Text("BINBUD")
+                            Text("BinBud")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .padding(.leading, 0)
@@ -100,7 +100,9 @@ struct SettingsView: View {
                                         isVisible = false
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        self.showSettings = false
+                                        withAnimation{
+                                            self.showSettings = false
+                                        }
                                     }
                                 } else { // Snap back to original position
                                     withAnimation(.easeInOut(duration: 0.3)) {
