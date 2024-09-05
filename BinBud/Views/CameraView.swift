@@ -81,18 +81,10 @@ struct CameraView: View {
                     
                     HStack {
                         if camera.isTaken {
-                            VStack {
-                                CameraRetakeButton()
-                                    .padding(.leading)
-                                    .onTapGesture {
-                                        withAnimation {
-                                            self.showOutput = false
-                                            self.hideCameraUI = false
-                                            camera.retakePic()
-                                        }
-                                    }
+                            ZStack {
+                                
                                 CameraSaveButton()
-                                    .padding(.leading)
+                                    .padding(.leading,-110)
                                     .onTapGesture {
                                         if !camera.isSaved {
                                             
@@ -106,6 +98,15 @@ struct CameraView: View {
                                                     self.hideCameraUI = true
                                                 }
                                             }
+                                        }
+                                    }
+                                CameraRetakeButton()
+                                    .padding(.leading,240)
+                                    .onTapGesture {
+                                        withAnimation {
+                                            self.showOutput = false
+                                            self.hideCameraUI = false
+                                            camera.retakePic()
                                         }
                                     }
                             }

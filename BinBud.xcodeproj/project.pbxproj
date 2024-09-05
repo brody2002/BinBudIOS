@@ -29,6 +29,7 @@
 		96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */; };
 		96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C82C7E8B5E006E2028 /* SettingView.swift */; };
 		96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5CB2C7FCA50006E2028 /* AboutMeView.swift */; };
+		96F934F72C8A694600653ABA /* CameraPhotoOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F934F62C8A694600653ABA /* CameraPhotoOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInstructionView.swift; sourceTree = "<group>"; };
 		96E8E5C82C7E8B5E006E2028 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		96E8E5CB2C7FCA50006E2028 /* AboutMeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeView.swift; sourceTree = "<group>"; };
+		96F934F62C8A694600653ABA /* CameraPhotoOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPhotoOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 				96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */,
 				96E8E5C62C7E89D4006E2028 /* CameraInstructionView.swift */,
 				963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */,
+				96F934F62C8A694600653ABA /* CameraPhotoOptions.swift */,
 			);
 			path = CameraUI;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */,
 				961542D42C78FD0100BCD7E9 /* Logo.swift in Sources */,
 				96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */,
+				96F934F72C8A694600653ABA /* CameraPhotoOptions.swift in Sources */,
 				96B539F22C792604002F4A73 /* CameraRetakeButton.swift in Sources */,
 				96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */,
 				961542C52C78F7AF00BCD7E9 /* BinBudApp.swift in Sources */,

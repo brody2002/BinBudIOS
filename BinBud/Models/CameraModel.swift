@@ -231,20 +231,34 @@ import CoreML
     }
     
     func runModel(image: UIImage, _ completion: @escaping ([String: Any]) -> Void) {
-        do {
-            
-            let serverURL = URL(string: "http://192.168.1.223:5002/upload")!
-            
-            // Call the sendImageToServer function with the image, URL, and completion handler
-            sendImageToServer(image: image, url: serverURL) { outputDict in
-                completion(outputDict) // <- Passes the result back via the completion handler
+        let serverURL = URL(string: "http://192.168.1.223:5002/upload")!
+        
+        // Set up a URL request with a short timeout interval
+        var request = URLRequest(url: serverURL)
+        request.httpMethod = "HEAD" // Check if the server is available without sending data
+        request.timeoutInterval = 0.6 // Set a timeout interval of 5 seconds (or adjust as needed)
+        
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                // If the URL is not reachable or there is a network error, print error and return empty dict
+                print("Error: Could not reach server: \(error.localizedDescription)")
+                completion([:]) // Return empty dictionary in case of error
+                return
             }
             
-        } catch {
-            print("Error initializing model or making prediction: \(error)")
-            completion([:]) // Return an empty dictionary if an error occurs
-        }
+            if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                // If the server responds with a valid status code, proceed with sending the image
+                self.sendImageToServer(image: image, url: serverURL) { outputDict in
+                    completion(outputDict) // Pass the result back via the completion handler
+                }
+            } else {
+                // If the server returns an invalid status code, handle it
+                print("Server responded with a status code: \(response.debugDescription)")
+                completion([:]) // Return empty dictionary if the status code is invalid
+            }
+        }.resume()
     }
+
 
 
     func sendImageToServer(image: UIImage, url: URL, completion: @escaping ([String: Any]) -> Void) {

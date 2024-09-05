@@ -11,13 +11,27 @@ struct CameraSaveButton: View {
     
     
     var body: some View {
-        Text("Use Image")
-            .foregroundColor(AppColors.accentColor)
-            .fontWeight(.semibold)
-            .padding(.vertical, 10)
-            .padding(.horizontal, 30)
-            .background(AppColors.mainColor)
-            .clipShape(Capsule())
+        ZStack {
+            Image(systemName: "camera.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(AppColors.cameraButtonColor)
+                .frame(width: 40, height: 40) // Set the desired size
+                .padding(.bottom, 60)
+            Text("Use Image")
+                .foregroundColor(.white)
+                .font(.system(size: 16))
+                .bold()
+                .padding(.top, 20)
+
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(AppColors.settingsColor)
+                .frame(width: 120, height: 120)
+                
+        )
+        
     }
 }
 

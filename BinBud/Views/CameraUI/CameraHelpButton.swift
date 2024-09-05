@@ -10,13 +10,11 @@ import SwiftUI
 struct CameraHelpButton: View {
     var body: some View {
         ZStack{
-            Circle()
+            Image(systemName: "questionmark.circle.fill")
+                .resizable()
+                .frame(width: 26, height: 26)
                 .foregroundColor(AppColors.cameraButtonColor)
-                .frame(width: 30, height: 30)
-            Text("?")
-                .foregroundColor(.black)
-                .font(.system(size: 25))
-                .bold()
+            
             
                 
         }.background(

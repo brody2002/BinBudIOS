@@ -18,13 +18,27 @@ struct CameraRetakeButton: View {
     
     
     var body: some View {
-        Text("Retake Photo")
-            .foregroundColor(.black)
-            .fontWeight(.semibold)
-            .padding(.vertical, 10)
-            .padding(.horizontal, 30)
-            .background(AppColors.unsave)
-            .clipShape(Capsule())
+        ZStack {
+            Image(systemName: "repeat.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(AppColors.cameraButtonColor)
+                .frame(width: 35, height: 35) // Set the desired size
+                .padding(.bottom, 60)
+            Text("Retake Image")
+                .foregroundColor(.white)
+                .font(.system(size: 16))
+                .bold()
+                .padding(.top, 20)
+
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(AppColors.settingsColor)
+                .frame(width: 120, height: 120)
+                
+        )
+            
     }
 }
 
