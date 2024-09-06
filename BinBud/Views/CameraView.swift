@@ -14,6 +14,7 @@ struct CameraView: View {
     
     @State var camera = CameraModel()
     
+    
     // For Model Output
     @State var outputData: [String: Any] = [:]
     @State var image: UIImage? = nil
@@ -172,27 +173,7 @@ struct CameraView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-    
-//    func handleTap() {
-//        tapCount += 1
-//        
-//        // Cancel any existing timer
-//        tapTimer?.invalidate()
-//
-//        if tapCount == 2 {
-//            print("double tap active")
-//            doubleTapCount += 1
-//            tapCount = 0 // Reset tap count after detecting double tap
-//            withAnimation {
-//                camera.switchCamera() // Switch the camera on double tap
-//            }
-//        } else {
-//            // Start a timer to reset tapCount after a short interval
-//            tapTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
-//                tapCount = 0
-//            }
-//        }
-//    }
+
 }
 
 #Preview {
@@ -206,6 +187,7 @@ struct CameraPreview: UIViewRepresentable {
     
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: UIScreen.main.bounds)
+        view.backgroundColor = .black
         camera.preview = AVCaptureVideoPreviewLayer(session: camera.session)
         camera.preview.frame = view.frame
         camera.preview.videoGravity = .resizeAspectFill
