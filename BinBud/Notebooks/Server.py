@@ -37,7 +37,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 from BinBudMethods import BinBud
 
-vgg16 = load_model('/Users/BroBro/Desktop/BrodyCode/IosApp/BinBudIOS/BinBud/Notebooks/BinBud-Version-2.keras')
+vgg16 = load_model('/Users/BroBro/Desktop/BinBud-Version-2.keras')
 model = BinBud(model=vgg16)
 
 
