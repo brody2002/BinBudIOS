@@ -75,7 +75,7 @@ struct AboutMeView: View {
                         }
                     }
                     .onEnded { value in
-                        if value.translation.height > 300 {
+                        if value.translation.height > 200 {
                             withAnimation(.easeInOut(duration: 0.1)) {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }

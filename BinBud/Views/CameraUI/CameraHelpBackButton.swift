@@ -13,13 +13,19 @@ struct CameraHelpBackButton: View {
     
     var body: some View {
         ZStack{
-            Circle()
-                .stroke(AppColors.settingsColor, lineWidth: 4)
-                .frame(width: 36,height: 36)
-            Text("X")
-                .foregroundColor(AppColors.settingsColor)
-                .font(.system(size: 26))
-                .bold()
+            Image(systemName: "chevron.backward.circle.fill")
+                .resizable()
+                .frame(width: 35, height: 35)
+                .foregroundColor(.white)
+                .rotationEffect(.degrees(-90))
+                .onTapGesture {
+                    print("tapped help back")
+                    withAnimation(.spring(response: 0.3, blendDuration: 0.9)) {
+//                      
+                        self.showHelpMenu = false
+                        
+                    }
+                }
                 
         }
 
@@ -28,5 +34,9 @@ struct CameraHelpBackButton: View {
 }
 
 #Preview {
-    CameraHelpBackButton(showHelpMenu: .constant(false))
+    ZStack{
+        Color.red
+        CameraHelpBackButton(showHelpMenu: .constant(false))
+    }
+    
 }

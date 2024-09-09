@@ -231,7 +231,7 @@ import CoreML
     }
     
     func runModel(image: UIImage, _ completion: @escaping ([String: Any]) -> Void) {
-        let serverURL = URL(string: "https://ef05-157-131-246-142.ngrok-free.app/upload")!
+        let serverURL = URL(string: "https://19a9-157-131-246-142.ngrok-free.app/upload")!
         
         self.sendImageToServer(image: image, url: serverURL){ outputDict in
                                 completion(outputDict) // Pass the result back via the completion handler

@@ -11,7 +11,7 @@ struct CameraHelpToolbar: View {
     var body: some View {
         if isVisible {
             ZStack {
-                Color(AppColors.settingsBackground)
+                Color(.clear)
                     .opacity(backgroundOpacity)
                     .ignoresSafeArea()
                 
@@ -20,9 +20,9 @@ struct CameraHelpToolbar: View {
                     ZStack {
                         HStack{
                             Text("How to Use")
-                                .font(.system(size: 36))
+                                .font(.system(size: 50))
                                 .bold()
-                                .foregroundColor(AppColors.settingsColor)
+                                .foregroundColor(.white)
                                 .multilineTextAlignment(.leading)
                             Spacer()
                             
@@ -32,12 +32,7 @@ struct CameraHelpToolbar: View {
                             
                             CameraHelpBackButton(showHelpMenu: $showHelpMenu)
                                 .padding(.trailing, 30)
-                                .onTapGesture {
-                                    withAnimation(.easeInOut(duration: 0.3)) {
-                                        self.showHelpMenu.toggle()
-                                        
-                                    }
-                                }
+                                
                         }
                     }
                     ScrollView {
@@ -75,8 +70,8 @@ struct CameraHelpToolbar: View {
                         }
                     }
                     .onEnded { value in
-                        if value.translation.height > 300 {
-                            withAnimation(.easeInOut(duration: 0.3)) {
+                        if value.translation.height > 200 {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -100,6 +95,7 @@ struct CameraHelpToolbar: View {
 
 #Preview {
     ZStack {
+        Color.red
         CameraHelpToolbar(showHelpMenu: .constant(true))
             .offset(y: 30)
     }

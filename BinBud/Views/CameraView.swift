@@ -64,7 +64,7 @@ struct CameraView: View {
                             CameraHelpButton()
                                 .padding(.trailing, 30)
                                 .onTapGesture {
-                                    withAnimation{
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)){
                                         self.showHelpMenu.toggle()
                                         self.hideCameraUI = false
                                     }
@@ -150,6 +150,8 @@ struct CameraView: View {
                     .cornerRadius(40)
                     .transition(.move(edge: .bottom))
                     .offset(y: showHelpMenu ? 20 : UIScreen.main.bounds.height)
+                    .transition(.move(edge: .bottom)) // Apply transition animation
+                                        .zIndex(1) // Ensure it's on top
             }
             
             if showOutput {
