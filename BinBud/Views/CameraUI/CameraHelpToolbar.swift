@@ -37,6 +37,7 @@ struct CameraHelpToolbar: View {
                     }
                     ScrollView {
                         VStack(spacing: 20) { // Added spacing between the rectangles
+                            
                             RoundedRectangle(cornerRadius: 30)
                                 .foregroundColor(.white)
                                 .frame(width: 340, height: 300)
@@ -74,7 +75,7 @@ struct CameraHelpToolbar: View {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 withAnimation{
                                     self.showHelpMenu.toggle()
                                     self.dragOffset = .zero

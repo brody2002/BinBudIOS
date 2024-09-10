@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Binding var showSettings: Bool
+    @Binding var hideCameraUI: Bool
     @State private var isVisible = true
     @State private var isDiscordHold = false
     @State private var isAboutHold = false
@@ -38,7 +39,7 @@ struct SettingsView: View {
                             .onTapGesture {
                                 self.isAboutPress.toggle()                       }
                             .onLongPressGesture(minimumDuration: 3, pressing: { isPressing in
-                                    withAnimation(.easeInOut(duration: 0.3)){
+                                    withAnimation(.easeInOut(duration: 0.5)){
                                         self.isAboutHold = isPressing
                                     }
                                 }, perform: {
@@ -65,7 +66,7 @@ struct SettingsView: View {
                                                     }
                             }
                             .onLongPressGesture(minimumDuration: 3, pressing: { isPressing in
-                                    withAnimation(.easeInOut(duration: 0.3)){
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                         self.isDiscordHold = isPressing
                                     }
                                 }, perform: {
@@ -93,23 +94,29 @@ struct SettingsView: View {
                                     self.dragOffset = value.translation
                                 }
                             }
-                            .onEnded { value in
-                                if value.translation.width < -50 { // Swipe left sufficiently
-                                    withAnimation(.easeInOut(duration: 0.3)) {
-                                        self.dragOffset = CGSize(width: -geometry.size.width, height: 0)
-                                        isVisible = false
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        withAnimation{
-                                            self.showSettings = false
+                            .onEnded { gesture in
+                                if gesture.translation.width < -60 { // Threshold for swipe
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                        self.dragOffset.width = -UIScreen.main.bounds.width
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            
+                                                self.hideCameraUI = false
+                                                self.showSettings = false
+                                                
+                                            
+                                            
                                         }
+                                        
                                     }
-                                } else { // Snap back to original position
-                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                    
+                                } else {
+                                    withAnimation{
                                         self.dragOffset = .zero
                                     }
+                                    
                                 }
                             }
+                        
                     )
                 }
                 .transition(.move(edge: .leading))
@@ -119,7 +126,7 @@ struct SettingsView: View {
                                 .transition(.move(edge: .bottom)) // Animate from bottom to top
                         }
         }
-            .animation(.easeInOut(duration: 0.3), value: isAboutPress)
+            .animation(.spring(response: 0.3, dampingFraction: 0.9), value: isAboutPress)
         
     }
     
@@ -128,7 +135,7 @@ struct SettingsView: View {
 #Preview {
     ZStack {
         Color(AppColors.settingsColor.opacity(0.5)).ignoresSafeArea()
-        SettingsView(showSettings: .constant(true))
+        SettingsView(showSettings: .constant(true), hideCameraUI: .constant(true))
     }
 }
 

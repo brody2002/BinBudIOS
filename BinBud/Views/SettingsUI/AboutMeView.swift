@@ -15,7 +15,7 @@ struct AboutMeView: View {
                 
                 VStack {
                     Spacer()
-                    Image("Icon")
+                    Image("BinBud-Icon")
                         .resizable()
                         .frame(width: 100, height: 100)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -79,7 +79,7 @@ struct AboutMeView: View {
                             withAnimation(.easeInOut(duration: 0.1)) {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 print("isAboutPress self \(self.isAboutPress)")
                                 self.isVisible = false // Hide the view after dragging it off the screen
                                 self.isAboutPress = false
@@ -89,7 +89,7 @@ struct AboutMeView: View {
                                 print("isAboutPress self \(self.isAboutPress)")
                             }
                         } else {
-                            withAnimation(.easeInOut(duration: 0.3)) {
+                            withAnimation(.easeInOut(duration: 0.5)) {
                                 self.dragOffset = .zero
                             }
                         }

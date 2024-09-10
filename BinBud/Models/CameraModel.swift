@@ -24,6 +24,8 @@ import CoreML
     var picData = Data(count: 0)
     var BinBudOutput = BinBudModel()
     
+    var hasCameraAccess = false
+    
     
     
 

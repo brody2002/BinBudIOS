@@ -21,7 +21,6 @@ struct CameraHelpBackButton: View {
                 .onTapGesture {
                     print("tapped help back")
                     withAnimation(.spring(response: 0.3, blendDuration: 0.9)) {
-//                      
                         self.showHelpMenu = false
                         
                     }

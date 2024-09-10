@@ -23,6 +23,12 @@ struct CameraView: View {
     @State private var doubleTapCount = 0
     @State private var tapCount = 0
     @State private var tapTimer: Timer?
+    
+    
+   
+    
+    
+    
 
     var body: some View {
         ZStack {
@@ -38,22 +44,26 @@ struct CameraView: View {
                     }
                     
                 }
+                .onAppear {
+                        camera.check()
+                       }
             
             if !showHelpMenu && !showSettings {
+                
                 VStack {
                     ZStack {
                         HStack {
                             CameraSettingsButton()
                                 .padding(.leading, 30)
                                 .onTapGesture {
-                                    withAnimation {
-                                        self.showSettings.toggle()
-                                        self.hideCameraUI = false
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)){
+                                        self.showSettings = true
+                                        self.hideCameraUI = true
                                         
                                     }
                                 }
                             Spacer()
-                        }
+                        }.onAppear(){print("HideCameraUI: \(self.hideCameraUI), showSettings: \(self.showSettings) ")}
                         CameraFlipButton().onTapGesture {
                             withAnimation {
                                 camera.switchCamera()
@@ -168,9 +178,10 @@ struct CameraView: View {
             }
                 
             if showSettings {
-                SettingsView(showSettings: $showSettings)
-                    .transition(.move(edge: .leading)) // Transition from the left
+                SettingsView(showSettings: $showSettings, hideCameraUI: $hideCameraUI)
+                     // Transition from the left
                     .offset(x: showSettings ? 0 : -UIScreen.main.bounds.width)
+                    .transition(.move(edge: .leading))
             }
         }
         .navigationBarBackButtonHidden(true)

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		961542C52C78F7AF00BCD7E9 /* BinBudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */; };
-		961542C72C78F7AF00BCD7E9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542C62C78F7AF00BCD7E9 /* ContentView.swift */; };
 		961542C92C78F7B100BCD7E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 961542C82C78F7B100BCD7E9 /* Assets.xcassets */; };
 		961542CC2C78F7B100BCD7E9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 961542CB2C78F7B100BCD7E9 /* Preview Assets.xcassets */; };
 		961542D42C78FD0100BCD7E9 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D32C78FD0100BCD7E9 /* Logo.swift */; };
@@ -23,6 +22,7 @@
 		96B539F02C792569002F4A73 /* CameraFlipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EF2C792569002F4A73 /* CameraFlipButton.swift */; };
 		96B539F22C792604002F4A73 /* CameraRetakeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539F12C792604002F4A73 /* CameraRetakeButton.swift */; };
 		96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */; };
+		96E7E6582C90D837000A44CC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96E7E6572C90D837000A44CC /* Launch Screen.storyboard */; };
 		96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */; };
 		96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */; };
 		96E8E5C52C7E896A006E2028 /* CameraSettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */; };
@@ -35,7 +35,6 @@
 /* Begin PBXFileReference section */
 		961542C12C78F7AF00BCD7E9 /* BinBud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinBud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinBudApp.swift; sourceTree = "<group>"; };
-		961542C62C78F7AF00BCD7E9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		961542C82C78F7B100BCD7E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		961542CB2C78F7B100BCD7E9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		961542D32C78FD0100BCD7E9 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
@@ -51,6 +50,7 @@
 		96B539EF2C792569002F4A73 /* CameraFlipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFlipButton.swift; sourceTree = "<group>"; };
 		96B539F12C792604002F4A73 /* CameraRetakeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRetakeButton.swift; sourceTree = "<group>"; };
 		96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpButton.swift; sourceTree = "<group>"; };
+		96E7E6572C90D837000A44CC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpToolbar.swift; sourceTree = "<group>"; };
 		96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpBackButton.swift; sourceTree = "<group>"; };
 		96E8E5C42C7E896A006E2028 /* CameraSettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSettingsButton.swift; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 				965EF4972C793FA40018267F /* Models */,
 				961542D22C78FB8900BCD7E9 /* Views */,
 				961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */,
-				961542C62C78F7AF00BCD7E9 /* ContentView.swift */,
+				96E7E6572C90D837000A44CC /* Launch Screen.storyboard */,
 				961542C82C78F7B100BCD7E9 /* Assets.xcassets */,
 				961542CA2C78F7B100BCD7E9 /* Preview Content */,
 			);
@@ -216,6 +216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96E7E6582C90D837000A44CC /* Launch Screen.storyboard in Resources */,
 				961542CC2C78F7B100BCD7E9 /* Preview Assets.xcassets in Resources */,
 				961542C92C78F7B100BCD7E9 /* Assets.xcassets in Resources */,
 			);
@@ -229,7 +230,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				963EEEDA2C82467F00CD413E /* BinBudModelOutput.swift in Sources */,
-				961542C72C78F7AF00BCD7E9 /* ContentView.swift in Sources */,
 				961542D82C78FF9700BCD7E9 /* BottomButton.swift in Sources */,
 				965EF4992C793FC90018267F /* CameraModel.swift in Sources */,
 				96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */,
@@ -393,6 +393,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -427,6 +428,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
