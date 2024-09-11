@@ -5,7 +5,7 @@ struct CameraView: View {
     
     // For Ternary Animations
     @State private var showHelpMenu = false
-    @State private var hideCameraUI = false
+    @State var hideCameraUI : Bool
     @State private var showSettings = false
     @State private var showOutput = false
     
@@ -30,11 +30,11 @@ struct CameraView: View {
                     }
                     
                 }
-                .onAppear {
-//                    print("checking camera")
-                    camera.check()
-//                    print("done checking camera")
-                       }
+//                .onAppear {
+////                    print("checking camera")
+//                    camera.check()
+////                    print("done checking camera")
+//                       }
             
             if !showHelpMenu && !showSettings {
                 
@@ -178,7 +178,7 @@ struct CameraView: View {
 }
 
 #Preview {
-    CameraView()
+    CameraView(hideCameraUI: false)
 }
 
 
@@ -189,6 +189,7 @@ struct CameraPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: UIScreen.main.bounds)
         view.backgroundColor = .black
+        
         camera.preview = AVCaptureVideoPreviewLayer(session: camera.session)
         camera.preview.frame = view.frame
         camera.preview.videoGravity = .resizeAspectFill

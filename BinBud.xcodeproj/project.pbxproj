@@ -16,6 +16,7 @@
 		961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D92C7904F800BCD7E9 /* CameraView.swift */; };
 		963EEEDA2C82467F00CD413E /* BinBudModelOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963EEED92C82467F00CD413E /* BinBudModelOutput.swift */; };
 		963EEEDC2C826B9900CD413E /* CameraModelOutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */; };
+		964313DE2C914E0100D6DCBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964313DD2C914E0100D6DCBD /* ContentView.swift */; };
 		965EF4992C793FC90018267F /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965EF4982C793FC90018267F /* CameraModel.swift */; };
 		96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */; };
 		96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */; };
@@ -43,6 +44,7 @@
 		961542D92C7904F800BCD7E9 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		963EEED92C82467F00CD413E /* BinBudModelOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinBudModelOutput.swift; sourceTree = "<group>"; };
 		963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModelOutputView.swift; sourceTree = "<group>"; };
+		964313DD2C914E0100D6DCBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		965EF4982C793FC90018267F /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureButton.swift; sourceTree = "<group>"; };
 		96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSaveButton.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				961542D52C78FE0C00BCD7E9 /* AppColors.swift */,
 				961542D72C78FF9700BCD7E9 /* BottomButton.swift */,
 				96E8E5C82C7E8B5E006E2028 /* SettingView.swift */,
+				964313DD2C914E0100D6DCBD /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */,
 				96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */,
 				96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */,
+				964313DE2C914E0100D6DCBD /* ContentView.swift in Sources */,
 				96B539EE2C791A48002F4A73 /* CameraSaveButton.swift in Sources */,
 				963EEEDC2C826B9900CD413E /* CameraModelOutputView.swift in Sources */,
 				96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */,
@@ -377,6 +381,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BinBud/Preview Content\"";
@@ -413,6 +418,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
