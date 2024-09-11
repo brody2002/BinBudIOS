@@ -35,20 +35,91 @@ struct CameraHelpToolbar: View {
                                 
                         }
                     }
+                    
                     ScrollView {
+                        Spacer(minLength: 50)
                         VStack(spacing: 20) { // Added spacing between the rectangles
                             
-                            RoundedRectangle(cornerRadius: 30)
-                                .foregroundColor(.white)
-                                .frame(width: 340, height: 300)
+                            HStack (spacing: 15){
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.white, lineWidth: 4) // Border color and width
+                                        .frame(width: 170, height: 150)
+                                    Text("Step 1:")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .padding(.bottom,90)
+                                    
+                                    Text("Take a picture of trash with minimal backgrounds.")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .frame(width: 150, height: 140)
+                                        
+                                }
+                                
+                                
+                                Image("Take_a_photo")
+                                    .resizable()
+                                    .frame(width: 170, height: 150)
+                                    .cornerRadius(10)
+                            }
+                            HStack (spacing: 15){
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.white, lineWidth: 4) // Border color and width
+                                        .frame(width: 170, height: 150)
+                                    
+                                    Text("Step 2:")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .padding(.bottom,90)
+                                    
+                                    Text("BinBud will used it's classification model to identify your trash.")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .frame(width: 150, height: 140)
+                                        .padding(.top,25)
+                                }
+                                
+                                
+                                Image("Analyze")
+                                    .resizable()
+                                    .frame(width: 170, height: 150)
+                                    .cornerRadius(10)
+                            }
+                            HStack(spacing: 15) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.white, lineWidth: 4) // Border color and width
+                                        .frame(width: 170, height: 150)
+                                    
+                                    Text("Step 3:")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .padding(.bottom,90)
+                                    
+                                    Text("Dipose of your trash correctly!")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .frame(width: 150, height: 140)
+                                        .padding(.top,25)
+                                }
+                                
+                                
+                                Image("Trash")
+                                    .resizable()
+                                    .frame(width: 170, height: 150)
+                                    .cornerRadius(10)
+                            }
                             
-                            RoundedRectangle(cornerRadius: 30)
-                                .foregroundColor(.white)
-                                .frame(width: 340, height: 300)
                             
-                            RoundedRectangle(cornerRadius: 30)
-                                .foregroundColor(.white)
-                                .frame(width: 340, height: 300)
+                            
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 20)

@@ -4,38 +4,24 @@ import AVFoundation
 struct CameraView: View {
     
     // For Ternary Animations
-    
     @State private var showHelpMenu = false
     @State private var hideCameraUI = false
     @State private var showSettings = false
     @State private var showOutput = false
     
     //For Camera API
-    
     @State var camera = CameraModel()
-    
     
     // For Model Output
     @State var outputData: [String: Any] = [:]
     @State var image: UIImage? = nil
-    
-    // For Double Taps
-    @State private var doubleTapCount = 0
-    @State private var tapCount = 0
-    @State private var tapTimer: Timer?
-    
-    
-   
-    
-    
-    
 
     var body: some View {
         ZStack {
             CameraPreview(camera: camera)
                 .ignoresSafeArea()
                 .onReceive(NotificationCenter.default.publisher(for: .AVCaptureSessionRuntimeError), perform: { notification in
-                    print("🤙 error!! \(notification.object)")
+                    print("🤙 error!! \(String(describing: notification.object))")
                 })
                 .onTapGesture(count: 2) {
                     print("double")
@@ -45,7 +31,9 @@ struct CameraView: View {
                     
                 }
                 .onAppear {
-                        camera.check()
+//                    print("checking camera")
+                    camera.check()
+//                    print("done checking camera")
                        }
             
             if !showHelpMenu && !showSettings {
@@ -63,7 +51,7 @@ struct CameraView: View {
                                     }
                                 }
                             Spacer()
-                        }.onAppear(){print("HideCameraUI: \(self.hideCameraUI), showSettings: \(self.showSettings) ")}
+                        }
                         CameraFlipButton().onTapGesture {
                             withAnimation {
                                 camera.switchCamera()

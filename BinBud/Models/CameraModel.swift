@@ -24,7 +24,6 @@ import CoreML
     var picData = Data(count: 0)
     var BinBudOutput = BinBudModel()
     
-    var hasCameraAccess = false
     
     
     
@@ -127,11 +126,13 @@ import CoreML
             
             //Checking and adding to session
             if self.session.canAddInput(input){
+                print("adding session")
                 self.session.addInput(input)
             }
             
             //Same for input
             if self.session.canAddOutput(self.output){
+                print("same session being used")
                 self.session.addOutput(self.output)
             }
             
@@ -233,7 +234,7 @@ import CoreML
     }
     
     func runModel(image: UIImage, _ completion: @escaping ([String: Any]) -> Void) {
-        let serverURL = URL(string: "https://19a9-157-131-246-142.ngrok-free.app/upload")!
+        let serverURL = URL(string: "https://67b8-2600-1700-7c10-dc70-a5f1-e4b6-41d9-7f20.ngrok-free.app/upload")!
         
         self.sendImageToServer(image: image, url: serverURL){ outputDict in
                                 completion(outputDict) // Pass the result back via the completion handler

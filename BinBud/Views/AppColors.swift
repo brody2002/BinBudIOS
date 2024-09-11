@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AppColors {
     static let mainColor = Color(red: 0/255, green: 206/255, blue: 137/255)
-    static let cameraButtonColor = Color(red: 0/255, green: 201/255, blue: 161/255)
+    static let cameraButtonColor = Color(red: 24/255, green: 188/255, blue: 178/255)
     static let accentColor = Color(.white)
     static let unsave = Color(red: 168/255, green: 168/255, blue: 168/255)
     static let settingsColor = Color(red: 15/255, green: 15/255, blue: 15/255)

@@ -43,7 +43,6 @@
 		961542D92C7904F800BCD7E9 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		963EEED92C82467F00CD413E /* BinBudModelOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinBudModelOutput.swift; sourceTree = "<group>"; };
 		963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModelOutputView.swift; sourceTree = "<group>"; };
-		963EEEE12C83C5A000CD413E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		965EF4982C793FC90018267F /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		96B539EB2C791561002F4A73 /* CameraCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureButton.swift; sourceTree = "<group>"; };
 		96B539ED2C791A48002F4A73 /* CameraSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSaveButton.swift; sourceTree = "<group>"; };
@@ -90,7 +89,6 @@
 		961542C32C78F7AF00BCD7E9 /* BinBud */ = {
 			isa = PBXGroup;
 			children = (
-				963EEEE12C83C5A000CD413E /* Info.plist */,
 				965EF4972C793FA40018267F /* Models */,
 				961542D22C78FB8900BCD7E9 /* Views */,
 				961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */,
@@ -394,6 +392,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -429,6 +429,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
