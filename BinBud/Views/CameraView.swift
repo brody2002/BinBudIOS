@@ -30,11 +30,6 @@ struct CameraView: View {
                     }
                     
                 }
-//                .onAppear {
-////                    print("checking camera")
-//                    camera.check()
-////                    print("done checking camera")
-//                       }
             
             if !showHelpMenu && !showSettings {
                 
@@ -76,70 +71,79 @@ struct CameraView: View {
                     
                     .transition(.move(edge: .top).combined(with: .opacity)) // Move and fade out together
                     
-                    Spacer()
+                    .padding(.bottom, 720)
                     
-                    HStack {
-                        if camera.isTaken {
-                            ZStack {
-                                
-                                CameraSaveButton()
-                                    .padding(.leading,-110)
-                                    .onTapGesture {
-                                        if !camera.isSaved {
-                                            
-                                            // Call savePic and handle the returned dictionary
-                                            camera.savePic { returnedData in
-                                                self.outputData = returnedData
-                                                
-                                                withAnimation {
-                                                    print("Cameraview dict: \(self.outputData)")
-                                                    self.showOutput = true
-                                                    self.hideCameraUI = true
-                                                }
-                                            }
-                                        }
-                                    }
-                                CameraRetakeButton()
-                                    .padding(.leading,240)
-                                    .onTapGesture {
+                    
+                        
+                    
+                }
+            }
+            
+            if camera.isTaken {
+                HStack{
+                    ZStack {
+                        
+                        CameraSaveButton()
+                            .padding(.leading,195)
+                        
+                            .onTapGesture {
+                                if !camera.isSaved {
+                                    
+                                    // Call savePic and handle the returned dictionary
+                                    camera.savePic { returnedData in
+                                        self.outputData = returnedData
+                                        
                                         withAnimation {
-                                            self.showOutput = false
-                                            self.hideCameraUI = false
-                                            camera.retakePic()
+                                            print("Cameraview dict: \(self.outputData)")
+                                            self.showOutput = true
+                                            self.hideCameraUI = true
                                         }
                                     }
+                                }
                             }
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            Spacer()
-                        } else {
-                            VStack {
-                                CameraInstructionView()
-                                    .padding(.bottom, 30)
-                                CameraCaptureButton()
-                                    .padding(.bottom, 60)
-                                    .onTapGesture {
-                                        withAnimation {
-                                            self.hideCameraUI.toggle()
-                                            
-                                        }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Adjust the delay duration as needed
-                                            camera.takePic()
-                                        }
-                                    }
+                        CameraRetakeButton()
+                        
+                            .padding(.leading,-145)
+                        
+                            .onTapGesture {
+                                withAnimation {
+                                    self.showOutput = false
+                                    self.hideCameraUI = false
+                                    camera.retakePic()
+                                }
                             }
-                            .allowsHitTesting(!hideCameraUI || !showSettings || !showHelpMenu) // Disables interaction when top bar is hidden
-                            .opacity(hideCameraUI || showHelpMenu || showSettings ? 0 : 1) // Adjust opacity based on hideCameraUI state
-                            .offset(y: hideCameraUI || showHelpMenu || showSettings ? UIScreen.main.bounds.height / 1.4 : 0) // Move off-screen when fading out
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                        }
                     }
                 }
+                .opacity(camera.isTaken ? 1.0 : 0)
+                .offset(y: camera.isTaken ? 0 : 600)
+                .transition(.move(edge:.bottom))
+                .zIndex(1)
+                
+                .padding(.top, 600)
+                
+               
+            } else {
+                
+                VStack {
+                    CameraInstructionView()
+                        .padding(.bottom, 30)
+                    CameraCaptureButton()
+                        .padding(.bottom, 60)
+                        .onTapGesture {
+                            withAnimation {
+                                self.hideCameraUI.toggle()
+                                
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Adjust the delay duration as needed
+                                camera.takePic()
+                            }
+                        }
+                }
+                .padding(.top, 600)
+                .allowsHitTesting(!hideCameraUI || !showSettings || !showHelpMenu) // Disables interaction when top bar is hidden
+                .opacity(hideCameraUI || showHelpMenu || showSettings ? 0 : 1) // Adjust opacity based on hideCameraUI state
+                .offset(y: hideCameraUI || showHelpMenu || showSettings ? UIScreen.main.bounds.height / 1.4 : 0) // Move off-screen when fading out
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
             
             
@@ -147,7 +151,7 @@ struct CameraView: View {
                 CameraHelpToolbar(showHelpMenu: $showHelpMenu)
                     .cornerRadius(40)
                     .transition(.move(edge: .bottom))
-                    .offset(y: showHelpMenu ? 20 : UIScreen.main.bounds.height)
+                    .offset(y: showHelpMenu ? 80 : UIScreen.main.bounds.height)
                     .transition(.move(edge: .bottom)) // Apply transition animation
                                         .zIndex(1) // Ensure it's on top
             }

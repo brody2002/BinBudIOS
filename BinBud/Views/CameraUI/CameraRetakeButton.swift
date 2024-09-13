@@ -26,24 +26,31 @@ struct CameraRetakeButton: View {
                 .frame(width: 35, height: 35) // Set the desired size
                 .padding(.bottom, 60)
             Text("Retake Image")
-                .foregroundColor(.white)
+                .foregroundColor(AppColors.cameraButtonColor)
                 .font(.system(size: 16))
                 .bold()
                 .padding(.top, 20)
 
         }
         .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(AppColors.settingsColor)
-                .frame(width: 120, height: 120)
+            RoundedRectangle(cornerRadius: 50, style: .continuous)
+                .stroke(AppColors.cameraButtonColor, lineWidth: 5)
+                .fill(.clear)
+                .frame(width: 180, height: 120)
                 
         )
+        .contentShape(RoundedRectangle(cornerRadius: 50))
+        // Gives button a hitbox
+        
             
     }
 }
 
 #Preview {
-    CameraRetakeButton()
+    ZStack{
+        Color.red
+        CameraRetakeButton()
+    }
 }
 
 

@@ -166,7 +166,7 @@ import CoreML
                     }
             // Ensure that the state change happens on the main thread but outside of view updates
             DispatchQueue.main.async{
-                withAnimation { self.isTaken.toggle() }
+                withAnimation(.spring(response:0.6, dampingFraction: 1.4)) { self.isTaken.toggle() }
             }
 
         }
@@ -178,7 +178,7 @@ import CoreML
             
             // Ensure that the state change happens on the main thread but outside of view updates
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.04) {
-                withAnimation { self.isTaken.toggle() }
+                withAnimation (.spring(response:0.6, dampingFraction: 1.4)) { self.isTaken.toggle() }
                 self.isSaved = false
             }
         }
@@ -234,7 +234,7 @@ import CoreML
     }
     
     func runModel(image: UIImage, _ completion: @escaping ([String: Any]) -> Void) {
-        let serverURL = URL(string: "https://67b8-2600-1700-7c10-dc70-a5f1-e4b6-41d9-7f20.ngrok-free.app/upload")!
+        let serverURL = URL(string: "https://bb79-157-131-246-142.ngrok-free.app/upload")!
         
         self.sendImageToServer(image: image, url: serverURL){ outputDict in
                                 completion(outputDict) // Pass the result back via the completion handler
