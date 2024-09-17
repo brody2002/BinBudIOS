@@ -90,15 +90,15 @@ struct CameraView: View {
                                 if !camera.isSaved {
                                     
                                     // Call savePic and handle the returned dictionary
-                                    camera.savePic { returnedData in
-                                        self.outputData = returnedData
+                                    self.outputData = camera.savePic()
+                                    
                                         
                                         withAnimation {
                                             print("Cameraview dict: \(self.outputData)")
                                             self.showOutput = true
                                             self.hideCameraUI = true
                                         }
-                                    }
+                                    
                                 }
                             }
                         CameraRetakeButton()
@@ -159,7 +159,7 @@ struct CameraView: View {
             if showOutput {
                 ZStack {
                     if let label1 = self.outputData["label_1"] as? String {
-                        CameraModelOutputView(modelOutput: label1, modelInstructions: self.outputData["label_2"] as! String, modelConfidence: self.outputData["confidence"] as! Double)
+                        CameraModelOutputView(modelOutput: label1 , modelInstructions: self.outputData["label_2"] as! String, modelConfidence: self.outputData["confidence"] as! Double)
                                                 
                     } else {
                         CameraModelOutputView(modelOutput: "Unknown", modelInstructions: "Sorry! The servers are down!", modelConfidence: 0.0)

@@ -200,7 +200,7 @@ import CoreML
     }
     
     
-    func savePic(completion: @escaping ([String : Any]) -> Void) {
+    func savePic() -> [String: Any] {
         let curImage = UIImage(data: self.picData)!
         
         // Resizing Image for input of BinBud Model
@@ -210,15 +210,11 @@ import CoreML
         print("savedImage Successfully. Going to model call() ")
         self.isSaved = true
         
-        // Call runModel and handle the completion
-        runModel(image: resizedImage) { returnedData in
-            // Process the returned data
-            if let modelOutput = returnedData as? [String : Any] {
-                completion(modelOutput)  // Pass the result back via the completion handler
-            } else {
-                completion([:])  // Return an empty dictionary if the data is not as expected
-            }
-        }
+
+        
+//        // Call runModel and handle the completion
+        let modelOutput = self.runModel(image : resizedImage)
+        return modelOutput
     }
     
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
@@ -233,19 +229,65 @@ import CoreML
         return newImage!
     }
     
-    func runModel(image: UIImage, _ completion: @escaping ([String: Any]) -> Void) {
-        let serverURL = URL(string: "https://bb79-157-131-246-142.ngrok-free.app/upload")!
+    func runModel(image: UIImage) -> [String:  Any] {
         
-        self.sendImageToServer(image: image, url: serverURL){ outputDict in
-                                completion(outputDict) // Pass the result back via the completion handler
-                            }
+        // CoreML Package Code:
         
         
-        //Code below is for local server!!!
+        do {
+            let model = try BinBudFinalModel2(configuration: MLModelConfiguration())
+            
+            // Convert UIImage to CVPixelBuffer (CoreML requires input as CVPixelBuffer)
+            guard let pixelBuffer = image.toCVPixelBuffer() else {
+                print("Failed to convert UIImage to CVPixelBuffer")
+                return [:]
+            }
+            
+            // Perform prediction
+            let prediction = try model.prediction(input_3: pixelBuffer)
+            print("Prediction: \(prediction.classLabel) ANSWER")
+            print("label prediction numbers: \(prediction.classLabel_probs)")
+            // Find max val in dict
+            if let maxValue = prediction.classLabel_probs.values.max() {
+                print("The largest value is \(maxValue)")
+                
+                let d : [String : Any] = [
+                    "label_1": prediction.classLabel,
+                    "label_2" : BinBudOutput.outputMessage(input: prediction.classLabel, value: Float(maxValue)),
+                    "confidence" : Double(maxValue)
+                ]
+                
+                return d
+            }
+            else{
+                return [:]
+            }
+            
+                    
+                        
+            } catch {
+                print("Error initializing model or making prediction: \(error)")
+            }
+        return [:]
         
+        
+        
+        
+        // Default HTTP POST Request:
+//        
+//        
+//        let serverURL = URL(string: "https://brody711.pythonanywhere.com/upload")!
+//        print("sending to server")
+//        self.sendImageToServer(image: image, url: serverURL){ outputDict in
+//                                completion(outputDict) // Pass the result back via the completion handler
+//                            }
+        
+        
+//        //Code below is for local server!!!
+//        
 //        // Set up a URL request with a short timeout interval
 //        var request = URLRequest(url: serverURL)
-//        request.httpMethod = "HEAD" // Check if the server is available without sending data
+//        request.httpMethod = "POST" // Check if the server is available without sending data
 //        request.timeoutInterval = 3 // Set a timeout interval of 5 seconds (or adjust as needed)
 //        
 //        URLSession.shared.dataTask(with: request) { _, response, error in
@@ -273,6 +315,7 @@ import CoreML
 
     func sendImageToServer(image: UIImage, url: URL, completion: @escaping ([String: Any]) -> Void) {
         // Convert UIImage to JPEG data
+        print("sending image to server call() ")
         guard let imageData = image.jpegData(compressionQuality: 1.0) else {
             print("Failed to convert UIImage to data.")
             completion([:])
@@ -285,7 +328,7 @@ import CoreML
         // Set the URLRequest to POST and to the specified URL
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        
+        print("TEST 3")
         // Set Content-Type Header to multipart/form-data and the boundary
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
@@ -318,6 +361,7 @@ import CoreML
             }
             
             do {
+                print("do")
                 // **Parsing the JSON response**:
                 if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                     print("Parsed JSON Response: \(json)")
@@ -327,6 +371,7 @@ import CoreML
                        let confidence = json["confidence"] as? Double,
                        let label2 = json["label_2"] as? String {
                         
+                        print("parsing")
                         var result: [String: Any] = [:]
                         result["label_1"] = label1
                         result["confidence"] = confidence

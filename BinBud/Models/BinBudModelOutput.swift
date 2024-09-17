@@ -6,29 +6,48 @@ class BinBudModel: ObservableObject {
     @Published var outputItem = ""
     @Published var message = ""
     
-    let outputs: [String] = ["battery", "biological", "cardboard", "cement", "clothes", "electronics", "glass", "leather", "metal", "paper", "plastic", "rubber", "trash", "wood"]
-
-    func findMaxValueInMultiArray(outputArray: MLMultiArray) -> String {
-        guard outputArray.shape.count == 2, outputArray.shape[0].intValue == 1, outputArray.shape[1].intValue == 14 else {
-            print("Unexpected MultiArray shape.")
-            return ""
-        }
-        
-        let arrayPointer = outputArray.dataPointer.bindMemory(to: Float32.self, capacity: outputArray.count)
-        let array = Array(UnsafeBufferPointer(start: arrayPointer, count: outputArray.count))
-        
-        if let maxValue = array.max(), let maxIndex = array.firstIndex(of: maxValue) {
-            DispatchQueue.main.async { [weak self] in
-                self?.outputItem = self?.outputs[maxIndex] ?? ""
-                
+    func outputMessage(input: String, value: Float) -> String {
+        if value > 0.45{
+            switch input {
+            case "battery":
+                return "Your photo was identified as a battery. Therefore, you should dispose of your item at an e-waste facility."
+            case "biological":
+                return "Your photo was identified as biological waste. Therefore, you should compost your item."
+            case "cardboard":
+                return "Your photo was identified as cardboard. Therefore, you should recycle your item."
+            case "cement":
+                return "Your photo was identified as cement. Therefore, it should be disposed of in construction waste."
+            case "clothes":
+                return "Your photo was identified as clothes. Therefore, you should donate them or dispose of them in a textile bin."
+            case "electronics":
+                return "Your photo was identified as electronics. Therefore, you should dispose of your item at an e-waste facility."
+            case "glass":
+                return "Your photo was identified as glass. Therefore, you should recycle your item."
+            case "leather":
+                return "Your photo was identified as leather. Consider donating it or using a special waste disposal service."
+            case "metal":
+                return "Your photo was identified as metal. Therefore, you should recycle your item."
+            case "paper":
+                return "Your photo was identified as paper. Therefore, you should recycle your item."
+            case "plastic":
+                return "Your photo was identified as plastic. Therefore, you should recycle it if it's recyclable or dispose of it properly."
+            case "rubber":
+                return "Your photo was identified as rubber. Consider taking it to a special recycling or disposal facility."
+            case "trash":
+                return "Your photo was identified as trash. Unfortunately, this should go to the landfill."
+            case "wood":
+                return "Your photo was identified as wood. It can often be recycled or repurposed, depending on its condition."
+            default:
+                return "Our percentage of accuracy is not high enough. We recommend that you try retaking the picture."
             }
-            print(maxValue, maxIndex, outputs[maxIndex])
-            
-            return outputs[maxIndex]
         }
-        
-        return ""
+        else{
+            return "Our percentage of accuracy is not high enough. We recommend that you try retaking the picture."
+        }
     }
+
+
+
     
     func normalizeImageColors(image: UIImage, bias: [CGFloat]) -> UIImage? {
         guard bias.count == 3 else {

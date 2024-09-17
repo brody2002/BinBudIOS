@@ -35,7 +35,7 @@ struct CameraModelOutputView: View {
             }
             .padding()
             .background(
-                RoundedRectangle(cornerRadius: 60, style: .continuous)
+                RoundedRectangle(cornerRadius: 50, style: .continuous)
                     .fill(AppColors.settingsColor)
                     .frame(width: 300, height: 290)
                     

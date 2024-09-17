@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9610C8BE2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9610C8BD2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage */; };
 		961542C52C78F7AF00BCD7E9 /* BinBudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */; };
 		961542C92C78F7B100BCD7E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 961542C82C78F7B100BCD7E9 /* Assets.xcassets */; };
 		961542CC2C78F7B100BCD7E9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 961542CB2C78F7B100BCD7E9 /* Preview Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9610C8BD2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = BinBudFinalModel2.mlpackage; sourceTree = "<group>"; };
 		961542C12C78F7AF00BCD7E9 /* BinBud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinBud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinBudApp.swift; sourceTree = "<group>"; };
 		961542C82C78F7B100BCD7E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		965EF4972C793FA40018267F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9610C8BD2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage */,
 				965EF4982C793FC90018267F /* CameraModel.swift */,
 				963EEED92C82467F00CD413E /* BinBudModelOutput.swift */,
 			);
@@ -247,6 +250,7 @@
 				96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */,
 				961542D42C78FD0100BCD7E9 /* Logo.swift in Sources */,
 				96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */,
+				9610C8BE2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage in Sources */,
 				96F934F72C8A694600653ABA /* CameraPhotoOptions.swift in Sources */,
 				96B539F22C792604002F4A73 /* CameraRetakeButton.swift in Sources */,
 				96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */,
@@ -407,9 +411,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = brody.BinBud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -446,9 +454,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = brody.BinBud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

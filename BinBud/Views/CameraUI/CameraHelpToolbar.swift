@@ -51,7 +51,7 @@ struct CameraHelpToolbar: View {
                                         .multilineTextAlignment(.center)
                                         .padding(.bottom,90)
                                     
-                                    Text("Take a picture of trash with minimal backgrounds.")
+                                    Text("Take a picture of trash with a minimal background.")
                                         .foregroundColor(.white)
                                         .bold()
                                         .multilineTextAlignment(.center)

@@ -34,8 +34,8 @@ struct CameraRetakeButton: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 50, style: .continuous)
-                .stroke(AppColors.cameraButtonColor, lineWidth: 5)
-                .fill(.clear)
+                .stroke(AppColors.settingsColor, lineWidth: 5)
+                .fill(AppColors.settingsColor)
                 .frame(width: 180, height: 120)
                 
         )
