@@ -42,7 +42,7 @@ class BinBudModel: ObservableObject {
             }
         }
         else{
-            return "Our percentage of accuracy is not high enough. We recommend that you try retaking the picture."
+            return "Our percentage of accuracy is not high enough. We recommend that you retake the picture."
         }
     }
 

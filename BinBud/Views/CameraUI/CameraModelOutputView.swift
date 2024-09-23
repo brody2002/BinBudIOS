@@ -7,6 +7,8 @@ struct CameraModelOutputView: View {
     @State var modelConfidence : Double
     var body: some View {
 //        if isShowing {
+        
+        
             ZStack {
                 VStack {
                     Text("The Object has been identified as")

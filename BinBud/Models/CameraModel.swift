@@ -79,14 +79,10 @@ import CoreML
             
             //Checking for camera permissions
             switch  AVCaptureDevice.authorizationStatus(for: .video) {
-            case .authorized:
-                print("camera settings authorized")
-                setUp()
-                return
-                //Setting up the session
+            
             case .notDetermined :
                 print("camera settings notDetermined")
-                //Retrusting Permissions
+//                Retrusting Permissions
                 AVCaptureDevice.requestAccess(for: .video) { status in
                     if status {
                         print("status true")
@@ -99,10 +95,20 @@ import CoreML
                         
                     }
                 }
+                DispatchQueue.main.async {
+                    print("check")
+                    self.showSettingsAlert()
+                }
+            case .authorized:
+                print("camera settings authorized")
+                setUp()
+                return
+                //Setting up the session
             case .denied :
                 self.alert.toggle()
                 print("denied")
                 DispatchQueue.main.async {
+                    print("check")
                     self.showSettingsAlert()
                 }
                 return
@@ -235,7 +241,7 @@ import CoreML
         
         
         do {
-            let model = try BinBudFinalModel2(configuration: MLModelConfiguration())
+            let model = try DeployModel(configuration: MLModelConfiguration())
             
             // Convert UIImage to CVPixelBuffer (CoreML requires input as CVPixelBuffer)
             guard let pixelBuffer = image.toCVPixelBuffer() else {
@@ -244,7 +250,7 @@ import CoreML
             }
             
             // Perform prediction
-            let prediction = try model.prediction(input_3: pixelBuffer)
+            let prediction = try model.prediction(input_2: pixelBuffer)
             print("Prediction: \(prediction.classLabel) ANSWER")
             print("label prediction numbers: \(prediction.classLabel_probs)")
             // Find max val in dict
@@ -252,7 +258,7 @@ import CoreML
                 print("The largest value is \(maxValue)")
                 
                 let d : [String : Any] = [
-                    "label_1": prediction.classLabel,
+                    "label_1": maxValue > 0.45 ? prediction.classLabel : "Unknown",
                     "label_2" : BinBudOutput.outputMessage(input: prediction.classLabel, value: Float(maxValue)),
                     "confidence" : Double(maxValue)
                 ]
@@ -396,33 +402,39 @@ import CoreML
     
     
     func showSettingsAlert() {
-                let alert = UIAlertController(
-                    title: "Camera Access Needed",
-                    message: "Please enable camera access in your settings to use the camera features.",
-                    preferredStyle: .alert
-                )
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { _ in
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
-                }))
-                
-                // Get the topmost view controller to present the alert
-                if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-                   let keyWindow = windowScene.keyWindow,
-                   let topController = keyWindow.rootViewController {
-
-                    // Traverse to the top-most presented view controller
-                    var currentController = topController
-                    while let presentedViewController = currentController.presentedViewController {
-                        currentController = presentedViewController
-                    }
-
-                    // Present the alert on the top-most view controller
-                    currentController.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // Add a slight delay to ensure UI is ready
+            print("showSettingsAlert called")
+            
+            let alert = UIAlertController(
+                title: "Camera Access Needed",
+                message: "You cannot process images of trash if BinBud doesn't have permission to access the Camera. Images are processed locally and not stored or shared.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { _ in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
+            }))
+            
+            // Get the topmost view controller to present the alert
+            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+               let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
+               let topController = keyWindow.rootViewController {
+                
+                var currentController = topController
+                while let presentedViewController = currentController.presentedViewController {
+                    currentController = presentedViewController
+                }
+                
+                // Present the alert on the top-most view controller
+                currentController.present(alert, animated: true, completion: nil)
+            } else {
+                print("No active window scene or root view controller found")
+            }
         }
+    }
+
 
 }
 

@@ -90,33 +90,25 @@ struct SettingsView: View {
                         DragGesture()
                             .onChanged { value in
                                 if value.translation.width < 0 {
-//                                    print("checking location of drag continuously")
-                                    self.dragOffset = value.translation
+                                    // Clamp the value here to avoid large negative values
+                                    self.dragOffset = CGSize(width: max(value.translation.width, -UIScreen.main.bounds.width), height: 0)
                                 }
                             }
                             .onEnded { gesture in
-                                if gesture.translation.width < -60 { // Threshold for swipe
+                                if gesture.translation.width < -60 {
                                     withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                         self.dragOffset.width = -UIScreen.main.bounds.width
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                            
-                                                self.hideCameraUI = false
-                                                self.showSettings = false
-                                                
-                                            
-                                            
+                                            self.hideCameraUI = false
+                                            self.showSettings = false
                                         }
-                                        
                                     }
-                                    
                                 } else {
-                                    withAnimation{
+                                    withAnimation {
                                         self.dragOffset = .zero
                                     }
-                                    
                                 }
                             }
-                        
                     )
                 }
                 .transition(.move(edge: .leading))

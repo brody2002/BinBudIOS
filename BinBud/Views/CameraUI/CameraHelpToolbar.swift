@@ -56,6 +56,7 @@ struct CameraHelpToolbar: View {
                                         .bold()
                                         .multilineTextAlignment(.center)
                                         .frame(width: 150, height: 140)
+                                        .padding(.top, 25)
                                         
                                 }
                                 
@@ -77,7 +78,7 @@ struct CameraHelpToolbar: View {
                                         .multilineTextAlignment(.center)
                                         .padding(.bottom,90)
                                     
-                                    Text("BinBud will used it's classification model to identify your trash.")
+                                    Text("BinBud will use its classification model to identify your trash.")
                                         .foregroundColor(.white)
                                         .bold()
                                         .multilineTextAlignment(.center)
@@ -108,7 +109,7 @@ struct CameraHelpToolbar: View {
                                         .bold()
                                         .multilineTextAlignment(.center)
                                         .frame(width: 150, height: 140)
-                                        .padding(.top,25)
+                                        .padding(.top,-20)
                                 }
                                 
                                 
@@ -146,11 +147,10 @@ struct CameraHelpToolbar: View {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                 self.dragOffset.height = UIScreen.main.bounds.height
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 withAnimation{
                                     self.showHelpMenu.toggle()
                                     self.dragOffset = .zero
-                                }
+
                                 
                             }
                         } else {

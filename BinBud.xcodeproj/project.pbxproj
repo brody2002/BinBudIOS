@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9610C8BE2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9610C8BD2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage */; };
 		961542C52C78F7AF00BCD7E9 /* BinBudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */; };
 		961542C92C78F7B100BCD7E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 961542C82C78F7B100BCD7E9 /* Assets.xcassets */; };
 		961542CC2C78F7B100BCD7E9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 961542CB2C78F7B100BCD7E9 /* Preview Assets.xcassets */; };
@@ -24,6 +23,7 @@
 		96B539F02C792569002F4A73 /* CameraFlipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539EF2C792569002F4A73 /* CameraFlipButton.swift */; };
 		96B539F22C792604002F4A73 /* CameraRetakeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B539F12C792604002F4A73 /* CameraRetakeButton.swift */; };
 		96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */; };
+		96DFDC572C9DCD040087F524 /* DeployModel.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 96DFDC562C9DCD040087F524 /* DeployModel.mlpackage */; };
 		96E7E6582C90D837000A44CC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96E7E6572C90D837000A44CC /* Launch Screen.storyboard */; };
 		96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */; };
 		96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */; };
@@ -35,7 +35,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9610C8BD2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = BinBudFinalModel2.mlpackage; sourceTree = "<group>"; };
 		961542C12C78F7AF00BCD7E9 /* BinBud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinBud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		961542C42C78F7AF00BCD7E9 /* BinBudApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinBudApp.swift; sourceTree = "<group>"; };
 		961542C82C78F7B100BCD7E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,6 +52,7 @@
 		96B539EF2C792569002F4A73 /* CameraFlipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFlipButton.swift; sourceTree = "<group>"; };
 		96B539F12C792604002F4A73 /* CameraRetakeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRetakeButton.swift; sourceTree = "<group>"; };
 		96B7B5EC2C7AA9F600987D06 /* CameraHelpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpButton.swift; sourceTree = "<group>"; };
+		96DFDC562C9DCD040087F524 /* DeployModel.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = DeployModel.mlpackage; sourceTree = "<group>"; };
 		96E7E6572C90D837000A44CC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		96E8E5BA2C7CE268006E2028 /* CameraHelpToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpToolbar.swift; sourceTree = "<group>"; };
 		96E8E5BC2C7CF1F8006E2028 /* CameraHelpBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelpBackButton.swift; sourceTree = "<group>"; };
@@ -129,8 +129,8 @@
 		965EF4972C793FA40018267F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9610C8BD2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage */,
 				965EF4982C793FC90018267F /* CameraModel.swift */,
+				96DFDC562C9DCD040087F524 /* DeployModel.mlpackage */,
 				963EEED92C82467F00CD413E /* BinBudModelOutput.swift */,
 			);
 			path = Models;
@@ -242,6 +242,7 @@
 				96B539F02C792569002F4A73 /* CameraFlipButton.swift in Sources */,
 				961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */,
 				961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */,
+				96DFDC572C9DCD040087F524 /* DeployModel.mlpackage in Sources */,
 				96E8E5C92C7E8B5E006E2028 /* SettingView.swift in Sources */,
 				96E8E5BB2C7CE268006E2028 /* CameraHelpToolbar.swift in Sources */,
 				964313DE2C914E0100D6DCBD /* ContentView.swift in Sources */,
@@ -250,7 +251,6 @@
 				96E8E5CC2C7FCA50006E2028 /* AboutMeView.swift in Sources */,
 				961542D42C78FD0100BCD7E9 /* Logo.swift in Sources */,
 				96E8E5C72C7E89D4006E2028 /* CameraInstructionView.swift in Sources */,
-				9610C8BE2C98CD1D0089D66D /* BinBudFinalModel2.mlpackage in Sources */,
 				96F934F72C8A694600653ABA /* CameraPhotoOptions.swift in Sources */,
 				96B539F22C792604002F4A73 /* CameraRetakeButton.swift in Sources */,
 				96E8E5BD2C7CF1F8006E2028 /* CameraHelpBackButton.swift in Sources */,
@@ -393,10 +393,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BinBud/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "BinBud needs access to your camera to help classify and identify trash for proper disposal. Images are processed locally and not stored.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "for flask server";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -435,10 +433,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BinBud/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "BinBud needs access to your camera to help classify and identify trash for proper disposal. Images are processed locally and not stored.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "for flask server";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
