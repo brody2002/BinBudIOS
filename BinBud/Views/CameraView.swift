@@ -26,6 +26,9 @@
                     .onReceive(NotificationCenter.default.publisher(for: .AVCaptureSessionRuntimeError), perform: { notification in
                         print("🤙 error!! \(String(describing: notification.object))")
                     })
+                    .onAppear{
+                        camera.check()
+                    }
                     .onTapGesture(count: 2) {
                         print("double")
                         withAnimation{

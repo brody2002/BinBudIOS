@@ -16,12 +16,13 @@ struct BinBudApp: App {
             ZStack {
                 if cameraReady {
                     CameraView(hideCameraUI: false, camera: camera, checkPermissions: .constant(checkPermissions))
-                        .onAppear{
-                            print(checkPermissions)
-                            if checkPermissions{
-                                camera.check()
-                            }
-                        }
+//                        .onAppear{
+//                            print(checkPermissions)
+//                            if checkPermissions{
+//                                camera.check()
+//                            }
+//                        }
+                    
                          
                         
                 } else {
