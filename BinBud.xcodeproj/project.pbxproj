@@ -14,6 +14,7 @@
 		961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D52C78FE0C00BCD7E9 /* AppColors.swift */; };
 		961542D82C78FF9700BCD7E9 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D72C78FF9700BCD7E9 /* BottomButton.swift */; };
 		961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961542D92C7904F800BCD7E9 /* CameraView.swift */; };
+		961944D92CAB068F004F9225 /* YOLOv3Int8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 961944D82CAB068F004F9225 /* YOLOv3Int8LUT.mlmodel */; };
 		963EEEDA2C82467F00CD413E /* BinBudModelOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963EEED92C82467F00CD413E /* BinBudModelOutput.swift */; };
 		963EEEDC2C826B9900CD413E /* CameraModelOutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */; };
 		964313DE2C914E0100D6DCBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964313DD2C914E0100D6DCBD /* ContentView.swift */; };
@@ -43,6 +44,7 @@
 		961542D52C78FE0C00BCD7E9 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		961542D72C78FF9700BCD7E9 /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		961542D92C7904F800BCD7E9 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		961944D82CAB068F004F9225 /* YOLOv3Int8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Int8LUT.mlmodel; sourceTree = "<group>"; };
 		963EEED92C82467F00CD413E /* BinBudModelOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinBudModelOutput.swift; sourceTree = "<group>"; };
 		963EEEDB2C826B9900CD413E /* CameraModelOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModelOutputView.swift; sourceTree = "<group>"; };
 		964313DD2C914E0100D6DCBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				965EF4982C793FC90018267F /* CameraModel.swift */,
+				961944D82CAB068F004F9225 /* YOLOv3Int8LUT.mlmodel */,
 				96DFDC562C9DCD040087F524 /* DeployModel.mlpackage */,
 				963EEED92C82467F00CD413E /* BinBudModelOutput.swift */,
 			);
@@ -239,6 +242,7 @@
 				96B7B5ED2C7AA9F600987D06 /* CameraHelpButton.swift in Sources */,
 				96E8E5C52C7E896A006E2028 /* CameraSettingsButton.swift in Sources */,
 				96B539EC2C791561002F4A73 /* CameraCaptureButton.swift in Sources */,
+				961944D92CAB068F004F9225 /* YOLOv3Int8LUT.mlmodel in Sources */,
 				96B539F02C792569002F4A73 /* CameraFlipButton.swift in Sources */,
 				961542D62C78FE0C00BCD7E9 /* AppColors.swift in Sources */,
 				961542DA2C7904F800BCD7E9 /* CameraView.swift in Sources */,
@@ -387,7 +391,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"BinBud/Preview Content\"";
 				DEVELOPMENT_TEAM = L979M8V7RW;
 				ENABLE_PREVIEWS = YES;
@@ -395,6 +399,7 @@
 				INFOPLIST_FILE = BinBud/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "BinBud needs access to your camera to help classify and identify trash for proper disposal. Images are processed locally and not stored.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Testing if photot isbeing cropped";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -406,7 +411,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = brody.BinBud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -427,7 +432,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"BinBud/Preview Content\"";
 				DEVELOPMENT_TEAM = L979M8V7RW;
 				ENABLE_PREVIEWS = YES;
@@ -435,6 +440,7 @@
 				INFOPLIST_FILE = BinBud/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "BinBud needs access to your camera to help classify and identify trash for proper disposal. Images are processed locally and not stored.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Testing if photot isbeing cropped";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -446,7 +452,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = brody.BinBud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
