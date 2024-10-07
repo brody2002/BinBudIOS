@@ -25,65 +25,78 @@ import CoreML
     var BinBudOutput = BinBudModel()
     var device: AVCaptureDevice? = nil
     
-    
+    func identCamera() -> AVCaptureDevice{
+            if let device = AVCaptureDevice.default(.builtInTripleCamera,
+                                                    for: .video, position: .back) {
+                
+                return device
+            } else if let device = AVCaptureDevice.default(.builtInDualCamera,
+                                                           for: .video, position: .back) {
+                return device
+            } else if let device = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                           for: .video, position: .back) {
+                return device
+            } else {
+                fatalError("Missing expected back camera device.")
+            }
+        }
     
     
 
     func switchCamera() {
-        print("entered switchCamera()")
-        // checks for the currentinput being there...
-        guard let currentInput = session.inputs.first as? AVCaptureDeviceInput else {
-            return
-        }
-        
-        do {
-            self.session.beginConfiguration()
+            print("entered switchCamera()")
+            // checks for the currentinput being there...
+            guard let currentInput = session.inputs.first as? AVCaptureDeviceInput else {
+                return
+            }
             
-            // Remove the existing input from the session
-            self.session.removeInput(currentInput)
-            
-            // Determine the new camera position: toggle between front and back
-            let newCameraPosition: AVCaptureDevice.Position = currentInput.device.position == .back ? .front : .back
-            print("Switching to camera position: \(newCameraPosition)")
-            
-            let newDevice: AVCaptureDevice?
-            
-            // For back position, check for camera types in hierarchical order
-            if newCameraPosition == .back {
-                if let tripleCameraDevice = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) {
-                    newDevice = tripleCameraDevice
-                } else if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
-                    newDevice = dualCameraDevice
-                } else if let wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-                    newDevice = wideAngleDevice
+            do {
+                self.session.beginConfiguration()
+                
+                // Remove the existing input from the session
+                self.session.removeInput(currentInput)
+                
+                // Determine the new camera position: toggle between front and back
+                let newCameraPosition: AVCaptureDevice.Position = currentInput.device.position == .back ? .front : .back
+                print("Switching to camera position: \(newCameraPosition)")
+                
+                let newDevice: AVCaptureDevice?
+                
+                // For back position, check for camera types in hierarchical order
+                if newCameraPosition == .back {
+                    if let tripleCameraDevice = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) {
+                        newDevice = tripleCameraDevice
+                    } else if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
+                        newDevice = dualCameraDevice
+                    } else if let wideAngleDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+                        newDevice = wideAngleDevice
+                    } else {
+                        fatalError("No back camera found on the device.")
+                    }
                 } else {
-                    fatalError("No back camera found on the device.")
+                    // For front position, use the wide-angle front camera
+                    newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
                 }
-            } else {
-                // For front position, use the wide-angle front camera
-                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+                
+                // Create input from the new device
+                let input = try AVCaptureDeviceInput(device: newDevice!)
+                
+                // Add the new input to the session
+                if self.session.canAddInput(input) {
+                    self.session.addInput(input)
+                }
+                
+                // Ensure the output is still there
+                if self.session.canAddOutput(self.output) {
+                    self.session.addOutput(self.output)
+                }
+                
+                self.session.commitConfiguration()
+                
+            } catch {
+                print("Error switching camera: \(error.localizedDescription)")
             }
-            
-            // Create input from the new device
-            let input = try AVCaptureDeviceInput(device: newDevice!)
-            
-            // Add the new input to the session
-            if self.session.canAddInput(input) {
-                self.session.addInput(input)
-            }
-            
-            // Ensure the output is still there
-            if self.session.canAddOutput(self.output) {
-                self.session.addOutput(self.output)
-            }
-            
-            self.session.commitConfiguration()
-            
-        } catch {
-            print("Error switching camera: \(error.localizedDescription)")
         }
-    }
-
 
 
     
@@ -131,52 +144,36 @@ import CoreML
             }
         }
     
-    func identCamera() -> AVCaptureDevice{
-        if let device = AVCaptureDevice.default(.builtInTripleCamera,
-                                                for: .video, position: .back) {
-            
-            return device
-        } else if let device = AVCaptureDevice.default(.builtInDualCamera,
-                                                       for: .video, position: .back) {
-            return device
-        } else if let device = AVCaptureDevice.default(.builtInWideAngleCamera,
-                                                       for: .video, position: .back) {
-            return device
-        } else {
-            fatalError("Missing expected back camera device.")
-        }
-    }
-    
     func setUp() {
-        //Setting up the Camera
-        do{
-            //settings config:
-            self.session.beginConfiguration()
-            
-            //change for your own...
-            device = identCamera()
-            
-            
-            //Editied
-            let input = try AVCaptureDeviceInput(device: device!)
-            
-            //Checking and adding to session
-            if self.session.canAddInput(input){
-                print("adding session")
-                self.session.addInput(input)
+            //Setting up the Camera
+            do{
+                //settings config:
+                self.session.beginConfiguration()
+                
+                //change for your own...
+                device = identCamera()
+                
+                
+                //Editied
+                let input = try AVCaptureDeviceInput(device: device!)
+                
+                //Checking and adding to session
+                if self.session.canAddInput(input){
+                    print("adding session")
+                    self.session.addInput(input)
+                }
+                
+                //Same for input
+                if self.session.canAddOutput(self.output){
+                    print("same session being used")
+                    self.session.addOutput(self.output)
+                }
+                
+                self.session.commitConfiguration()
+                
             }
-            
-            //Same for input
-            if self.session.canAddOutput(self.output){
-                print("same session being used")
-                self.session.addOutput(self.output)
-            }
-            
-            self.session.commitConfiguration()
-            
+            catch{print(error.localizedDescription)}
         }
-        catch{print(error.localizedDescription)}
-    }
     
     func takePic() {
         DispatchQueue.global(qos: .background).async {
@@ -240,8 +237,8 @@ import CoreML
         let curImage = UIImage(data: self.picData)!
         
         // Resizing Image for input of BinBud Model
-//        let targetSize = CGSize(width: 224, height: 224)
-//        let resizedImage = self.resizeImage(image: curImage, targetSize: targetSize)
+        let targetSize = CGSize(width: 224, height: 224)
+        let resizedImage = self.resizeImage(image: curImage, targetSize: targetSize)
         
         print("savedImage Successfully. Going to model call() ")
         self.isSaved = true
@@ -249,7 +246,7 @@ import CoreML
 
         
 //        // Call runModel and handle the completion
-        let modelOutput = self.runModel(image : curImage)
+        let modelOutput = self.runModel(image : resizedImage)
         return modelOutput
     }
     
@@ -265,109 +262,11 @@ import CoreML
         return newImage!
     }
     
-    func runModel(image: UIImage) -> [String: Any] {
-        do {
-            // Save the original image for debugging purposes (optional)
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-
-            // Initialize the YOLOv3 detection model
-            let detectionModel = try YOLOv3Int8LUT(configuration: MLModelConfiguration())
-            
-            // Set sizes for model inputs
-            let detectionModelInputSize = CGSize(width: 416, height: 416) // YOLOv3 model input size
-            let classificationModelInputSize = CGSize(width: 224, height: 224) // Classification model input size
-            
-            // Resize the original image to the detection model's input size (416x416)
-            let resizedImageForDetection = resizeImage(image: image, targetSize: detectionModelInputSize)
-            
-            // Convert resized image to CVPixelBuffer for the detection model
-            guard let pixelBuffer = resizedImageForDetection.toCVPixelBuffer() else {
-                print("Failed to convert UIImage to CVPixelBuffer")
-                return [:]
-            }
-            
-            let iouThreshold: Double = 0.5 // Overlapping boundaries
-            let confidenceThreshold: Double = 0.5 // Confidence threshold for detections
-            
-            // Perform detection to find bounding boxes
-            let detectionResult = try detectionModel.prediction(
-                image: pixelBuffer,
-                iouThreshold: iouThreshold,
-                confidenceThreshold: confidenceThreshold
-            )
-            
-            print("detection Result: \(detectionResult)")
-            
-            // Extract bounding boxes from coordinates and crop image if detected
-            if let coordinates = detectionResult.coordinates as? MLMultiArray {
-                print("Bounding box detected.")
-                if let boundingBox = extractBoundingBox(from: coordinates, imageSize: detectionModelInputSize) {
-                    print("BoundingBox: \(boundingBox)")
-                    
-                    // Crop the resized image (416x416) based on the bounding box
-                    if let croppedImage = cropImage(resizedImageForDetection, boundingBox: boundingBox) {
-                        print("Cropped image successfully.")
-                        
-                        // Resize the cropped image to the classification model's expected size (224x224)
-                        let resizedImageForClassification = resizeImage(image: croppedImage, targetSize: classificationModelInputSize)
-                        
-                        // Save the cropped image for testing purposes
-                        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
-                        
-                        // Use the resized image for classification
-                        return runClassificationModel(image: resizedImageForClassification)
-                    }
-                }
-            }
-            print("No Crop Image.")
-            // If no objects are detected, return the resized image for classification
-            let noCropImage = resizeImage(image: image, targetSize: classificationModelInputSize)
-            return runClassificationModel(image: noCropImage)
-            
-        } catch {
-            print("Error initializing model or making prediction: \(error)")
-        }
+    func runModel(image: UIImage) -> [String:  Any] {
         
-        return [:]
-    }
-
-
-
-    
-    
-    
-    func extractBoundingBox(from coordinates: MLMultiArray, imageSize: CGSize) -> CGRect? {
-        // Assuming coordinates are structured as [x, y, width, height] for one bounding box
-        print("Coordinates: \(coordinates)")
-        print("Image Size: \(imageSize)")
-        
-        // Check that the coordinates array has the expected number of elements
-        guard coordinates.count >= 4 else {
-            print("Insufficient data in coordinates array")
-            return nil
-        }
-        
-        // Extract values from the MLMultiArray, directly interpreting as [x, y, width, height]
-        let normalizedX = CGFloat(truncating: coordinates[0])
-        let normalizedY = CGFloat(truncating: coordinates[1])
-        let normalizedWidth = CGFloat(truncating: coordinates[2])
-        let normalizedHeight = CGFloat(truncating: coordinates[3])
-        
-        // Scale normalized values to the actual image size
-        let x = normalizedX * imageSize.width
-        let y = normalizedY * imageSize.height
-        let width = normalizedWidth * imageSize.width
-        let height = normalizedHeight * imageSize.height
-        
-        // Create a bounding box rect
-        let boundingBox = CGRect(x: x, y: y, width: width, height: height)
+        // CoreML Package Code:
         
         
-        return boundingBox
-    }
-    
-    
-    func runClassificationModel(image: UIImage) -> [String: Any] {
         do {
             let model = try DeployModel(configuration: MLModelConfiguration())
             
@@ -380,43 +279,31 @@ import CoreML
             // Perform prediction
             let prediction = try model.prediction(input_2: pixelBuffer)
             print("Prediction: \(prediction.classLabel) ANSWER")
-            print("Label prediction probabilities: \(prediction.classLabel_probs)")
-            
-            // Find max value in prediction probabilities
+            print("label prediction numbers: \(prediction.classLabel_probs)")
+            // Find max val in dict
             if let maxValue = prediction.classLabel_probs.values.max() {
                 print("The largest value is \(maxValue)")
                 
-                let result: [String: Any] = [
+                let d : [String : Any] = [
                     "label_1": maxValue > 0.45 ? prediction.classLabel : "Unknown",
-                    "label_2": BinBudOutput.outputMessage(input: prediction.classLabel, value: Float(maxValue)),
-                    "confidence": Double(maxValue)
+                    "label_2" : BinBudOutput.outputMessage(input: prediction.classLabel, value: Float(maxValue)),
+                    "confidence" : Double(maxValue)
                 ]
                 
-                return result
-            } else {
+                return d
+            }
+            else{
                 return [:]
             }
             
-        } catch {
-            print("Error initializing model or making prediction: \(error)")
-        }
-        
+                    
+                        
+            } catch {
+                print("Error initializing model or making prediction: \(error)")
+            }
         return [:]
-    }
-
-    
-    func cropImage(_ inputImage: UIImage, boundingBox: CGRect) -> UIImage? {
-        // Perform cropping in Core Graphics
-        guard let cutImageRef: CGImage = inputImage.cgImage?.cropping(to: boundingBox) else {
-            print("Cropping failed")
-            return nil
-        }
         
-        // Return cropped image as UIImage
-        return UIImage(cgImage: cutImageRef)
     }
-
-
 
 
 
@@ -597,4 +484,3 @@ extension UIImage {
         return pixelBuffer
     }
 }
-
