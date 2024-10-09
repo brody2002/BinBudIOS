@@ -39,6 +39,7 @@ struct CroppingCircle: View {
 struct BoundsView: View {
     @Binding var showCroppedImage: Bool
     @Binding var finalCroppedImage: UIImage?
+    @Binding var isCropping: Bool
     
     @State private var points: [CGPoint] = [
         CGPoint(x: -100, y: -300), // L top Corner
@@ -49,11 +50,12 @@ struct BoundsView: View {
     @State private var dragPoints: [CGPoint]
     @State private var hideElements: Bool = false
 
-    init(finalCroppedImage: Binding<UIImage?>, showCroppedImage: Binding<Bool>) {
-        _finalCroppedImage = finalCroppedImage
-        _showCroppedImage = showCroppedImage
-        _dragPoints = State(initialValue: Array(repeating: .zero, count: 4))
-    }
+    init(finalCroppedImage: Binding<UIImage?>, showCroppedImage: Binding<Bool>, isCropping: Binding<Bool>) {
+            _finalCroppedImage = finalCroppedImage
+            _showCroppedImage = showCroppedImage
+            _dragPoints = State(initialValue: Array(repeating: .zero, count: 4))
+            _isCropping = isCropping
+        }
     
     private var pathOffsetX: CGFloat = 195
     private var pathOffsetY: CGFloat = 422.5
@@ -110,7 +112,7 @@ struct BoundsView: View {
                 // Show the gray overlay only if not hiding elements
                 if !hideElements {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.8))
+                        .fill(Color.black.opacity(0.6))
                         .mask(
                             // Inverse the mask by subtracting the cropPath
                             Rectangle()
@@ -145,33 +147,25 @@ struct BoundsView: View {
                     .stroke(AppColors.cameraButtonColor, lineWidth: 3).zIndex(1.0)
                 }
                 
-                // Crop Button
-                Button(action: {
-                    // Hide elements before capturing screenshot
-                    hideElements = true
-                    
-                    // Delay the screenshot by 0.2 seconds
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        let output = getCroppingRectangle()
-                        print("output \(output)")
-                        
-                        // Capture the screenshot
-                        if let snapshotImage = UIApplication.shared.windows.first?.rootViewController?.view.snapshot(of: output) {
-                            finalCroppedImage = snapshotImage
-                            showCroppedImage = true // Update state to show the cropped image
+                // When isCropping is true, perform the cropping logic
+                .onChange(of: isCropping ) { newValue in
+                    if newValue {
+                        hideElements = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            let output = getCroppingRectangle()
+                            print("output \(output)")
+                            
+                            if let snapshotImage = UIApplication.shared.windows.first?.rootViewController?.view.snapshot(of: output) {
+                                finalCroppedImage = snapshotImage
+                                showCroppedImage = true
+                            }
+                            hideElements = false
+                            isCropping = false // Reset the cropping state
                         }
-                        
-                        // Show elements again after taking the screenshot
-                        hideElements = false
                     }
-                }, label: {
-                    Text("Crop Image")
-                        .padding()
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(5)
-                        .padding(.top, 300)
-                })
+                }
+                
+                
             }
         }.ignoresSafeArea()
     }
@@ -197,7 +191,7 @@ struct CropView: View {
                     .resizable()
                     .scaledToFit()
                     .overlay {
-                        BoundsView(finalCroppedImage: $finalCroppedImage, showCroppedImage: $showCroppedImage)
+                        BoundsView(finalCroppedImage: $finalCroppedImage, showCroppedImage: $showCroppedImage,isCropping: .constant(false))
                     }
             }
         }
@@ -218,4 +212,3 @@ extension UIView {
         }
     }
 }
-

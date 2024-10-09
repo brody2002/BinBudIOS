@@ -15,18 +15,23 @@ struct SkipCroppingButton: View {
                 .foregroundColor(AppColors.cameraButtonColor)
                 .frame(width:34, height:34)
                 .padding(.bottom,60)
-            Image(systemName: "crop")
+            Image(systemName: "arrow.uturn.forward")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(AppColors.settingsColor)
-                .frame(width: 24, height: 24) // Set the desired size
+                .frame(width: 20, height: 20) // Set the desired size
                 .padding(.bottom, 60)
                 .bold()
-            Text("Skip Cropping")
+            Text("Skip and")
                 .foregroundColor(AppColors.cameraButtonColor)
                 .font(.system(size: 16))
                 .bold()
                 .padding(.top, 20)
+            Text("Process")
+                .foregroundColor(AppColors.cameraButtonColor)
+                .font(.system(size: 16))
+                .bold()
+                .padding(.top, 65)
 
         }
         .background(
@@ -37,7 +42,7 @@ struct SkipCroppingButton: View {
                 
         )
         .contentShape(RoundedRectangle(cornerRadius: 50))
-        // Gives button a hitbox
+        
         
             
     }
@@ -59,11 +64,16 @@ struct CropButton: View {
                 .frame(width: 24, height: 24) // Set the desired size
                 .padding(.bottom, 60)
                 .bold()
-            Text("Crop Image")
+            Text("Crop and Process")
                 .foregroundColor(AppColors.cameraButtonColor)
                 .font(.system(size: 16))
                 .bold()
                 .padding(.top, 20)
+            Text("Image")
+                .foregroundColor(AppColors.cameraButtonColor)
+                .font(.system(size: 16))
+                .bold()
+                .padding(.top, 65)
 
         }
         .background(
@@ -81,5 +91,16 @@ struct CropButton: View {
 }
 
 #Preview {
-    SkipCroppingButton()
+    HStack {
+        Spacer() // Adds spacing before the first button
+        
+        SkipCroppingButton()
+            .frame(width: 180, height: 120) // Ensure both buttons have the same size
+        Spacer(minLength: 20) // Add space between the buttons
+        CropButton()
+            .frame(width: 180, height: 120) // Ensure both buttons have the same size
+        Spacer() // Adds spacing after the second button
+    }
+    .padding(.horizontal, 20) // Optional padding to prevent buttons from touching screen edges
 }
+

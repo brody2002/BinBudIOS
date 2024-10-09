@@ -1,31 +1,43 @@
 import SwiftUI
 import AVFoundation
 
+@Observable
+class ViewModel {
+    var showHelpMenu: Bool = false
+    
+    func showMenu() {
+        showHelpMenu = true
+    }
+}
 
 struct CameraView: View {
     @Environment(\.scenePhase) var scenePhase
+    
+    @State private var viewModel = ViewModel()
+    
     @State private var showHelpMenu = false
     @State var hideCameraUI: Bool
     @State private var showSettings = false
     @State private var showOutput = false
-    
+
     // For Camera API
     @State var camera = CameraModel()
-    
+
     // For Model
-    
     @State var outputData: [String: Any] = [:]
     @State var image: UIImage? = nil
-    
+
     // For Cropping
     @State private var showCroppedImage: Bool = false
     @State private var finalCroppedImage: UIImage? = nil
-    
+    @State private var isCroppingView: Bool = false
+    @State private var cropImageAction: Bool = false
+
     // To display the captured image
     @State private var capturedImage: UIImage? = nil
 
     @Binding var checkPermissions: Bool
-    
+
     var body: some View {
         ZStack {
             CameraPreview(camera: camera)
@@ -40,10 +52,8 @@ struct CameraView: View {
                     }
                 }
         }.zIndex(0.0)
-        ZStack{
-            
-        
-            
+
+        ZStack {
             if !showHelpMenu && !showSettings {
                 VStack {
                     ZStack {
@@ -82,7 +92,7 @@ struct CameraView: View {
                     .padding(.bottom, 720)
                 }
             }
-            
+
             if camera.isTaken {
                 HStack {
                     ZStack {
@@ -90,27 +100,30 @@ struct CameraView: View {
                             .padding(.leading, 195)
                             .onTapGesture {
                                 if !camera.isSaved {
-                                    self.outputData = camera.savePic()
+                                    // Call savePic and handle the returned dictionary
                                     
+                                    //Old model call 1.01
+//                                    self.outputData = camera.savePic()
                                     withAnimation {
-                                        print("Cameraview dict: \(self.outputData)")
-                                        self.showOutput = false /*true*/
+//
+                                        self.showOutput = false
                                         self.hideCameraUI = true
                                     }
-                                    // Capture the image and show it
-                                    var curImage = camera.showImage()
-                                    self.capturedImage = curImage
+                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.9)) {
+                                        print("Image has been captured")
+                                        self.capturedImage = camera.showImage()
+                                        self.isCroppingView = true
+                                    }
                                 }
                             }
                         CameraRetakeButton()
                             .padding(.leading, -150)
                             .onTapGesture {
                                 withAnimation {
+                                    self.finalCroppedImage = nil
                                     self.showOutput = false
                                     self.hideCameraUI = false
                                     camera.retakePic()
-                                    self.showCroppedImage = false
-                                    self.capturedImage = nil
                                 }
                             }
                     }
@@ -118,8 +131,9 @@ struct CameraView: View {
                 .opacity(camera.isTaken ? 1.0 : 0)
                 .offset(y: camera.isTaken ? 0 : 600)
                 .transition(.move(edge: .bottom))
-                .zIndex(4)
+                .zIndex(1)
                 .padding(.top, 600)
+
             } else {
                 VStack {
                     CameraInstructionView()
@@ -141,7 +155,51 @@ struct CameraView: View {
                 .offset(y: hideCameraUI || showHelpMenu || showSettings ? UIScreen.main.bounds.height / 1.4 : 0)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            
+
+            // Toggle cropping view based on the boolean `isCroppingView`
+            if self.isCroppingView {
+                HStack {
+                    ZStack {
+                        HStack {
+                            Spacer()
+                            SkipCroppingButton()
+                                .frame(width: 180, height: 120)
+                                .onTapGesture {
+                                    
+                                    // For restarting
+                                    withAnimation {
+                                        // preprocess Image
+                                        camera.imageToUse = capturedImage!
+                                        self.camera.retakePic()
+                                        self.hideCameraUI = false
+                                        self.outputData = camera.processImage()
+                                        self.showOutput = true
+                                        self.isCroppingView = false
+                                        
+                                        self.finalCroppedImage = nil
+                                        
+                                        
+
+                                        
+                                        }
+                                }
+                            Spacer(minLength: 20)
+                            CropButton()
+                                .frame(width: 180, height: 120)
+                                .onTapGesture {
+                                    self.cropImageAction = true
+                                }
+                            Spacer()
+                        }
+                    }
+                }
+                .opacity(isCroppingView ? 1.0 : 0)
+                .offset(y: isCroppingView ? 0 : 600)
+                .transition(.move(edge: .bottom))
+                .zIndex(4)
+                .padding(.top, 600)
+            }
+
             if showHelpMenu {
                 CameraHelpToolbar(showHelpMenu: $showHelpMenu)
                     .cornerRadius(40)
@@ -149,7 +207,7 @@ struct CameraView: View {
                     .offset(y: showHelpMenu ? 80 : UIScreen.main.bounds.height)
                     .zIndex(2) // Ensure it's on top
             }
-            
+
             if showOutput {
                 ZStack {
                     if let label1 = self.outputData["label_1"] as? String {
@@ -157,23 +215,31 @@ struct CameraView: View {
                     } else {
                         CameraModelOutputView(modelOutput: "Unknown", modelInstructions: "Sorry! The servers are down!", modelConfidence: 0.0)
                     }
+                    Text("back button")
+                        .padding()
+                        .background(Color.black.gradient)
+                        .foregroundColor(Color.white)
+                        .padding(.top, 400)
+                        .onTapGesture {
+                            //Go back to the main view
+                            self.finalCroppedImage = nil
+                            self.showOutput = false
+                            self.hideCameraUI = false
+                        }
                 }
                 .padding(.bottom, 120)
                 .transition(.scale)
             }
-            
+
             if showSettings {
                 SettingsView(showSettings: $showSettings, hideCameraUI: $hideCameraUI)
                     .offset(x: showSettings ? 0 : -UIScreen.main.bounds.width)
                     .transition(.move(edge: .leading))
             }
-            
-            // Display the captured image when available
-            
         }
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            print("Opening CameraView! Permission: \(checkPermissions)")
+            
             if self.checkPermissions {
                 camera.check()
             }
@@ -201,43 +267,50 @@ struct CameraView: View {
             }
         }
         .zIndex(2.0)
-        
-        
-        
-        if let capturedImage = capturedImage {
+
+        // Cropping View based on boolean
+        if isCroppingView, let capturedImage = capturedImage {
             ZStack {
-                    GeometryReader { geometry in
-                        Image(uiImage: capturedImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: geometry.size.width, height: geometry.size.height) // Match the image to the screen size
-                            .offset(x: -geometry.size.width * 0.01) // Adjust this to shift the image to the left (e.g., 10% of the screen width)
-                            .ignoresSafeArea()
-                            .zIndex(3) // Bring the captured image to the front
-                            .transition(.move(edge: .top))
-                            .background(Color.black.opacity(0.5)) // Optional background for visibility
-                        
+                GeometryReader { geometry in
+                    Image(uiImage: capturedImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .offset(x: -geometry.size.width * 0.01)
+                        .ignoresSafeArea()
+                        .zIndex(3)
+                        .transition(.move(edge: .top))
+                        .background(Color.black.opacity(0.3))
                         .overlay {
-                            // Display BoundsView only when the camera has taken a picture (i.e., camera.isTaken is true)
-                            if camera.isTaken {
-                                BoundsView(finalCroppedImage: $finalCroppedImage, showCroppedImage: $showCroppedImage)
-                                    .ignoresSafeArea()
-                            }
-                            
-                            if showCroppedImage, let finalCroppedImage = finalCroppedImage {
-                                // Show cropped image
-                                Image(uiImage: finalCroppedImage)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .ignoresSafeArea()
+                            // Only show BoundsView and handle cropping logic without displaying the image
+                            BoundsView(finalCroppedImage: $finalCroppedImage, showCroppedImage: $showCroppedImage, isCropping: self.$cropImageAction)
+                                .ignoresSafeArea()
+                        }
+                        .onChange(of: finalCroppedImage) { newValue in
+                            if let croppedImage = newValue {
+                                // process Image through model
+                                camera.imageToUse = croppedImage
+                                self.camera.retakePic()
+                                self.hideCameraUI = false
+                                self.outputData = camera.processImage()
+                                self.showOutput = true
+                                self.isCroppingView = false
+                                
+                                
+//                              // GO back to main view
+                                
+                                self.finalCroppedImage = nil
+                                
+                                
+                                
+                                
+                                
                             }
                         }
-                    }
                 }
-                .ignoresSafeArea(edges: .all)
-                .zIndex(1.0)
-                
-            
+            }
+            .ignoresSafeArea(edges: .all)
+            .zIndex(1.0)
         }
     }
 }
@@ -245,7 +318,6 @@ struct CameraView: View {
 #Preview {
     CameraView(hideCameraUI: false, checkPermissions: .constant(false))
 }
-
 
 
 struct CameraPreview: UIViewRepresentable {

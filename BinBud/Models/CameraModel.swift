@@ -24,6 +24,7 @@ import CoreML
     var picData = Data(count: 0)
     var BinBudOutput = BinBudModel()
     var device: AVCaptureDevice? = nil
+    var imageToUse: UIImage? = nil
     
     func identCamera() -> AVCaptureDevice{
             if let device = AVCaptureDevice.default(.builtInTripleCamera,
@@ -165,7 +166,7 @@ import CoreML
                 
                 //Same for input
                 if self.session.canAddOutput(self.output){
-                    print("same session being used")
+//                    print("same session being used")
                     self.session.addOutput(self.output)
                 }
                 
@@ -232,23 +233,31 @@ import CoreML
         
     }
     
-    
-    func savePic() -> [String: Any] {
-        let curImage = UIImage(data: self.picData)!
-        
-        // Resizing Image for input of BinBud Model
+    func processImage() -> [String: Any]{
+        let curImage = self.imageToUse!
         let targetSize = CGSize(width: 224, height: 224)
         let resizedImage = self.resizeImage(image: curImage, targetSize: targetSize)
-        
-        print("savedImage Successfully. Going to model call() ")
         self.isSaved = true
         
-
-        
-//        // Call runModel and handle the completion
         let modelOutput = self.runModel(image : resizedImage)
         return modelOutput
     }
+    
+//    func savePic() -> [String: Any] {
+//        let curImage = UIImage(data: self.picData)!
+//        
+//        // Resizing Image for input of BinBud Model
+//        let targetSize = CGSize(width: 224, height: 224)
+//        let resizedImage = self.resizeImage(image: curImage, targetSize: targetSize)
+//        
+//        print("savedImage Successfully. Going to model call() ")
+//        self.isSaved = true
+//        
+//
+//        
+////        // Call runModel and handle the completion
+//        
+//    }
     
     func showImage() -> UIImage{
         let curImage = UIImage(data: self.picData)!
