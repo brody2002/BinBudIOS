@@ -250,6 +250,11 @@ import CoreML
         return modelOutput
     }
     
+    func showImage() -> UIImage{
+        let curImage = UIImage(data: self.picData)!
+        return curImage
+    }
+    
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
         // This will force the image to the target size without maintaining aspect ratio
         let rect = CGRect(origin: .zero, size: targetSize)

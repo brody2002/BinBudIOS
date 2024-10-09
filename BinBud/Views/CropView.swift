@@ -41,8 +41,8 @@ struct BoundsView: View {
     @Binding var finalCroppedImage: UIImage?
     
     @State private var points: [CGPoint] = [
-        CGPoint(x: -100, y: -100), // L top Corner
-        CGPoint(x: 100, y: -100),  // R top corner
+        CGPoint(x: -100, y: -300), // L top Corner
+        CGPoint(x: 100, y: -300),  // R top corner
         CGPoint(x: 100, y: 100),   // R bot corner
         CGPoint(x: -100, y: 100)   // L bot corner
     ]
@@ -55,8 +55,8 @@ struct BoundsView: View {
         _dragPoints = State(initialValue: Array(repeating: .zero, count: 4))
     }
     
-    private var pathOffsetX: CGFloat = 200
-    private var pathOffsetY: CGFloat = 200
+    private var pathOffsetX: CGFloat = 195
+    private var pathOffsetY: CGFloat = 422.5
 
     // Function to get the cropping path
     private func getCroppingPath() -> Path {
@@ -96,7 +96,9 @@ struct BoundsView: View {
         let maxY = adjustedPoints.map { $0.y }.max() ?? 0
 
         // Return the CGRect representing the bounding box for the cropping area, with intentional offset
-        return CGRect(x: minX, y: minY + 250.0, width: maxX - minX, height: maxY - minY)
+        
+        // Cropping Rectangle
+        return CGRect(x: minX, y: minY + 0, width: maxX - minX, height: maxY - minY)
     }
 
     var body: some View {
@@ -108,13 +110,14 @@ struct BoundsView: View {
                 // Show the gray overlay only if not hiding elements
                 if !hideElements {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.5))
+                        .fill(Color.gray.opacity(0.8))
                         .mask(
                             // Inverse the mask by subtracting the cropPath
                             Rectangle()
                                 .path(in: CGRect(origin: .zero, size: geometry.size))
                                 .subtracting(cropPath)
                         )
+                        
                 }
             }
             
@@ -122,7 +125,7 @@ struct BoundsView: View {
             if !hideElements {
                 // Place circles
                 ForEach(0..<points.count, id: \.self) { index in
-                    CroppingCircle(point: $points[index], dragPoint: $dragPoints[index])
+                    CroppingCircle(point: $points[index], dragPoint: $dragPoints[index]).zIndex(2.0)
                 }
                 
                 // Draw lines between neighboring circles
@@ -139,7 +142,7 @@ struct BoundsView: View {
                         path.move(to: p1)
                         path.addLine(to: p2)
                     }
-                    .stroke(Color.blue, lineWidth: 2)
+                    .stroke(AppColors.cameraButtonColor, lineWidth: 3).zIndex(1.0)
                 }
                 
                 // Crop Button
@@ -167,9 +170,10 @@ struct BoundsView: View {
                         .background(Color.black)
                         .foregroundColor(.white)
                         .cornerRadius(5)
+                        .padding(.top, 300)
                 })
             }
-        }
+        }.ignoresSafeArea()
     }
 }
 
