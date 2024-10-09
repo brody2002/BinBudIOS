@@ -211,8 +211,9 @@ import CoreML
             self.session.startRunning()
             
             // Ensure that the state change happens on the main thread but outside of view updates
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.04) {
-                withAnimation (.spring(response:0.6, dampingFraction: 1.4)) { self.isTaken.toggle() }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.00) {
+//                withAnimation (.spring(response:0.1, dampingFraction: 0.2)) { self.isTaken.toggle() }
+                self.isTaken.toggle()
                 self.isSaved = false
             }
         }
@@ -243,21 +244,7 @@ import CoreML
         return modelOutput
     }
     
-//    func savePic() -> [String: Any] {
-//        let curImage = UIImage(data: self.picData)!
-//        
-//        // Resizing Image for input of BinBud Model
-//        let targetSize = CGSize(width: 224, height: 224)
-//        let resizedImage = self.resizeImage(image: curImage, targetSize: targetSize)
-//        
-//        print("savedImage Successfully. Going to model call() ")
-//        self.isSaved = true
-//        
-//
-//        
-////        // Call runModel and handle the completion
-//        
-//    }
+
     
     func showImage() -> UIImage{
         let curImage = UIImage(data: self.picData)!

@@ -27,11 +27,16 @@ struct CameraView: View {
     @State var outputData: [String: Any] = [:]
     @State var image: UIImage? = nil
 
-    // For Cropping
-    @State private var showCroppedImage: Bool = false
-    @State private var finalCroppedImage: UIImage? = nil
-    @State private var isCroppingView: Bool = false
-    @State private var cropImageAction: Bool = false
+    // For Cropping:
+    
+        //image sent to preprocessing
+        @State private var showCroppedImage: Bool = false
+        //image sent to model after preprocessing
+        @State private var finalCroppedImage: UIImage? = nil
+    
+        @State private var isCroppingView: Bool = false
+    
+        @State private var cropImageAction: Bool = false
 
     // To display the captured image
     @State private var capturedImage: UIImage? = nil
@@ -90,51 +95,12 @@ struct CameraView: View {
                     .opacity(hideCameraUI || showHelpMenu || showSettings ? 0 : 1)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .padding(.bottom, 720)
+                    .animation(.spring(response: 0.6, dampingFraction: 1.1), value: hideCameraUI || showHelpMenu || showSettings)
+
                 }
             }
-
-            if camera.isTaken {
-                HStack {
-                    ZStack {
-                        CameraSaveButton()
-                            .padding(.leading, 195)
-                            .onTapGesture {
-                                if !camera.isSaved {
-                                    // Call savePic and handle the returned dictionary
-                                    
-                                    //Old model call 1.01
-//                                    self.outputData = camera.savePic()
-                                    withAnimation {
-//
-                                        self.showOutput = false
-                                        self.hideCameraUI = true
-                                    }
-                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.9)) {
-                                        print("Image has been captured")
-                                        self.capturedImage = camera.showImage()
-                                        self.isCroppingView = true
-                                    }
-                                }
-                            }
-                        CameraRetakeButton()
-                            .padding(.leading, -150)
-                            .onTapGesture {
-                                withAnimation {
-                                    self.finalCroppedImage = nil
-                                    self.showOutput = false
-                                    self.hideCameraUI = false
-                                    camera.retakePic()
-                                }
-                            }
-                    }
-                }
-                .opacity(camera.isTaken ? 1.0 : 0)
-                .offset(y: camera.isTaken ? 0 : 600)
-                .transition(.move(edge: .bottom))
-                .zIndex(1)
-                .padding(.top, 600)
-
-            } else {
+            
+            
                 VStack {
                     CameraInstructionView()
                         .padding(.bottom, 30)
@@ -154,6 +120,62 @@ struct CameraView: View {
                 .opacity(hideCameraUI || showHelpMenu || showSettings ? 0 : 1)
                 .offset(y: hideCameraUI || showHelpMenu || showSettings ? UIScreen.main.bounds.height / 1.4 : 0)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
+                .animation(.spring(response: 0.6, dampingFraction: 1.1), value: hideCameraUI || showHelpMenu || showSettings)
+            
+
+            if camera.isTaken {
+                HStack {
+                    ZStack {
+                        BeginCropButton()
+                            .padding(.leading, 195)
+                            .onTapGesture {
+                                if !camera.isSaved {
+                                    // Call savePic and handle the returned dictionary
+                                    
+                                    //Old model call 1.01
+//                                    self.outputData = camera.savePic()
+                                    withAnimation {
+//
+                                        self.showOutput = false
+                                        self.hideCameraUI = true
+                                    }
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                                        print("Image has been captured")
+                                        self.capturedImage = camera.showImage()
+                                        self.isCroppingView = true
+                                    }
+                                    
+                                }
+                            }
+                        CameraRetakeButton()
+                            .padding(.leading, -150)
+                            .onTapGesture {
+
+                                
+                                self.camera.retakePic()
+                                self.finalCroppedImage = nil
+                                self.isCroppingView = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                    self.hideCameraUI = false
+                                }
+                                
+                               
+                                    
+                                
+                                
+                            }
+                    }
+                }
+                .opacity(camera.isTaken ? 1.0 : 0)
+                .offset(y: camera.isTaken ? 0 : 600)
+                .transition(.move(edge: .bottom))
+                .zIndex(1)
+                .padding(.top, 600)
+                .animation(.spring(response: 0.3, dampingFraction:0.6 ),value: camera.isTaken)
+                
+                
+
+
             }
 
             // Toggle cropping view based on the boolean `isCroppingView`
@@ -215,7 +237,7 @@ struct CameraView: View {
                     } else {
                         CameraModelOutputView(modelOutput: "Unknown", modelInstructions: "Sorry! The servers are down!", modelConfidence: 0.0)
                     }
-                    Text("back button")
+                    Text("exit")
                         .padding()
                         .background(Color.black.gradient)
                         .foregroundColor(Color.white)
@@ -225,7 +247,7 @@ struct CameraView: View {
                             self.finalCroppedImage = nil
                             self.showOutput = false
                             self.hideCameraUI = false
-                        }
+                        }.cornerRadius(20)
                 }
                 .padding(.bottom, 120)
                 .transition(.scale)
@@ -288,18 +310,23 @@ struct CameraView: View {
                         }
                         .onChange(of: finalCroppedImage) { newValue in
                             if let croppedImage = newValue {
+                                
                                 // process Image through model
                                 camera.imageToUse = croppedImage
-                                self.camera.retakePic()
-                                self.hideCameraUI = false
-                                self.outputData = camera.processImage()
-                                self.showOutput = true
-                                self.isCroppingView = false
                                 
+                                withAnimation{
+                                    self.camera.retakePic()
+                                    self.hideCameraUI = false
+                                    self.outputData = camera.processImage()
+                                    self.showOutput = true
+                                    self.isCroppingView = false
+                                    
+                                    
+    //                              // GO back to main view
+                                    
+                                    self.finalCroppedImage = nil
+                                }
                                 
-//                              // GO back to main view
-                                
-                                self.finalCroppedImage = nil
                                 
                                 
                                 
