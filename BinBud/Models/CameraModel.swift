@@ -206,7 +206,7 @@ import CoreML
         }
     }
 
-    func retakePic() {
+    func refreshSession() {
         DispatchQueue.global(qos: .background).async {
             self.session.startRunning()
             
@@ -307,7 +307,7 @@ import CoreML
     }
 
 
-
+    //Not used in version 1.1
     func sendImageToServer(image: UIImage, url: URL, completion: @escaping ([String: Any]) -> Void) {
         // Convert UIImage to JPEG data
         print("sending image to server call() ")

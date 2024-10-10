@@ -9,7 +9,7 @@ class ViewModel {
         showHelpMenu = true
     }
 }
-
+//Chaning view for testing
 struct CameraView: View {
     @Environment(\.scenePhase) var scenePhase
     
@@ -125,46 +125,38 @@ struct CameraView: View {
 
             if camera.isTaken {
                 HStack {
-                    ZStack {
-                        BeginCropButton()
-                            .padding(.leading, 195)
-                            .onTapGesture {
-                                if !camera.isSaved {
-                                    // Call savePic and handle the returned dictionary
-                                    
-                                    //Old model call 1.01
-//                                    self.outputData = camera.savePic()
-                                    withAnimation {
-//
-                                        self.showOutput = false
-                                        self.hideCameraUI = true
-                                    }
-                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                                        print("Image has been captured")
-                                        self.capturedImage = camera.showImage()
-                                        self.isCroppingView = true
-                                    }
-                                    
-                                }
-                            }
+                    Spacer()
                         CameraRetakeButton()
-                            .padding(.leading, -150)
+                        .frame(width: 180, height: 120)
                             .onTapGesture {
-
-                                
-                                self.camera.retakePic()
+                               
+                                self.camera.refreshSession()
                                 self.finalCroppedImage = nil
                                 self.isCroppingView = false
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                                     self.hideCameraUI = false
                                 }
-                                
-                               
-                                    
-                                
-                                
                             }
-                    }
+                    Spacer(minLength: 20)
+                        UseImageButton()
+                            .frame(width: 180, height: 120)
+                            
+                            .onTapGesture {
+                                    //Old model call 1.01
+
+                                    print("Use Image touched")
+                                    
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                                        camera.refreshSession()
+                                        print("Image has been captured")
+                                        self.capturedImage = camera.showImage()
+                                        self.isCroppingView = true
+                                        
+                                    }
+
+                            }
+                    Spacer()
+                    
                 }
                 .opacity(camera.isTaken ? 1.0 : 0)
                 .offset(y: camera.isTaken ? 0 : 600)
@@ -192,11 +184,12 @@ struct CameraView: View {
                                     withAnimation {
                                         // preprocess Image
                                         camera.imageToUse = capturedImage!
-                                        self.camera.retakePic()
+                                        self.camera.refreshSession()
                                         self.hideCameraUI = false
                                         self.outputData = camera.processImage()
                                         self.showOutput = true
                                         self.isCroppingView = false
+                                        camera.refreshSession()
                                         
                                         self.finalCroppedImage = nil
                                         
@@ -315,7 +308,7 @@ struct CameraView: View {
                                 camera.imageToUse = croppedImage
                                 
                                 withAnimation{
-                                    self.camera.retakePic()
+                                    
                                     self.hideCameraUI = false
                                     self.outputData = camera.processImage()
                                     self.showOutput = true
@@ -325,6 +318,8 @@ struct CameraView: View {
     //                              // GO back to main view
                                     
                                     self.finalCroppedImage = nil
+                                    camera.isTaken = false
+                                    print("changed camera.isTaken = \(camera.isTaken)")
                                 }
                                 
                                 

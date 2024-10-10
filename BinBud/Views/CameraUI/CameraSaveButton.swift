@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftUI
 
-struct BeginCropButton: View {
+struct UseImageButton: View {
     
     var body: some View {
 
@@ -46,6 +46,6 @@ struct BeginCropButton: View {
 #Preview {
     ZStack{
         Color.red
-        BeginCropButton()
+        UseImageButton()
     }
 }
