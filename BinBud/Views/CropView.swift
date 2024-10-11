@@ -1,37 +1,70 @@
-//
-//  CropView.swift
-//  BinBud
-//
-//  Created by Brody on 10/7/24.
-//
-//
-
-
 import SwiftUI
+import AVFoundation
+
+// Circles and Lines View
+struct CircleBoundaryView: View {
+    @Binding var points: [CGPoint]
+
+    var body: some View {
+        GeometryReader { geometry in
+            let containerSize = geometry.size
+
+            ZStack {
+                // Draw lines between neighboring circles
+                Path { path in
+                    for index in points.indices {
+                        let point1 = CGPoint(
+                            x: points[index].x + containerSize.width / 2,
+                            y: points[index].y + containerSize.height / 2
+                        )
+                        let point2 = CGPoint(
+                            x: points[(index + 1) % points.count].x + containerSize.width / 2,
+                            y: points[(index + 1) % points.count].y + containerSize.height / 2
+                        )
+
+                        if index == 0 {
+                            path.move(to: point1)
+                        }
+                        path.addLine(to: point2)
+                    }
+                }
+                .stroke(Color.black, lineWidth: 3)
+                .zIndex(1.0)
+
+                // Place circles
+                ForEach(points.indices, id: \.self) { index in
+                    let adjustedPoint = CGPoint(
+                        x: points[index].x + containerSize.width / 2,
+                        y: points[index].y + containerSize.height / 2
+                    )
+
+                    CroppingCircle(point: $points[index])
+                        .position(adjustedPoint)
+                        .zIndex(2.0)
+                }
+            }
+        }
+    }
+}
 
 // Circles
 struct CroppingCircle: View {
-    @Binding var point: CGPoint // Binding to accept offset from parent
-    @Binding var dragPoint: CGPoint // Bind the drag offset from parent
+    @Binding var point: CGPoint
 
     var body: some View {
-        Circle()
-            .fill(Color.black)
-            .frame(width: 20, height: 20)
-            .offset(x: point.x + dragPoint.x, y: point.y + dragPoint.y)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        // Adjust smoothly with value translation
-                        dragPoint = CGPoint(x: value.translation.width, y: value.translation.height)
-                    }
-                    .onEnded { _ in
-                        // Update the main point with the drag offset once dragging ends
-                        point.x += dragPoint.x
-                        point.y += dragPoint.y
-                        dragPoint = .zero
-                    }
-            )
+        ZStack {
+            Circle()
+                .fill(Color.black)
+                .frame(width: 20, height: 20)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            // Directly update the point during drag to make it smoother
+                            point.x += value.translation.width
+                            point.y += value.translation.height
+                        }
+                )
+        }
     }
 }
 
@@ -40,55 +73,29 @@ struct BoundsView: View {
     @Binding var showCroppedImage: Bool
     @Binding var finalCroppedImage: UIImage?
     @Binding var isCropping: Bool
-    
+
     @State private var points: [CGPoint] = [
         CGPoint(x: -100, y: -300), // L top Corner
         CGPoint(x: 100, y: -300),  // R top corner
         CGPoint(x: 100, y: 100),   // R bot corner
         CGPoint(x: -100, y: 100)   // L bot corner
     ]
-    @State private var dragPoints: [CGPoint]
     @State private var hideElements: Bool = false
 
     init(finalCroppedImage: Binding<UIImage?>, showCroppedImage: Binding<Bool>, isCropping: Binding<Bool>) {
-            _finalCroppedImage = finalCroppedImage
-            _showCroppedImage = showCroppedImage
-            _dragPoints = State(initialValue: Array(repeating: .zero, count: 4))
-            _isCropping = isCropping
-        }
-    
-    private var pathOffsetX: CGFloat = 195
-    private var pathOffsetY: CGFloat = 422.5
-
-    // Function to get the cropping path
-    private func getCroppingPath() -> Path {
-        Path { path in
-            // Start at the first point
-            let firstPoint = CGPoint(
-                x: points[0].x + dragPoints[0].x + pathOffsetX,
-                y: points[0].y + dragPoints[0].y + pathOffsetY
-            )
-            path.move(to: firstPoint)
-            
-            // Draw lines to each of the other points
-            for index in 1..<points.count {
-                let point = CGPoint(
-                    x: points[index].x + dragPoints[index].x + pathOffsetX,
-                    y: points[index].y + dragPoints[index].y + pathOffsetY
-                )
-                path.addLine(to: point)
-            }
-            
-            path.closeSubpath()
-        }
+        _finalCroppedImage = finalCroppedImage
+        _showCroppedImage = showCroppedImage
+        _isCropping = isCropping
     }
 
-    // Function to get the cropping rectangle with intentional offset adjustment
-    private func getCroppingRectangle() -> CGRect {
-        // Calculate the actual positions of the points including drag offset
-        let adjustedPoints = points.enumerated().map { (index, point) in
-            CGPoint(x: point.x + dragPoints[index].x + pathOffsetX,
-                    y: point.y + dragPoints[index].y + pathOffsetY)
+    // Function to get the cropping rectangle
+    private func getCroppingRectangle(containerSize: CGSize) -> CGRect {
+        // Calculate the actual positions of the points including their adjustments
+        let adjustedPoints = points.map {
+            CGPoint(
+                x: $0.x + containerSize.width / 2,
+                y: $0.y + containerSize.height / 2
+            )
         }
 
         // Calculate the min and max X and Y values to create the bounding rectangle
@@ -97,84 +104,119 @@ struct BoundsView: View {
         let minY = adjustedPoints.map { $0.y }.min() ?? 0
         let maxY = adjustedPoints.map { $0.y }.max() ?? 0
 
-        // Return the CGRect representing the bounding box for the cropping area, with intentional offset
-        
-        // Cropping Rectangle
-        return CGRect(x: minX, y: minY + 0, width: maxX - minX, height: maxY - minY)
+        // Return the CGRect representing the bounding box for the cropping area
+        return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     }
 
     var body: some View {
-        ZStack {
-            // Draw the gray overlay with the cropping path cut out
-            GeometryReader { geometry in
-                let cropPath = getCroppingPath()
-                
-                // Show the gray overlay only if not hiding elements
+        GeometryReader { geometry in
+            let containerSize = geometry.size
+
+            ZStack {
+                // Draw the gray overlay with the cropping path cut out
                 if !hideElements {
+                    let cropPath = Path { path in
+                        let adjustedPoints = points.map {
+                            CGPoint(
+                                x: $0.x + containerSize.width / 2,
+                                y: $0.y + containerSize.height / 2
+                            )
+                        }
+
+                        path.move(to: adjustedPoints[0])
+                        for index in 1..<adjustedPoints.count {
+                            path.addLine(to: adjustedPoints[index])
+                        }
+                        path.closeSubpath()
+                    }
+
                     Rectangle()
                         .fill(Color.black.opacity(0.6))
                         .mask(
                             // Inverse the mask by subtracting the cropPath
                             Rectangle()
-                                .path(in: CGRect(origin: .zero, size: geometry.size))
+                                .path(in: CGRect(origin: .zero, size: containerSize))
                                 .subtracting(cropPath)
                         )
-                        
+                }
+
+                // Place circles and lines if not hidden
+                if !hideElements {
+                    CircleBoundaryView(points: $points)
+                        .zIndex(2.0)
                 }
             }
-            
-            // Place circles and lines if not hidden
-            if !hideElements {
-                // Place circles
-                ForEach(0..<points.count, id: \.self) { index in
-                    CroppingCircle(point: $points[index], dragPoint: $dragPoints[index]).zIndex(2.0)
-                }
-                
-                // Draw lines between neighboring circles
-                ForEach(0..<points.count, id: \.self) { index in
-                    let point1 = points[index]
-                    let point2 = points[(index + 1) % points.count] // Connect back to the first circle
-                    
-                    // Calculate the center points of each circle
-                    let p1 = CGPoint(x: point1.x + pathOffsetX + dragPoints[index].x, y: point1.y + pathOffsetY + dragPoints[index].y)
-                    let p2 = CGPoint(x: point2.x + pathOffsetX + dragPoints[(index + 1) % points.count].x, y: point2.y + pathOffsetY + dragPoints[(index + 1) % points.count].y)
-                    
-                    // Create a path for each line
-                    Path { path in
-                        path.move(to: p1)
-                        path.addLine(to: p2)
-                    }
-                    .stroke(AppColors.cameraButtonColor, lineWidth: 3).zIndex(1.0)
-                }
-                
-                // When isCropping is true, perform the cropping logic
-                .onChange(of: isCropping ) { newValue in
-                    if newValue {
-                        hideElements = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            let output = getCroppingRectangle()
-                            print("output \(output)")
-                            
-                            if let snapshotImage = UIApplication.shared.windows.first?.rootViewController?.view.snapshot(of: output) {
-                                finalCroppedImage = snapshotImage
-                                showCroppedImage = true
-                            }
-                            hideElements = false
-                            isCropping = false // Reset the cropping state
+            .onChange(of: isCropping) { newValue in
+                if newValue {
+                    hideElements = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        let output = getCroppingRectangle(containerSize: containerSize)
+                        print("output \(output)")
+
+                        // Capture snapshot
+                        if let snapshotImage = UIApplication.shared.windows.first?.rootViewController?.view.snapshot(rect: output) {
+                            finalCroppedImage = snapshotImage
+                            showCroppedImage = true
                         }
+                        hideElements = false
+                        isCropping = false
                     }
                 }
-                
-                
             }
-        }.ignoresSafeArea()
+        }
+        .ignoresSafeArea()
     }
 }
 
 // Main View
+struct testView: View {
+    @State private var showCroppedImage: Bool = false
+    @State private var finalCroppedImage: UIImage? = nil // Store the cropped image
+    @State private var isCropping: Bool = false
+    var body: some View {
+        ZStack {
+            Text("testButton")
+                .padding()
+                .cornerRadius(50)
+                .background(Color.red)
+                .onTapGesture {
+                    print("test crop")
+                    isCropping = true
+                }
+                .padding(.bottom, 300)
+                .zIndex(3.0)
+            
+            VStack {
+                if showCroppedImage, let finalCroppedImage = finalCroppedImage {
+                    // Show cropped image
+                    Image(uiImage: finalCroppedImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 400) // Adjust the height as needed
+                        .border(Color.black, width: 2)
+                } else {
+                    // Show original image
+                    Image("download")
+                        .resizable()
+                        .scaledToFit()
+                        .overlay {
+                            BoundsView(finalCroppedImage: $finalCroppedImage, showCroppedImage: $showCroppedImage, isCropping: $isCropping)
+                        }
+                }
+            }
+        }
+    }
+}
+
+//#Preview {
+//    testView()
+//}
+
+
 struct CropView: View {
     @State private var showCroppedImage: Bool = false
     @State private var finalCroppedImage: UIImage? = nil // Store the cropped image
+    @State private var isCropping: Bool = false
     
     var body: some View {
         VStack {
@@ -191,7 +233,7 @@ struct CropView: View {
                     .resizable()
                     .scaledToFit()
                     .overlay {
-                        BoundsView(finalCroppedImage: $finalCroppedImage, showCroppedImage: $showCroppedImage,isCropping: .constant(false))
+                        BoundsView(finalCroppedImage: $finalCroppedImage, showCroppedImage: $showCroppedImage,isCropping: $isCropping)
                     }
             }
         }
@@ -202,13 +244,15 @@ struct CropView: View {
 #Preview {
     CropView()
 }
-
-// Extension for taking snapshot of a UIView
+// Extension to capture a snapshot of a UIView using the frame specified
 extension UIView {
-    func snapshot(of rect: CGRect) -> UIImage? {
-        let renderer = UIGraphicsImageRenderer(bounds: rect)
+    func snapshot(rect: CGRect) -> UIImage? {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = UIScreen.main.scale
+        let renderer = UIGraphicsImageRenderer(bounds: rect, format: format)
         return renderer.image { context in
-            self.layer.render(in: context.cgContext)
+            self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
         }
     }
 }
+

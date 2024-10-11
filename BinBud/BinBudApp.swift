@@ -33,7 +33,7 @@ struct BinBudApp: App {
                         .edgesIgnoringSafeArea(.all)
                     
                     Logo()
-                        .padding(.bottom, 450)
+                        .padding(.bottom, 400)
                         .padding(.trailing, -1)
                         .transition(.opacity)
                         .zIndex(0)

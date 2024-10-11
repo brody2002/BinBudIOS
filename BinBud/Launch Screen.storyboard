@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,28 +12,35 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="XO8-lH-XKu">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-IV-ipC">
-                                        <rect key="frame" x="-17" y="0.0" width="448" height="971"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-IV-ipC">
+                                        <rect key="frame" x="-19" y="-41" width="440" height="956"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="BinBud-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="izP-bG-4eg">
-                                        <rect key="frame" x="87" y="123" width="240" height="128"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BinBud-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="2yy-ub-ufh">
+                                        <rect key="frame" x="80" y="140" width="240" height="128"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="240" id="JKA-4K-hJA"/>
-                                            <constraint firstAttribute="width" secondItem="izP-bG-4eg" secondAttribute="height" multiplier="15:8" id="lJd-NK-pNF"/>
-                                            <constraint firstAttribute="height" constant="128" id="pHB-aD-Kka"/>
+                                            <constraint firstAttribute="height" constant="128" id="6zE-2j-Bn8"/>
+                                            <constraint firstAttribute="width" constant="240" id="Pm8-us-xaz"/>
+                                            <constraint firstAttribute="width" secondItem="2yy-ub-ufh" secondAttribute="height" multiplier="15:8" id="lkr-m1-2X5"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <viewLayoutGuide key="safeArea" id="EJp-I8-f8i"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="2yy-ub-ufh" firstAttribute="leading" secondItem="XO8-lH-XKu" secondAttribute="leading" constant="80" id="5mD-1Q-o7d"/>
+                                    <constraint firstItem="EJp-I8-f8i" firstAttribute="bottom" secondItem="2yy-ub-ufh" secondAttribute="bottom" constant="550" id="GL3-Kc-kEu"/>
+                                    <constraint firstAttribute="trailing" secondItem="2yy-ub-ufh" secondAttribute="trailing" constant="120" id="MNS-xD-7ZA"/>
+                                    <constraint firstItem="2yy-ub-ufh" firstAttribute="top" relation="greaterThanOrEqual" secondItem="XO8-lH-XKu" secondAttribute="top" constant="120" id="Tj4-c9-LAA"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>

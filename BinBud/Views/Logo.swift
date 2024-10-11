@@ -26,5 +26,8 @@ struct Logo: View {
     ZStack{
         Color(red: 0/255, green: 206/255, blue: 137/255).ignoresSafeArea()
         Logo()
+            .padding(.bottom,550)
     }
+    
+        
 }
