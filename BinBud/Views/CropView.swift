@@ -28,7 +28,7 @@ struct CircleBoundaryView: View {
                         path.addLine(to: point2)
                     }
                 }
-                .stroke(Color.black, lineWidth: 3)
+                .stroke(AppColors.settingsColor, lineWidth: 4)
                 .zIndex(1.0)
 
                 // Place circles
@@ -54,7 +54,7 @@ struct CroppingCircle: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(Color.black)
+                .fill(AppColors.cameraButtonColor)
                 .frame(width: 20, height: 20)
                 .gesture(
                     DragGesture()
