@@ -4,10 +4,9 @@ BinBud is an App that can help users understand where to correctly throw away th
 A link to that devpost can be found here: [DevPost](https://devpost.com/software/binbud). 
 
 The demonstation to this app can be found here: [YouTube Video](https://www.youtube.com/shorts/qliQuLgm4fU) 
-![IMG_3303](https://github.com/user-attachments/assets/473e4a8a-3b1d-4507-853e-fb9e24c7f43e)
-![IMG_3302](https://github.com/user-attachments/assets/4c929c40-49ef-41b7-b530-7d8cea3438cc)
 
-
+<img src="https://github.com/user-attachments/assets/4c929c40-49ef-41b7-b530-7d8cea3438cc" alt="Image1" width="300">
+<img src="https://github.com/user-attachments/assets/473e4a8a-3b1d-4507-853e-fb9e24c7f43e" alt="Image1" width="300">
 
 The project was made using Swift and its various libraries such as SwiftUI, AVFoundation and UIKit. I also converted a the VGG16 model from a keras file to a coremlpackage.  
 
